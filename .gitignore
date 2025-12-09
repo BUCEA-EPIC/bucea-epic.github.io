@@ -1,0 +1,38 @@
+# ==========================
+# 全局通用 (Global)
+# ==========================
+# Mac 系统产生的垃圾文件
+.DS_Store
+# Windows 系统产生的缩略图
+Thumbs.db
+# 日志文件
+*.log
+
+# ==========================
+# 后端 (fastapi-backend)
+# ==========================
+# 1. Python 编译缓存 (建议全局匹配，不仅仅是后端目录)
+__pycache__/
+*.py[cod]
+
+
+# 4. 你指定的特定文件/文件夹
+fastapi/uploads/
+fastapi/submissions.db
+
+# ==========================
+# 前端 (vue-client)
+# ==========================
+# 1. Node 依赖包 (体积巨大，必须忽略)
+vue3/node_modules/
+
+# 2. 构建输出目录 (生产环境代码，不需要提交源码库)
+vue3/dist/
+
+
+scripts/.ssh/
+
+# 5. npm 调试日志
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
