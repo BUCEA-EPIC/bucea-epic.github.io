@@ -28,7 +28,7 @@ vue3/node_modules/
 
 # 2. 构建输出目录 (生产环境代码，不需要提交源码库)
 vue3/dist/
-
+vue3/.idea/
 
 scripts/.ssh/
 
