@@ -29,3 +29,8 @@ class Submission(Base):
     remark = Column(String, default="")
 
     students = relationship("Student", back_populates="submission", cascade="all, delete-orphan")
+
+class AdminToken(Base):
+    __tablename__ = "admin_tokens"
+    token = Column(String, primary_key=True, index=True)
+    expire_time = Column(DateTime)

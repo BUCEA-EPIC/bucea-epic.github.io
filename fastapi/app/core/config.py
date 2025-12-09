@@ -26,7 +26,7 @@ logger = logging.getLogger("FastAPI")
 
 # 安全配置
 ADMIN_KEY = "314317"
-TOKEN_EXPIRE_MINUTES = 60
+TOKEN_EXPIRE_MINUTES = 60 * 24
 
 # 邮件配置
 SMTP_HOST = "smtp.163.com"

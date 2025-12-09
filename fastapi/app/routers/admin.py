@@ -10,14 +10,19 @@ from app.models.tables import Submission, Student
 
 router = APIRouter(prefix="/admin")
 
-# 1. 登录
+# 1. 修改登录接口
 @router.post("/login")
-async def admin_login(key: str = Form(...)):
+async def admin_login(
+    key: str = Form(...), 
+    db: Session = Depends(get_db)  # 👈 新增这一行依赖注入
+):
     if key != ADMIN_KEY:
         logger.warning(f"⚠️ 登录失败，密钥错误")
         raise HTTPException(status_code=401, detail="密钥错误")
     
-    token = create_access_token()
+    # 👇 传入 db 参数
+    token = create_access_token(db)
+    
     logger.info(f"🔑 管理员登录，Token: {token}")
     return {"status": "success", "token": token}
 
