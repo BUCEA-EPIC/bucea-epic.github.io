@@ -246,8 +246,8 @@ function checkFile(url) {
     <div class="content-section single-column animate-on-scroll">
       <div class="text-content animate-text">
         <h2>报名渠道</h2>
-        <p class="registration-text">
-          访问 <a href="https://epic314.bucea.online/registrations/" target="_blank">https://epic314.bucea.online/registrations/</a> 填写信息。
+        <p style="color: #ff0000; font-weight: bold; font-size: 20px; text-decoration: none;">
+          已截止报名
         </p>
       </div>
     </div>
@@ -463,8 +463,6 @@ function checkFile(url) {
 .text-content p { line-height: 1.4; color: #495057; font-size: 0.95rem; }
 .text-content a { text-decoration: none; color: #007bff; cursor: pointer; }
 .single-column { flex-direction: column; align-items: flex-start; padding: 0; }
-.registration-text { font-size: 30px !important; line-height: 1.2; margin: 0; text-align: left; }
-.registration-text a { font-size: inherit; }
 
 /* 表单 */
 .submission-guide .text-content { width: 100%; }
