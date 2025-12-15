@@ -2,18 +2,17 @@
 import { ref, onMounted, nextTick, computed, watch } from 'vue'
 
 // --- ⚠️ 图片资源引入 ---
-// 请确保你的 assets 文件夹下有这些图片，否则请修改路径或注释掉
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
 import track1Img from '../assets/event/视觉循迹仿真.gif'
 import track2Img from '../assets/event/开关电源设计.jpg'
 import track3Img from '../assets/event/三维建模设计.png'
 import qqImg from '../assets/contact/qq群.jpg'
 
-// --- 赛道配置数据 ---
+// --- 赛道配置数据 --- (🟢 移除了 email 字段)
 const tracks = [
-  { id: 'track1', name: '视觉循迹仿真赛道', email: 'fanyuovan@outlook.com', maxStudents: 1 },
-  { id: 'track2', name: '开关电源设计赛道', email: 'tianjiahuiwo@gmail.com', maxStudents: 3 },
-  { id: 'track3', name: '三维建模设计赛道', email: '1730518976@qq.com', maxStudents: 1 }
+  { id: 'track1', name: '视觉循迹仿真赛道', maxStudents: 1 },
+  { id: 'track2', name: '开关电源设计赛道', maxStudents: 3 },
+  { id: 'track3', name: '三维建模设计赛道', maxStudents: 1 }
 ]
 
 const selectedTrackId = ref(null)
@@ -38,7 +37,7 @@ const selectedTrack = computed(() => {
   return tracks.find(t => t.id === selectedTrackId.value)
 })
 
-// 监听赛道变化：如果是单人赛道，自动截断多余人数
+// 监听赛道变化
 watch(selectedTrackId, (newId) => {
   if (newId && selectedTrack.value) {
     if (selectedTrack.value.maxStudents === 1 && studentInfos.value.length > 1) {
@@ -47,37 +46,30 @@ watch(selectedTrackId, (newId) => {
   }
 })
 
-// 添加成员 (仅限开关电源赛道且人数<3)
 function addStudentInfoField() {
   if (selectedTrack.value?.id === 'track2' && studentInfos.value.length < 3) {
     studentInfos.value.push(emptyStudent())
   }
 }
 
-// 移除成员
 function removeStudentInfoField(index) {
   if (studentInfos.value.length > 1) {
     studentInfos.value.splice(index, 1)
   }
 }
 
-// 处理文件选择
 function handleFileUpload(event) {
   submittedFile.value = event.target.files[0]
 }
 
-// --- 新增：重置表单函数 ---
 function resetForm() {
-  selectedTrackId.value = null // 清空赛道选择
-  studentInfos.value = [emptyStudent()] // 重置学生信息
-  submittedFile.value = null // 清空文件变量
-  
-  // 清空文件输入框的显示
+  selectedTrackId.value = null
+  studentInfos.value = [emptyStudent()]
+  submittedFile.value = null
   const fileInput = document.getElementById('file-upload')
   if (fileInput) fileInput.value = ''
 }
 
-// --- 提交前校验逻辑 ---
 function preCheckSubmit() {
   submissionMessage.value = ''
   
@@ -103,14 +95,12 @@ function preCheckSubmit() {
   showConfirmModal.value = true
 }
 
-// --- 实际执行提交逻辑 ---
 function executeSubmission() {
   showConfirmModal.value = false
   submissionMessage.value = ''
   uploadProgress.value = 0
   statusText.value = ''
   
-  // 重新获取数据
   const validStudents = studentInfos.value.filter(info => {
     return info.name.trim() && info.className.trim() && info.studentId.trim()
   });
@@ -125,7 +115,7 @@ function executeSubmission() {
   
   const formData = new FormData()
   formData.append('track_name', trackData.name)
-  formData.append('target_email', trackData.email)
+  // 🟢 移除了 formData.append('target_email', ...)
   formData.append('student_infos', JSON.stringify(studentDataArray)) 
   formData.append('work_file', submittedFile.value)
 
@@ -149,9 +139,9 @@ function executeSubmission() {
     if (xhr.status === 200) {
       try {
         const response = JSON.parse(xhr.responseText)
-        submissionMessage.value = '🎉 ' + (response.message || '作品提交成功！请注意查收确认邮件。')
+        submissionMessage.value = '🎉 ' + (response.message || '作品提交成功！')
         showSuccessModal.value = true
-        resetForm() // <--- 关键修改：提交成功后清空表单
+        resetForm() 
       } catch (e) {
         submissionMessage.value = '提交成功，但解析响应出错。'
       }
@@ -414,7 +404,7 @@ function checkFile(url) {
           <li><strong>文件：</strong> {{ submittedFile?.name }}</li>
           <li><strong>队长：</strong> {{ studentInfos[0].name }}</li>
         </ul>
-        <p class="modal-tip">请确认文件无误，提交后系统将自动发送邮件。</p>
+        <p class="modal-tip">请确认文件无误。</p>
         <div class="modal-buttons">
           <button type="button" class="btn-cancel" @click="showConfirmModal = false">再检查一下</button>
           <button type="button" class="btn-confirm" @click="executeSubmission">确认提交</button>
@@ -427,7 +417,6 @@ function checkFile(url) {
         <div class="success-icon">🎉</div>
         <h3>提交成功！</h3>
         <p>{{ submissionMessage.replace('🎉 ', '') }}</p>
-        <p class="modal-tip">我们已向赛道负责人发送了通知。</p>
         <div class="modal-buttons">
           <button type="button" class="btn-confirm" @click="closeSuccessModal">知道了</button>
         </div>
@@ -438,7 +427,7 @@ function checkFile(url) {
 </template>
 
 <style scoped>
-/* 页面头部 */
+/* 样式保持不变，略 */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .header { text-align: center; padding: 60px 20px; margin-bottom: 60px; position: relative; overflow: hidden; }
 .header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 900; color: rgba(0,0,0,0.04); z-index: 1; user-select: none; white-space: nowrap; }

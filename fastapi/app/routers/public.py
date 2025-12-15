@@ -23,7 +23,7 @@ class ContactForm(BaseModel):
     email: EmailStr
     message: str
 
-# 1. 联系我们
+# 1. 联系我们 (保持不变)
 @router.post("/contact")
 async def contact(form: ContactForm):
     try:
@@ -32,7 +32,7 @@ async def contact(form: ContactForm):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# 2. 文件下载 (解决中文乱码)
+# 2. 文件下载 (保持不变)
 @router.get("/download/{submission_id}")
 async def download_file(submission_id: int, db: Session = Depends(get_db)):
     sub = db.query(Submission).filter(Submission.id == submission_id).first()
@@ -51,11 +51,11 @@ async def download_file(submission_id: int, db: Session = Depends(get_db)):
         headers={"Content-Disposition": f"attachment; filename*=utf-8''{filename_encoded}"}
     )
 
-# 3. 作品提交
+# 3. 作品提交 (🟢 已移除 target_email)
 @router.post("/submit")
 async def submit_work(
     track_name: str = Form(...),
-    target_email: str = Form(...),
+    # target_email: str = Form(...),  <-- 已删除
     student_infos: str = Form(...),
     work_file: UploadFile = File(...),
     db: Session = Depends(get_db)
@@ -97,7 +97,7 @@ async def submit_work(
 
     new_submission = Submission(
         track_name=track_name,
-        target_email=target_email,
+        # target_email=target_email, <-- 已删除
         filename=save_filename,
         original_filename=work_file.filename,
         file_url=f"/static/{save_filename}"
