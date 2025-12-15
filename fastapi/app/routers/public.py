@@ -55,7 +55,7 @@ async def download_file(submission_id: int, db: Session = Depends(get_db)):
 @router.post("/submit")
 async def submit_work(
     track_name: str = Form(...),
-    target_email: str = Form(...),
+    # 🟢 已移除 target_email 参数
     student_infos: str = Form(...),
     work_file: UploadFile = File(...),
     db: Session = Depends(get_db)
@@ -97,7 +97,7 @@ async def submit_work(
 
     new_submission = Submission(
         track_name=track_name,
-        target_email=target_email,
+        # 🟢 已移除 target_email
         filename=save_filename,
         original_filename=work_file.filename,
         file_url=f"/static/{save_filename}"

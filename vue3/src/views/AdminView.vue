@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { Delete, Edit, Download, Plus, Minus, Refresh, Key, Star, StarFilled } from '@element-plus/icons-vue';
+import { Delete, Edit, Download, Plus, Minus, Refresh, Key, Star, StarFilled, Document } from '@element-plus/icons-vue';
 
 const isLoggedIn = ref(false);
 const inputKey = ref('');
@@ -10,13 +10,14 @@ const filterTrack = ref('');
 const filterStarred = ref(false);
 const adminToken = ref('');
 const loading = ref(false);
+const exportLoading = ref(false);
 
 const dialogVisible = ref(false);
 const editLoading = ref(false);
 const editForm = ref({
   id: null,
   track_name: '',
-  target_email: '',
+  // 🟢 已移除 target_email
   students: [] 
 });
 
@@ -97,6 +98,42 @@ const fetchData = async () => {
   }
 };
 
+const handleExportExcel = async () => {
+  exportLoading.value = true;
+  try {
+    const res = await fetch('/api/admin/export_excel', {
+      method: 'GET',
+      headers: { 'x-admin-token': adminToken.value }
+    });
+
+    if (res.status === 403) {
+      logout();
+      ElMessage.error('登录已过期');
+      return;
+    }
+
+    if (!res.ok) throw new Error('Export failed');
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    a.download = `比赛提交统计_${dateStr}.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+    
+    ElMessage.success('导出成功');
+  } catch (err) {
+    console.error(err);
+    ElMessage.error('导出失败，请重试');
+  } finally {
+    exportLoading.value = false;
+  }
+};
+
 const filteredList = computed(() => {
   return submissions.value.filter(item => {
     const matchTrack = !filterTrack.value || item.track_name === filterTrack.value;
@@ -104,10 +141,6 @@ const filteredList = computed(() => {
     return matchTrack && matchStar;
   });
 });
-
-// ==========================================
-// 逻辑部分
-// ==========================================
 
 const handleToggleStar = async (row) => {
   const newState = !row.is_starred;
@@ -132,7 +165,7 @@ const handleToggleStar = async (row) => {
 };
 
 const handleScoreChange = async (row) => {
-  row.is_graded = true; // 自动标记已评
+  row.is_graded = true; 
 
   try {
     const formData = new FormData();
@@ -230,7 +263,7 @@ const openEdit = (row) => {
   editForm.value = {
     id: row.id,
     track_name: row.track_name,
-    target_email: row.target_email,
+    // 🟢 已移除 target_email
     students: JSON.parse(JSON.stringify(studentsData))
   };
   dialogVisible.value = true;
@@ -269,7 +302,7 @@ const saveEdit = async () => {
     formData.append('id', editForm.value.id);
     formData.append('track_name', editForm.value.track_name);
     formData.append('student_infos', studentInfoJson); 
-    formData.append('target_email', editForm.value.target_email);
+    // 🟢 已移除 target_email
 
     const res = await fetch('/api/admin/update_submission', {
       method: 'POST',
@@ -331,9 +364,12 @@ const getTrackTagType = (trackName) => {
           <el-select v-model="filterTrack" placeholder="全部赛道" clearable style="width: 200px">
             <el-option v-for="t in TRACK_OPTIONS" :key="t" :label="t" :value="t"></el-option>
           </el-select>
-          <el-button @click="fetchData" circle :icon="Refresh" class="refresh-btn"></el-button>
+          <el-button @click="fetchData" circle :icon="Refresh" class="refresh-btn" title="刷新列表"></el-button>
         </div>
-        <div class="stats">共 {{ filteredList.length }} 份</div>
+        <div class="action-group">
+          <el-button type="success" :icon="Document" :loading="exportLoading" @click="handleExportExcel">导出 Excel</el-button>
+          <span class="stats" style="margin-left: 15px;">共 {{ filteredList.length }} 份</span>
+        </div>
       </div>
 
       <el-card shadow="never" class="table-card">
@@ -444,10 +480,7 @@ const getTrackTagType = (trackName) => {
             <el-icon><Plus /></el-icon> 添加成员 ({{ editForm.students.length }}/{{ maxMembers }})
           </el-button>
         </el-form-item>
-        <el-form-item label="联系邮箱">
-          <el-input v-model="editForm.target_email"></el-input>
-        </el-form-item>
-      </el-form>
+        </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="saveEdit" :loading="editLoading">保存修改</el-button>
@@ -457,6 +490,7 @@ const getTrackTagType = (trackName) => {
 </template>
 
 <style scoped>
+/* 样式保持不变 */
 .admin-wrapper { min-height: 100vh; background-color: #f5f7fa; font-family: sans-serif; }
 .login-container { display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
 .login-card { width: 400px; background: white; padding: 40px; border-radius: 12px; text-align: center; }
@@ -478,6 +512,7 @@ const getTrackTagType = (trackName) => {
 .star-btn.is-active { color: #f59e0b; }
 .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .filter-group { display: flex; align-items: center; gap: 10px; }
+.action-group { display: flex; align-items: center; } 
 .stats { color: #909399; font-size: 14px; }
 
 .score-container { 

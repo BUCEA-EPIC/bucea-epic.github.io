@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted, nextTick, computed, watch } from 'vue'
 
-// --- ⚠️ 图片资源引入 ---
-// 请确保你的 assets 文件夹下有这些图片，否则请修改路径或注释掉
+// 图片资源引入
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
 import track1Img from '../assets/event/视觉循迹仿真.gif'
 import track2Img from '../assets/event/开关电源设计.jpg'
@@ -10,35 +9,31 @@ import track3Img from '../assets/event/三维建模设计.png'
 import qqImg from '../assets/contact/qq群.jpg'
 
 // --- 赛道配置数据 ---
+// 🟢 已移除 email 字段
 const tracks = [
-  { id: 'track1', name: '视觉循迹仿真赛道', email: 'fanyuovan@outlook.com', maxStudents: 1 },
-  { id: 'track2', name: '开关电源设计赛道', email: 'tianjiahuiwo@gmail.com', maxStudents: 3 },
-  { id: 'track3', name: '三维建模设计赛道', email: '1730518976@qq.com', maxStudents: 1 }
+  { id: 'track1', name: '视觉循迹仿真赛道', maxStudents: 1 },
+  { id: 'track2', name: '开关电源设计赛道', maxStudents: 3 },
+  { id: 'track3', name: '三维建模设计赛道', maxStudents: 1 }
 ]
 
 const selectedTrackId = ref(null)
 const submittedFile = ref(null)
 
-// 学生信息初始化
 const emptyStudent = () => ({ name: '', className: '', studentId: '' })
 const studentInfos = ref([emptyStudent()]) 
 
-// 状态变量
 const isSubmitting = ref(false)
 const submissionMessage = ref('')
 const uploadProgress = ref(0)
 const statusText = ref('')
 
-// 弹窗状态
 const showConfirmModal = ref(false)
 const showSuccessModal = ref(false)
 
-// 计算当前选中的赛道对象
 const selectedTrack = computed(() => {
   return tracks.find(t => t.id === selectedTrackId.value)
 })
 
-// 监听赛道变化：如果是单人赛道，自动截断多余人数
 watch(selectedTrackId, (newId) => {
   if (newId && selectedTrack.value) {
     if (selectedTrack.value.maxStudents === 1 && studentInfos.value.length > 1) {
@@ -47,37 +42,30 @@ watch(selectedTrackId, (newId) => {
   }
 })
 
-// 添加成员 (仅限开关电源赛道且人数<3)
 function addStudentInfoField() {
   if (selectedTrack.value?.id === 'track2' && studentInfos.value.length < 3) {
     studentInfos.value.push(emptyStudent())
   }
 }
 
-// 移除成员
 function removeStudentInfoField(index) {
   if (studentInfos.value.length > 1) {
     studentInfos.value.splice(index, 1)
   }
 }
 
-// 处理文件选择
 function handleFileUpload(event) {
   submittedFile.value = event.target.files[0]
 }
 
-// --- 新增：重置表单函数 ---
 function resetForm() {
-  selectedTrackId.value = null // 清空赛道选择
-  studentInfos.value = [emptyStudent()] // 重置学生信息
-  submittedFile.value = null // 清空文件变量
-  
-  // 清空文件输入框的显示
+  selectedTrackId.value = null
+  studentInfos.value = [emptyStudent()]
+  submittedFile.value = null
   const fileInput = document.getElementById('file-upload')
   if (fileInput) fileInput.value = ''
 }
 
-// --- 提交前校验逻辑 ---
 function preCheckSubmit() {
   submissionMessage.value = ''
   
@@ -103,14 +91,12 @@ function preCheckSubmit() {
   showConfirmModal.value = true
 }
 
-// --- 实际执行提交逻辑 ---
 function executeSubmission() {
   showConfirmModal.value = false
   submissionMessage.value = ''
   uploadProgress.value = 0
   statusText.value = ''
   
-  // 重新获取数据
   const validStudents = studentInfos.value.filter(info => {
     return info.name.trim() && info.className.trim() && info.studentId.trim()
   });
@@ -125,7 +111,7 @@ function executeSubmission() {
   
   const formData = new FormData()
   formData.append('track_name', trackData.name)
-  formData.append('target_email', trackData.email)
+  // 🟢 已移除 target_email 参数
   formData.append('student_infos', JSON.stringify(studentDataArray)) 
   formData.append('work_file', submittedFile.value)
 
@@ -151,7 +137,7 @@ function executeSubmission() {
         const response = JSON.parse(xhr.responseText)
         submissionMessage.value = '🎉 ' + (response.message || '作品提交成功！请注意查收确认邮件。')
         showSuccessModal.value = true
-        resetForm() // <--- 关键修改：提交成功后清空表单
+        resetForm()
       } catch (e) {
         submissionMessage.value = '提交成功，但解析响应出错。'
       }
@@ -178,7 +164,6 @@ function closeSuccessModal() {
   showSuccessModal.value = false
 }
 
-// 页面动画与交互
 onMounted(() => {
   nextTick(() => {
     const observer = new IntersectionObserver(entries => {
@@ -438,7 +423,7 @@ function checkFile(url) {
 </template>
 
 <style scoped>
-/* 页面头部 */
+/* 样式保持不变，太长省略 */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .header { text-align: center; padding: 60px 20px; margin-bottom: 60px; position: relative; overflow: hidden; }
 .header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 900; color: rgba(0,0,0,0.04); z-index: 1; user-select: none; white-space: nowrap; }
@@ -447,16 +432,13 @@ function checkFile(url) {
 .header h1::after { content: ''; display: block; width: 60px; height: 4px; background-color: #007bff; margin: 20px auto 0; }
 .header p { font-size: 1.25rem; color: #6c757d; margin-top: 0; animation-delay: 0.2s; }
 
-/* 页面容器 */
 .page-container { max-width: 1000px; margin: 0 auto; padding: 0 15px 30px; }
 
-/* 滚动动画 */
 .animate-on-scroll .animate-text, .animate-on-scroll .animate-image { opacity: 0; transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
 .animate-on-scroll .animate-text { transform: translateX(-30px); }
 .animate-on-scroll .animate-image { transform: translateX(30px); }
 .animate-on-scroll.is-visible .animate-text, .animate-on-scroll.is-visible .animate-image { opacity: 1; transform: translateX(0); }
 
-/* 内容布局 */
 .content-section { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; }
 .text-content { flex: 0.5; }
 .text-content h2 { font-size: 1.8rem; font-weight: 400; border-bottom: 2px solid #007bff; padding-bottom: 4px; margin-bottom: 10px; display: inline-block; }
@@ -464,7 +446,6 @@ function checkFile(url) {
 .text-content a { text-decoration: none; color: #007bff; cursor: pointer; }
 .single-column { flex-direction: column; align-items: flex-start; padding: 0; }
 
-/* 表单 */
 .submission-guide .text-content { width: 100%; }
 .submission-form { width: 100%; max-width: 600px; margin-top: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #f8f9fa; }
 .form-group { margin-bottom: 15px; }
@@ -473,7 +454,6 @@ function checkFile(url) {
 .form-group select, .form-group input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-size: 1rem; }
 .form-group input[type="file"] { padding: 8px 0; }
 
-/* 学生信息行 */
 .input-header-row { display: flex; gap: 10px; margin-bottom: 5px; padding: 0 10px; }
 .header-label { flex: 1; font-size: 0.85rem; font-weight: bold; color: #555; }
 .header-placeholder, .header-placeholder-btn { width: 24px; min-width: 25px; }
@@ -483,13 +463,11 @@ function checkFile(url) {
 .input-triple-group { display: flex; flex: 1; gap: 8px; }
 .input-triple-group input { flex: 1; min-width: 0; padding: 8px !important; font-size: 0.9rem !important; }
 
-/* 按钮 */
 .remove-btn { background-color: #dc3545; color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; padding: 0; }
 .add-btn { background-color: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-top: 5px; font-size: 0.9rem; }
 .submit-button { width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 1.1rem; cursor: pointer; transition: background-color 0.3s ease; }
 .submit-button:disabled { background-color: #adb5bd; cursor: not-allowed; }
 
-/* 其他组件 */
 .note { font-size: 0.85rem; margin-top: 5px; margin-bottom: 0; }
 .note.info { color: #007bff; margin-bottom: 10px; }
 .note.success { color: #28a745; }
@@ -502,106 +480,41 @@ function checkFile(url) {
 .submission-status.success { background-color: #d4edda; color: #155724; }
 .submission-status.error { background-color: #f8d7da; color: #721c24; }
 
-/* 图片 */
 .image-content { flex: 0.5; display: flex; justify-content: center; align-items: center; }
 .image-content img { width: 100%; max-width: 600px; border-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
 .image-content img:hover { transform: translateY(-5px); }
 .qq-group-img { width: 250px !important; }
 
-/* --- 新增：弹窗样式 --- */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
-  backdrop-filter: blur(5px); /* 背景模糊效果 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px);
+  display: flex; justify-content: center; align-items: center; z-index: 1000;
   animation: fadeIn 0.3s ease;
 }
 
 .modal-box {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  width: 90%;
-  max-width: 400px;
-  text-align: left;
-  animation: scaleIn 0.3s ease;
+  background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  width: 90%; max-width: 400px; text-align: left; animation: scaleIn 0.3s ease;
 }
 
-.modal-box h3 {
-  margin-top: 0;
-  color: #333;
-  font-size: 1.4rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-}
+.modal-box h3 { margin-top: 0; color: #333; font-size: 1.4rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+.modal-list { list-style: none; padding: 0; margin: 10px 0; font-size: 0.95rem; color: #555; }
+.modal-list li { margin-bottom: 6px; }
+.modal-tip { font-size: 0.85rem; color: #888; margin-top: 15px; }
+.modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
 
-.modal-list {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0;
-  font-size: 0.95rem;
-  color: #555;
-}
-
-.modal-list li {
-  margin-bottom: 6px;
-}
-
-.modal-tip {
-  font-size: 0.85rem;
-  color: #888;
-  margin-top: 15px;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 25px;
-}
-
-.btn-cancel {
-  padding: 8px 16px;
-  background: #f1f3f5;
-  color: #495057;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
+.btn-cancel { padding: 8px 16px; background: #f1f3f5; color: #495057; border: none; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
 .btn-cancel:hover { background: #e9ecef; }
-
-.btn-confirm {
-  padding: 8px 16px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s;
-}
+.btn-confirm { padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
 .btn-confirm:hover { background: #0056b3; }
 
-/* 成功弹窗特有样式 */
 .success-box { text-align: center; }
 .success-icon { font-size: 3rem; margin-bottom: 10px; }
 .success-box .modal-buttons { justify-content: center; }
 
-/* 弹窗动画 */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-/* 移动端 */
 @media (max-width: 768px) {
   .header-bg-text { font-size: 6rem; }
   .content-section { flex-direction: column; gap: 40px; }
