@@ -16,7 +16,7 @@ class Submission(Base):
     __tablename__ = "submissions"
     id = Column(Integer, primary_key=True, index=True)
     track_name = Column(String, index=True)
-    # 🟢 已移除 target_email = Column(String)
+    target_email = Column(String)
     filename = Column(String)
     original_filename = Column(String)
     file_url = Column(String)
