@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, nextTick, computed, watch } from 'vue'
+import { onMounted, nextTick } from 'vue'
 
 // --- ⚠️ 图片资源引入 ---
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
@@ -7,166 +7,6 @@ import track1Img from '../assets/event/视觉循迹仿真.gif'
 import track2Img from '../assets/event/开关电源设计.jpg'
 import track3Img from '../assets/event/三维建模设计.png'
 import qqImg from '../assets/contact/qq群.jpg'
-
-// --- 赛道配置数据 --- (🟢 移除了 email 字段)
-const tracks = [
-  { id: 'track1', name: '视觉循迹仿真赛道', maxStudents: 1 },
-  { id: 'track2', name: '开关电源设计赛道', maxStudents: 3 },
-  { id: 'track3', name: '三维建模设计赛道', maxStudents: 1 }
-]
-
-const selectedTrackId = ref(null)
-const submittedFile = ref(null)
-
-// 学生信息初始化
-const emptyStudent = () => ({ name: '', className: '', studentId: '' })
-const studentInfos = ref([emptyStudent()]) 
-
-// 状态变量
-const isSubmitting = ref(false)
-const submissionMessage = ref('')
-const uploadProgress = ref(0)
-const statusText = ref('')
-
-// 弹窗状态
-const showConfirmModal = ref(false)
-const showSuccessModal = ref(false)
-
-// 计算当前选中的赛道对象
-const selectedTrack = computed(() => {
-  return tracks.find(t => t.id === selectedTrackId.value)
-})
-
-// 监听赛道变化
-watch(selectedTrackId, (newId) => {
-  if (newId && selectedTrack.value) {
-    if (selectedTrack.value.maxStudents === 1 && studentInfos.value.length > 1) {
-      studentInfos.value = [studentInfos.value[0]]
-    }
-  }
-})
-
-function addStudentInfoField() {
-  if (selectedTrack.value?.id === 'track2' && studentInfos.value.length < 3) {
-    studentInfos.value.push(emptyStudent())
-  }
-}
-
-function removeStudentInfoField(index) {
-  if (studentInfos.value.length > 1) {
-    studentInfos.value.splice(index, 1)
-  }
-}
-
-function handleFileUpload(event) {
-  submittedFile.value = event.target.files[0]
-}
-
-function resetForm() {
-  selectedTrackId.value = null
-  studentInfos.value = [emptyStudent()]
-  submittedFile.value = null
-  const fileInput = document.getElementById('file-upload')
-  if (fileInput) fileInput.value = ''
-}
-
-function preCheckSubmit() {
-  submissionMessage.value = ''
-  
-  if (!selectedTrack.value) {
-    submissionMessage.value = '请选择参赛赛道。'
-    return
-  }
-  
-  const validStudents = studentInfos.value.filter(info => {
-    return info.name.trim() && info.className.trim() && info.studentId.trim()
-  });
-
-  if (validStudents.length === 0) {
-    submissionMessage.value = '请完整填写至少一位参赛者的姓名、班级和学号。'
-    return
-  }
-
-  if (!submittedFile.value) {
-    submissionMessage.value = '请上传作品文件。'
-    return
-  }
-
-  showConfirmModal.value = true
-}
-
-function executeSubmission() {
-  showConfirmModal.value = false
-  submissionMessage.value = ''
-  uploadProgress.value = 0
-  statusText.value = ''
-  
-  const validStudents = studentInfos.value.filter(info => {
-    return info.name.trim() && info.className.trim() && info.studentId.trim()
-  });
-
-  const studentDataArray = validStudents.map(s => ({
-    name: s.name.trim(),
-    className: s.className.trim(),
-    studentId: s.studentId.trim()
-  }));
-
-  const trackData = selectedTrack.value;
-  
-  const formData = new FormData()
-  formData.append('track_name', trackData.name)
-  // 🟢 移除了 formData.append('target_email', ...)
-  formData.append('student_infos', JSON.stringify(studentDataArray)) 
-  formData.append('work_file', submittedFile.value)
-
-  isSubmitting.value = true
-  statusText.value = '正在建立连接...'
-
-  const xhr = new XMLHttpRequest()
-  
-  xhr.upload.onprogress = function(event) {
-    if (event.lengthComputable) {
-      const percentComplete = Math.round((event.loaded / event.total) * 100)
-      uploadProgress.value = percentComplete
-      statusText.value = percentComplete < 100 
-        ? `正在上传文件... ${percentComplete}%` 
-        : '上传完成，服务器正在处理，请耐心等待...'
-    }
-  }
-
-  xhr.onload = function() {
-    isSubmitting.value = false
-    if (xhr.status === 200) {
-      try {
-        const response = JSON.parse(xhr.responseText)
-        submissionMessage.value = '🎉 ' + (response.message || '作品提交成功！')
-        showSuccessModal.value = true
-        resetForm() 
-      } catch (e) {
-        submissionMessage.value = '提交成功，但解析响应出错。'
-      }
-    } else {
-      try {
-        const errorData = JSON.parse(xhr.responseText)
-        submissionMessage.value = `提交失败：${errorData.detail || '服务器处理错误。'}`
-      } catch (e) {
-        submissionMessage.value = `提交失败 (状态码 ${xhr.status})`
-      }
-    }
-  }
-
-  xhr.onerror = function() {
-    isSubmitting.value = false
-    submissionMessage.value = '网络请求失败，请检查网络连接。'
-  }
-
-  xhr.open('POST', '/api/submit', true)
-  xhr.send(formData)
-}
-
-function closeSuccessModal() {
-  showSuccessModal.value = false
-}
 
 // 页面动画与交互
 onMounted(() => {
@@ -252,85 +92,9 @@ function checkFile(url) {
     <div id="submit" class="content-section single-column animate-on-scroll submission-guide">
       <div class="text-content animate-text">
         <h2>📧 作品提交</h2>
-        
-        <p>
-          请确保您的作品已<span style="font-weight: bold;">严格遵循命题文档的规范</span>完成打包。
+        <p style="color: #ff0000; font-weight: bold; font-size: 20px; text-decoration: none;">
+          作品提交已截止
         </p>
-
-        <form @submit.prevent="preCheckSubmit" class="submission-form">
-          <div class="form-group">
-            <label for="track-select">1. 选择参赛赛道 <span class="required">*</span></label>
-            <select id="track-select" v-model="selectedTrackId" required :disabled="isSubmitting">
-              <option :value="null" disabled>请选择一个赛道</option>
-              <option v-for="track in tracks" :key="track.id" :value="track.id">
-                {{ track.name }}
-              </option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>2. 填写成员信息 <span class="required">*</span></label>
-            
-            <p v-if="selectedTrack && selectedTrack.maxStudents > 1" class="note info">
-              📢 <span style="font-weight: bold;">{{ selectedTrack.name }}</span> 最多可填写 <span style="font-weight: bold;">{{ selectedTrack.maxStudents }}</span> 份信息。
-            </p>
-
-            <div class="input-header-row" v-if="studentInfos.length > 0">
-              <span class="header-placeholder"></span> 
-              <span class="header-label">姓名</span>
-              <span class="header-label">班级</span>
-              <span class="header-label">学号</span>
-              <span class="header-placeholder-btn"></span> 
-            </div>
-            
-            <div v-for="(info, index) in studentInfos" :key="index" class="student-row">
-              <span class="row-label">{{ index + 1 }}.</span>
-              <div class="input-triple-group">
-                <input type="text" v-model="info.name" placeholder="姓名" :disabled="isSubmitting">
-                <input type="text" v-model="info.className" placeholder="班级" :disabled="isSubmitting">
-                <input type="text" v-model="info.studentId" placeholder="学号" :disabled="isSubmitting">
-              </div>
-              <div class="btn-placeholder">
-                <button type="button" @click="removeStudentInfoField(index)" 
-                  v-if="studentInfos.length > 1 && selectedTrackId === 'track2'" class="remove-btn" title="移除">×</button>
-              </div>
-            </div>
-            
-            <button type="button" @click="addStudentInfoField" 
-              v-if="selectedTrackId === 'track2' && studentInfos.length < 3" class="add-btn">
-              + 添加组员信息
-            </button>
-          </div>
-
-          <div class="form-group">
-            <label for="file-upload">3. 上传作品压缩包 (.zip) <span class="required">*</span></label>
-            <input id="file-upload" type="file" @change="handleFileUpload" required accept=".zip" :disabled="isSubmitting">
-            <p v-if="submittedFile" class="note success">已选: {{ submittedFile.name }}</p>
-          </div>
-
-          <div class="deadline-info">
-            <p><span style="font-weight: bold;">截止时间：</span> 12月15日（周一）23:59</p>
-          </div>
-          
-          <div v-if="isSubmitting" class="progress-wrapper">
-            <div class="progress-bar-container">
-              <div class="progress-bar-fill" :style="{ width: uploadProgress + '%' }"></div>
-            </div>
-            <p class="progress-text">{{ statusText }}</p>
-          </div>
-
-          <button type="submit" :disabled="isSubmitting" class="submit-button">
-            <span v-if="isSubmitting">提交中...</span>
-            <span v-else>立即提交作品</span>
-          </button>
-
-          <p v-if="submissionMessage" :class="['submission-status', { 
-            'success': submissionMessage.includes('成功') || submissionMessage.includes('🎉'),
-            'error': !submissionMessage.includes('成功') && !submissionMessage.includes('🎉')
-          }]">
-            {{ submissionMessage }}
-          </p>
-        </form>
       </div>
     </div>
 
@@ -393,34 +157,6 @@ function checkFile(url) {
         <p>QQ群：455362758</p>
       </div>
       <div class="image-content animate-image"><img :src="qqImg" class="qq-group-img"></div>
-    </div>
-
-    <div v-if="showConfirmModal" class="modal-overlay">
-      <div class="modal-box">
-        <h3>📢 确认提交</h3>
-        <p>您即将提交以下信息：</p>
-        <ul class="modal-list">
-          <li><strong>赛道：</strong> {{ selectedTrack?.name }}</li>
-          <li><strong>文件：</strong> {{ submittedFile?.name }}</li>
-          <li><strong>队长：</strong> {{ studentInfos[0].name }}</li>
-        </ul>
-        <p class="modal-tip">请确认文件无误。</p>
-        <div class="modal-buttons">
-          <button type="button" class="btn-cancel" @click="showConfirmModal = false">再检查一下</button>
-          <button type="button" class="btn-confirm" @click="executeSubmission">确认提交</button>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="showSuccessModal" class="modal-overlay">
-      <div class="modal-box success-box">
-        <div class="success-icon">🎉</div>
-        <h3>提交成功！</h3>
-        <p>{{ submissionMessage.replace('🎉 ', '') }}</p>
-        <div class="modal-buttons">
-          <button type="button" class="btn-confirm" @click="closeSuccessModal">知道了</button>
-        </div>
-      </div>
     </div>
 
   </div>
