@@ -73,30 +73,58 @@ function checkFile(url) {
       </div>
     </div>
 
-    <div class="content-section single-column animate-on-scroll">
+    <!-- <div class="content-section single-column animate-on-scroll">
       <div class="text-content animate-text">
         <h2>报名渠道</h2>
         <p style="color: #ff0000; font-weight: bold; font-size: 20px; text-decoration: none;">
           已截止报名
         </p>
       </div>
-    </div>
+    </div> -->
 
     <div id="schedule" class="content-section single-column animate-on-scroll">
       <div class="text-content animate-text">
         <h2>比赛时间</h2>
-        <p>于 <span style="font-weight: bold;">11月26日（周三）至12月15日（周一）</span> 举行。</p>
+        <p>于 <span style="font-weight: bold;">11月26日（周三）至12月15日（周一）</span> 举行。<br>
+          <p style="color: #ff0000; font-weight: bold; font-size: 20px; text-decoration: none;">
+            比赛已结束
+          </p>
+        </p>
       </div>
     </div>
 
-    <div id="submit" class="content-section single-column animate-on-scroll submission-guide">
+    <div id="awards" class="content-section single-column animate-on-scroll awards-section">
+      <div class="text-content animate-text">
+        <h2>🏆 获奖公示</h2>
+        
+        <div class="awards-card">
+          <div class="awards-info">
+            <p>第五届“萌新种子杯”各项赛程已圆满结束，感谢各位同学的积极参与。</p>
+            <p class="highlight-notice">
+              <span class="notice-icon">📢</span> 
+              荣誉证书敬请期待后续发放安排，见QQ群(455362758)通知。
+            </p>
+            <p>最终获奖名单现已公示，请点击下方按钮查看：</p>
+          </div>
+
+          <a href="javascript:void(0)" 
+             @click.prevent="checkFile('/docs/event/2025萌新种子杯获奖公示.pdf')" 
+             class="awards-link-btn">
+            <span class="file-icon">📄</span> 
+            <span class="link-text">查看《第五届萌新种子杯获奖公示》</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div id="submit" class="content-section single-column animate-on-scroll submission-guide">
       <div class="text-content animate-text">
         <h2>📧 作品提交</h2>
         <p style="color: #ff0000; font-weight: bold; font-size: 20px; text-decoration: none;">
           作品提交已截止
         </p>
       </div>
-    </div>
+    </div> -->
 
     <div class="track-container">
         <div id="track1" class="content-section animate-on-scroll">
@@ -322,6 +350,105 @@ function checkFile(url) {
 .success-icon { font-size: 3rem; margin-bottom: 10px; }
 .success-box .modal-buttons { justify-content: center; }
 
+/* --- 获奖公示板块优化样式 --- */
+
+/* 调整整体板块间距 */
+.awards-section {
+  margin-top: 20px;
+}
+
+/* 获奖信息卡片容器 */
+.awards-card {
+  background: linear-gradient(to right, #f8f9fa, #ffffff);
+  border: 1px solid #e9ecef;
+  border-left: 5px solid #ffc107; /* 左侧金色边框强调获奖 */
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.awards-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* 文本排版 */
+.awards-info p {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  color: #495057;
+}
+
+.awards-info p:last-of-type {
+  margin-bottom: 20px;
+}
+
+/* 高亮通知文本 */
+.highlight-notice {
+  color: #856404;
+  background-color: #fff3cd;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: 500;
+  display: inline-block;
+  border: 1px solid #ffeeba;
+}
+
+.notice-icon {
+  margin-right: 6px;
+}
+
+/* 下载按钮样式优化 */
+.awards-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px; /* 限制按钮最大宽度 */
+  background-color: white;
+  border: 2px solid #007bff;
+  color: #007bff;
+  padding: 12px 20px;
+  border-radius: 50px; /* 圆角按钮 */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.05rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.15);
+}
+
+.awards-link-btn:hover {
+  background-color: #007bff;
+  color: white;
+  transform: scale(1.02);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  text-decoration: none; /* 覆盖默认下划线 */
+}
+
+/* 按钮内部图标微调 */
+.file-icon {
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.link-text {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.arrow-icon {
+  font-size: 1.2rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.awards-link-btn:hover .arrow-icon {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 /* 弹窗动画 */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -335,6 +462,15 @@ function checkFile(url) {
   .input-triple-group { flex-direction: column; }
   .remove-btn { align-self: flex-end; margin-top: -10px; }
   .input-triple-group input::placeholder { color: #999; }
+  
+  .awards-card {
+    padding: 20px;
+  }
+  
+  .awards-link-btn {
+    font-size: 0.95rem;
+    padding: 12px 15px;
+  }
 }
 @media (min-width: 769px) { .input-triple-group input::placeholder { color: transparent; } }
 </style>
