@@ -3,7 +3,7 @@
     <div class="container">
       <!-- 网站版权信息 -->
       <p class="copyright">
-        &copy; 2025 北京建筑大学工程实践创新中心314工作室. All Rights Reserved.
+        Copyright &copy; 2025 樊彧. All Rights Reserved.
       </p>
 
       <!-- 备案信息（ICP备案 + 公安备案 同一行） -->
