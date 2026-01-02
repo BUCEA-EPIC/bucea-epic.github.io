@@ -1,40 +1,270 @@
-# ==========================
-# 全局通用 (Global)
-# ==========================
-# Mac 系统产生的垃圾文件
-.DS_Store
-# Windows 系统产生的缩略图
-Thumbs.db
-# 日志文件
-*.log
+# ============================================
+# 314工作室官网项目 - .gitignore
+# EPIC 314 Website - Git Ignore Configuration
+# ============================================
 
 # ==========================
-# 后端 (fastapi-backend)
+# 操作系统文件 (OS Files)
 # ==========================
-# 1. Python 编译缓存 (建议全局匹配，不仅仅是后端目录)
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ==========================
+# 编辑器与IDE (Editors & IDEs)
+# ==========================
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains IDEs (PyCharm, WebStorm, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+# ==========================
+# Python / FastAPI (后端)
+# ==========================
+# Python 字节码
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+.Python
 
+# 虚拟环境
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv
 
-# 4. 你指定的特定文件/文件夹
-fastapi/uploads/
+# 分发/打包
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.manifest
+*.spec
+
+# PyInstaller
+*.manifest
+*.spec
+
+# 单元测试 / 覆盖率
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
 fastapi/submissions.db
+fastapi/submissions.db-journal
+
+# 上传文件目录
+fastapi/uploads/
+fastapi/uploads/*
+
+# 环境变量文件 (包含敏感信息)
+.env
+.env.local
+.env.*.local
+*.env
+
+# 日志文件
+*.log
+logs/
+*.log.*
 
 # ==========================
-# 前端 (vue-client)
+# Node.js / Vue.js (前端)
 # ==========================
-# 1. Node 依赖包 (体积巨大，必须忽略)
-vue3/node_modules/
-
-# 2. 构建输出目录 (生产环境代码，不需要提交源码库)
-vue3/dist/
-vue3/.idea/
-vue3/.vite/
-
-scripts/.ssh/
-scripts/run*
-
-# 5. npm 调试日志
+# 依赖
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+package-lock.json.bak
+yarn.lock.bak
+
+# 构建输出
+dist/
+dist-ssr/
+build/
+*.local
+
+# Vite
+.vite/
+.vite-ssg-manifest.json
+
+# 测试
+coverage/
+.nyc_output/
+*.test.js.snap
+
+# 缓存
+.cache/
+.parcel-cache/
+.nuxt/
+.next/
+.output/
+.turbo/
+
+# 环境变量
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# 编辑器配置
+.vscode/
+.idea/
+
+# ==========================
+# 项目特定文件 (Project Specific)
+# ==========================
+# 上传文件
+fastapi/uploads/
+!fastapi/uploads/.gitkeep
+
+# 数据库文件
+fastapi/submissions.db
+fastapi/submissions.db-journal
+fastapi/submissions.db-shm
+fastapi/submissions.db-wal
+
+# 构建产物
+vue3/dist/
+vue3/.vite/
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
+*.backup
+*.swp
+*.swo
+
+# ==========================
+# 脚本与配置文件 (Scripts & Config)
+# ==========================
+# SSH 密钥
+scripts/.ssh/
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+*.ppk
+
+# 敏感配置文件
+config.local.*
+secrets.*
+
+# 运行时脚本 (包含敏感信息或路径)
+scripts/run*.bat
+scripts/run*.sh
+!scripts/run_fastapi.bat.example
+!scripts/run_vue3.bat.example
+
+# ==========================
+# 其他 (Others)
+# ==========================
+# 压缩文件
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# 文档生成
+docs/_build/
+site/
+
+# 备份文件
+*.bak
+*.backup
+*~
+
+# ==========================
+# 保留空目录 (Keep Empty Directories)
+# ==========================
+# 使用 .gitkeep 保留必要的空目录结构
+!fastapi/uploads/.gitkeep
