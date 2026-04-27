@@ -19,7 +19,7 @@
 
 **前端**: Vue 3 + Vite + Element Plus + Vue Router  
 **后端**: FastAPI + SQLite + SQLAlchemy  
-**部署**: Nginx + Uvicorn
+**静态部署**: GitHub Pages
 
 ---
 
@@ -30,14 +30,13 @@ epic314-website/
 ├── vue3/              # 前端项目
 │   ├── src/           # 组件、视图、资源
 │   └── public/        # 静态资源
-├── fastapi/           # 后端项目
-│   ├── app/           # 核心代码
-│   │   ├── core/      # 配置、数据库、安全
-│   │   ├── models/    # 数据模型
-│   │   ├── routers/   # API 路由
-│   │   └── utils/     # 工具函数
-│   └── uploads/       # 上传文件存储
-├── nginx/             # Nginx 配置
+└── fastapi/           # 后端项目
+    ├── app/           # 核心代码
+    │   ├── core/      # 配置、数据库、安全
+    │   ├── models/    # 数据模型
+    │   ├── routers/   # API 路由
+    │   └── utils/     # 工具函数
+    └── uploads/       # 上传文件存储
 ```
 
 ---
@@ -93,19 +92,27 @@ npm run dev
 
 ## 部署
 
-1. **后端部署**：将 `fastapi` 目录上传至服务器，安装依赖后使用 Uvicorn 启动
-2. **前端部署**：执行 `npm run build` 构建，将 `dist` 目录上传至服务器
-3. **Nginx 配置**：参考 `nginx/epic314.bucea.online` 配置反向代理
+当前生产部署只保留 GitHub Pages 静态前端，地址为：
+
+```text
+https://fyfelix.github.io/epic314-website/
+```
 
 ### GitHub Pages
 
-当前前端已可部署到 GitHub Pages，默认对应仓库地址为 `https://fyfelix.github.io/epic314-website/`。
-
 1. 在仓库 `Settings -> Pages` 中把 `Source` 设为 `GitHub Actions`
 2. 将代码推送到 `main` 分支，工作流会自动构建并发布 `vue3/dist`
-3. 如果以后仓库名变了，需要同步修改 `vue3/vite.config.js` 里的 `base`
+3. 如果以后仓库名变了，需要同步修改 `vue3/vite.config.js` 中的 `base`
 
-注意：GitHub Pages 只能托管静态前端，`/api`、后台登录、邮件发送和提交管理这些后端功能仍然需要独立的 FastAPI 服务。
+本地验证 GitHub Pages 构建：
+
+```bash
+cd vue3
+GITHUB_PAGES=true npm run build
+npm run preview
+```
+
+注意：GitHub Pages 只能托管静态文件，不运行 FastAPI。`/api`、后台登录、邮件发送和提交管理等后端功能需要独立部署后再接入。
 
 ---
 
@@ -122,4 +129,4 @@ npm run dev
 
 ## 版权信息
 
-© 2025 北京建筑大学 工程实践创新中心 314工作室. All Rights Reserved.
+前端页脚从 2025 年开始动态生成当前版权年份。
