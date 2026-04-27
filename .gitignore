@@ -224,10 +224,9 @@ vue3/.vite/
 *.swo
 
 # ==========================
-# 脚本与配置文件 (Scripts & Config)
+# 其他 (Others)
 # ==========================
 # SSH 密钥
-scripts/.ssh/
 *.pem
 *.key
 id_rsa
@@ -237,16 +236,6 @@ id_rsa.pub
 # 敏感配置文件
 config.local.*
 secrets.*
-
-# 运行时脚本 (包含敏感信息或路径)
-scripts/run*.bat
-scripts/run*.sh
-!scripts/run_fastapi.bat.example
-!scripts/run_vue3.bat.example
-
-# ==========================
-# 其他 (Others)
-# ==========================
 # 压缩文件
 *.zip
 *.tar

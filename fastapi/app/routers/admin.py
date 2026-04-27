@@ -83,7 +83,7 @@ def _generate_excel_common(db: Session):
     
     return output
 
-# --- 🟢 接口1：管理员后台导出 (AdminView 调用的接口) ---
+# --- 管理员后台导出 ---
 @router.get("/export_excel", dependencies=[Depends(verify_admin)])
 async def export_excel(db: Session = Depends(get_db)):
     output = _generate_excel_common(db)
@@ -97,35 +97,22 @@ async def export_excel(db: Session = Depends(get_db)):
         headers={"Content-Disposition": f"attachment; filename*=utf-8''{encoded_filename}"}
     )
 
-# --- 🟢 接口2：公开下载 URL (无验证，直接访问下载) ---
-@router.get("/public_download_excel")
-async def public_download_excel(db: Session = Depends(get_db)):
-    """
-    直接访问 /api/admin/public_download_excel 即可下载
-    """
-    output = _generate_excel_common(db)
-    
-    filename = f"Public_Export_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
-    
-    return StreamingResponse(
-        output,
-        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        headers={"Content-Disposition": f"attachment; filename={filename}"}
-    )
-
-
 # ==========================================
-# 原有管理接口 (保持不变)
+# 管理接口
 # ==========================================
 
 @router.post("/login")
 async def admin_login(key: str = Form(...), db: Session = Depends(get_db)):
+    if not ADMIN_KEY:
+        logger.error("管理员密钥未配置")
+        raise HTTPException(status_code=500, detail="管理员密钥未配置")
+
     if key != ADMIN_KEY:
-        logger.warning(f"⚠️ 登录失败，密钥错误")
+        logger.warning("⚠️ 登录失败，密钥错误")
         raise HTTPException(status_code=401, detail="密钥错误")
-    
+
     token = create_access_token(db)
-    logger.info(f"🔑 管理员登录，Token: {token}")
+    logger.info("🔑 管理员登录成功")
     return {"status": "success", "token": token}
 
 @router.get("/submissions", dependencies=[Depends(verify_admin)])
@@ -144,8 +131,8 @@ async def delete_submission(id: int, db: Session = Depends(get_db)):
     if sub.filename:
         try:
             os.remove(os.path.join(UPLOAD_DIR, sub.filename))
-        except:
-            pass
+        except OSError as exc:
+            logger.warning("删除上传文件失败: %s", exc)
 
     db.delete(sub)
     db.commit()

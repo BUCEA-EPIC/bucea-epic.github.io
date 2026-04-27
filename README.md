@@ -6,7 +6,7 @@
 
 ---
 
-## ✨ 主要功能
+## 主要功能
 
 - **门户展示**：首页、关于我们、团队成员、项目展示、新闻动态、资源分享
 - **赛事系统**：多赛道报名、团队/个人信息填报、大文件上传
@@ -15,7 +15,7 @@
 
 ---
 
-## 🛠️ 技术栈
+## 技术栈
 
 **前端**: Vue 3 + Vite + Element Plus + Vue Router  
 **后端**: FastAPI + SQLite + SQLAlchemy  
@@ -23,7 +23,7 @@
 
 ---
 
-## 📂 项目结构
+## 项目结构
 
 ```
 epic314-website/
@@ -38,24 +38,35 @@ epic314-website/
 │   │   └── utils/     # 工具函数
 │   └── uploads/       # 上传文件存储
 ├── nginx/             # Nginx 配置
-└── scripts/           # 部署脚本
 ```
 
 ---
 
-## 🚀 快速开始
+## 使用说明
 
-### 后端启动
+### 1. 准备环境
+
+后端配置读取 `fastapi/.env`。可先复制模板并填写真实值：
+
+```bash
+cp fastapi/.env.example fastapi/.env
+cd fastapi
+python3 -m venv .venv
+```
+
+至少需要配置 `ADMIN_KEY`、`SMTP_USER`、`SMTP_PASS` 和 `TO_EMAIL`。
+
+### 2. 启动后端
 
 ```bash
 cd fastapi
-pip install -r requirements.txt
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-后端启动后访问：http://127.0.0.1:8000/docs
+启动后访问 `http://127.0.0.1:8000/docs` 查看接口文档。
 
-### 前端启动
+### 3. 启动前端
 
 ```bash
 cd vue3
@@ -63,29 +74,52 @@ npm install
 npm run dev
 ```
 
-前端启动后访问：http://localhost:5173
+前端默认运行在 `http://127.0.0.1:5173`。开发环境下，`/api` 请求会自动代理到后端 `8000` 端口。
 
-> **注意**：开发环境下，前端请求 `/api` 会自动代理到后端 `8000` 端口。
+### 4. 常用入口
+
+- 首页：`/`
+- 赛事页：`/event`
+- 管理后台：`/admin`
+- 后端文档：`/docs`
+
+### 5. 常用命令
+
+- `cd vue3 && npm run build`：构建前端生产包
+- `cd vue3 && npm run preview`：预览构建结果
+- `cd fastapi && .venv/bin/python -m compileall app`：检查后端 Python 语法
 
 ---
 
-## 🚢 部署
+## 部署
 
 1. **后端部署**：将 `fastapi` 目录上传至服务器，安装依赖后使用 Uvicorn 启动
 2. **前端部署**：执行 `npm run build` 构建，将 `dist` 目录上传至服务器
 3. **Nginx 配置**：参考 `nginx/epic314.bucea.online` 配置反向代理
 
+### GitHub Pages
+
+当前前端已可部署到 GitHub Pages，默认对应仓库地址为 `https://fyfelix.github.io/epic314-website/`。
+
+1. 在仓库 `Settings -> Pages` 中把 `Source` 设为 `GitHub Actions`
+2. 将代码推送到 `main` 分支，工作流会自动构建并发布 `vue3/dist`
+3. 如果以后仓库名变了，需要同步修改 `vue3/vite.config.js` 里的 `base`
+
+注意：GitHub Pages 只能托管静态前端，`/api`、后台登录、邮件发送和提交管理这些后端功能仍然需要独立的 FastAPI 服务。
+
 ---
 
-## ⚙️ 配置说明
+## 配置说明
 
-修改 `fastapi/app/core/config.py` 配置：
-- `ADMIN_KEY`: 管理员登录密钥
-- `SMTP_*`: 邮件服务配置
-- `UPLOAD_DIR`: 文件上传路径
+后端配置从环境变量或 `fastapi/.env` 读取。可参考 `fastapi/.env.example` 创建本地配置：
+
+- `ADMIN_KEY`: 管理员登录密钥，必须设置
+- `SMTP_*`、`TO_EMAIL`: 联系表单邮件服务配置
+- `UPLOAD_DIR`、`DB_PATH`: 上传目录与 SQLite 数据库路径
+- `CORS_ALLOW_ORIGINS`: 允许访问 API 的前端域名，多个值用英文逗号分隔
 
 ---
 
-## 📝 版权信息
+## 版权信息
 
 © 2025 北京建筑大学 工程实践创新中心 314工作室. All Rights Reserved.

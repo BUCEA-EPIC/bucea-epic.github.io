@@ -3,6 +3,9 @@ from email.mime.text import MIMEText
 from app.core.config import SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, TO_EMAIL, logger
 
 def send_contact_email(name: str, email: str, message: str):
+    if not all([SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, TO_EMAIL]):
+        raise RuntimeError("SMTP 配置不完整")
+
     try:
         msg = MIMEText(f"姓名: {name}\n邮箱: {email}\n\n{message}", 'plain', 'utf-8')
         msg["Subject"] = f"网站留言: {name}"

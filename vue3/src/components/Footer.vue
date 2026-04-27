@@ -25,7 +25,7 @@
           rel="noopener noreferrer"
           class="record-link"
         >
-          <img src="/公安.png" alt="公安备案图标" class="record-icon" />
+          <img :src="policeIcon" alt="公安备案图标" class="record-icon" />
           京公网安备 11011502038960号
         </a>
       </div>
@@ -34,6 +34,7 @@
 </template>
 
 <script setup>
+const policeIcon = `${import.meta.env.BASE_URL}公安.png`
 </script>
 
 <style scoped>

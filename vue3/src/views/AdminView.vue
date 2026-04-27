@@ -1,7 +1,29 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import {
+  ElAlert,
+  ElButton,
+  ElButtonGroup,
+  ElCard,
+  ElCheckbox,
+  ElDialog,
+  ElForm,
+  ElFormItem,
+  ElIcon,
+  ElInput,
+  ElInputNumber,
+  ElMessage,
+  ElMessageBox,
+  ElOption,
+  ElSelect,
+  ElSwitch,
+  ElTable,
+  ElTableColumn,
+  ElTag,
+  vLoading
+} from 'element-plus';
 import { Delete, Edit, Download, Plus, Minus, Refresh, Key, Star, StarFilled, Document } from '@element-plus/icons-vue';
+import 'element-plus/dist/index.css';
 
 const isLoggedIn = ref(false);
 const inputKey = ref('');
@@ -133,6 +155,35 @@ const handleExportExcel = async () => {
     ElMessage.error('导出失败，请重试');
   } finally {
     exportLoading.value = false;
+  }
+};
+
+const handleDownload = async (row) => {
+  try {
+    const res = await fetch(`/api/download/${row.id}`, {
+      method: 'GET',
+      headers: { 'x-admin-token': adminToken.value }
+    });
+
+    if (res.status === 403) {
+      logout();
+      ElMessage.error('登录已过期');
+      return;
+    }
+
+    if (!res.ok) throw new Error('Download failed');
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = row.original_filename || row.filename || `submission_${row.id}`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  } catch (err) {
+    ElMessage.error('下载失败，请重试');
   }
 };
 
@@ -448,9 +499,7 @@ const getTrackTagType = (trackName) => {
           <el-table-column label="操作" width="140" fixed="right" align="center">
             <template #default="scope">
               <el-button-group>
-                <a :href="`/api/download/${scope.row.id}`" target="_blank" class="download-link">
-                  <el-button type="primary" size="small" :icon="Download"></el-button>
-                </a>
+                <el-button type="primary" size="small" :icon="Download" @click="handleDownload(scope.row)"></el-button>
                 <el-button type="warning" size="small" :icon="Edit" @click="openEdit(scope.row)"></el-button>
                 <el-button type="danger" size="small" :icon="Delete" @click="handleDelete(scope.row)"></el-button>
               </el-button-group>
@@ -507,7 +556,6 @@ const getTrackTagType = (trackName) => {
 
 .edit-student-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .row-index { width: 30px; color: #909399; font-weight: bold; }
-.download-link { text-decoration: none; margin-right: -1px; }
 .star-btn { cursor: pointer; color: #d1d5db; transition: color 0.3s; }
 .star-btn:hover { color: #f59e0b; }
 .star-btn.is-active { color: #f59e0b; }

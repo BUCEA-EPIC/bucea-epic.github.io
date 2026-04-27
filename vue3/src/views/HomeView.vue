@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { newsData } from '../data/newsData.js'
+import competitionImg from '../assets/news/2025工训-大连.jpg'
 
 // 只显示最新的三个新闻
 const latestNews = ref(newsData.slice(0, 3))
@@ -40,7 +41,7 @@ onMounted(() => {
           </p>
         </div>
         <div class="about-image">
-          <img src="/src/assets/news/2025工训-大连.jpg" alt="工程实践创新中心" />
+          <img :src="competitionImg" alt="工程实践创新中心" />
         </div>
       </div>
     </section>

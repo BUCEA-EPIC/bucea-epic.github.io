@@ -1,8 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 
-from app.core.config import UPLOAD_DIR, logger
+from app.core.config import CORS_ALLOW_ORIGINS, logger
 from app.core.database import init_db
 from app.routers import public, admin
 
@@ -11,13 +10,10 @@ init_db()
 
 app = FastAPI(title="Submission & Admin API", root_path="/api")
 
-# 挂载静态文件
-app.mount("/static", StaticFiles(directory=UPLOAD_DIR), name="static")
-
 # CORS 配置
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ALLOW_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

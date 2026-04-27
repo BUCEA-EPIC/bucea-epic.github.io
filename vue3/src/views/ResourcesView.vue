@@ -42,7 +42,7 @@ onMounted(() => {
           :style="{ '--delay': `${index * 0.05}s` }"
         >
           <div class="card-content">
-            <a :href="item.url" target="_blank">{{ item.title }}</a>
+            <a :href="item.url" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
             <p v-if="item.subtitle" class="subtitle">{{ item.subtitle }}</p>
             <p>{{ item.description }}</p>
           </div>

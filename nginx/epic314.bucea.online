@@ -54,11 +54,6 @@ server {
         internal;
     }
 
-    location /static/ {
-        proxy_pass http://127.0.0.1:8000/static/;
-        expires 30d; # 可选：浏览器缓存设置
-    }
-
     location /registrations/ {
         # 假设 Flask 应用运行在 5001 端口
         # 注意末尾的斜杠，它将 /flask/ 从请求路径中移除再转发。

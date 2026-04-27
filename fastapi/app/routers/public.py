@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.core.config import UPLOAD_DIR, logger
+from app.core.security import verify_admin
 from app.models.tables import Submission, Student
 from app.utils.email import send_contact_email
 
@@ -23,7 +24,7 @@ class ContactForm(BaseModel):
     email: EmailStr
     message: str
 
-# 1. 联系我们 (保持不变)
+# 1. 联系我们
 @router.post("/contact")
 async def contact(form: ContactForm):
     try:
@@ -32,14 +33,20 @@ async def contact(form: ContactForm):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# 2. 文件下载 (保持不变)
-@router.get("/download/{submission_id}")
+# 2. 管理员文件下载
+@router.get("/download/{submission_id}", dependencies=[Depends(verify_admin)])
 async def download_file(submission_id: int, db: Session = Depends(get_db)):
     sub = db.query(Submission).filter(Submission.id == submission_id).first()
     if not sub:
         raise HTTPException(status_code=404, detail="记录不存在")
+    if not sub.filename:
+        raise HTTPException(status_code=404, detail="记录未关联文件")
 
-    file_path = os.path.join(UPLOAD_DIR, sub.filename)
+    upload_root = os.path.abspath(UPLOAD_DIR)
+    file_path = os.path.abspath(os.path.join(upload_root, sub.filename))
+    if not file_path.startswith(upload_root + os.sep):
+        raise HTTPException(status_code=400, detail="文件路径无效")
+
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="服务器上找不到该文件")
 
@@ -83,7 +90,8 @@ async def submit_work(
 
     full_members_str = "".join(member_parts) or "UnknownUser"
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    file_ext = os.path.splitext(work_file.filename)[1]
+    original_filename = work_file.filename or "submission"
+    file_ext = os.path.splitext(original_filename)[1]
     save_filename = f"{full_members_str}_{timestamp}{file_ext}"
     file_path = os.path.join(UPLOAD_DIR, save_filename)
 
@@ -99,8 +107,8 @@ async def submit_work(
         track_name=track_name,
         # target_email=target_email, <-- 已删除
         filename=save_filename,
-        original_filename=work_file.filename,
-        file_url=f"/static/{save_filename}"
+        original_filename=original_filename,
+        file_url=None
     )
     db.add(new_submission)
     db.flush()
