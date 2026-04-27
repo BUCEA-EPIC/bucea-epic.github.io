@@ -299,6 +299,8 @@ onMounted(() => {
 @media (max-width: 768px) {
   .contact-content {
     flex-direction: column;
+    gap: 28px;
+    padding: 22px;
   }
 
   .header-bg-text {
@@ -306,7 +308,26 @@ onMounted(() => {
   }
 
   .qq-group .qq-image {
-    width: 200px;
+    width: min(220px, 75vw);
+  }
+
+  .contact-info h3 {
+    font-size: 1.3rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 16px;
+  }
+
+  .contact-form button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .contact-content {
+    padding: 18px;
   }
 }
 </style>

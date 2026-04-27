@@ -257,5 +257,34 @@ onMounted(() => {
   .header-bg-text {
     font-size: 6rem;
   }
+
+  .team-section {
+    margin-bottom: 42px;
+  }
+
+  .team-section h2 {
+    margin-bottom: 24px;
+  }
+
+  .advisor-grid,
+  .team-grid {
+    gap: 20px;
+  }
+
+  .advisor-grid .team-card {
+    width: 100%;
+  }
+
+  .image-wrapper-advisor {
+    height: min(420px, 115vw);
+  }
+
+  .image-wrapper-member {
+    height: 240px;
+  }
+
+  .card-info {
+    padding: 18px;
+  }
 }
 </style>

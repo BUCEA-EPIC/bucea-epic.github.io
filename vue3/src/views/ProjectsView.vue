@@ -87,5 +87,19 @@ function handleCardClick(url) {
   .project-card, .project-card.reverse-layout { flex-direction: column; }
   .card-image { flex-basis: auto; width: 100%; height: 220px; }
   .header-bg-text { font-size: 6rem; }
+  .projects-list { gap: 24px; }
+  .card-content { padding: 22px; }
+  .card-content h3 {
+    font-size: 1.35rem;
+    line-height: 1.3;
+  }
+  .card-content p {
+    line-height: 1.65;
+  }
+}
+
+@media (max-width: 420px) {
+  .card-image { height: 190px; }
+  .card-content { padding: 18px; }
 }
 </style>

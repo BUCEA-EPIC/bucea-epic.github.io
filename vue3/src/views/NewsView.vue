@@ -84,6 +84,18 @@ onMounted(() => {
 @media (max-width: 768px) {
   .header-bg-text { font-size: 6rem; }
   .news-item-inner { flex-direction: column; }
-  .news-image { flex-basis: 200px; }
+  .news-item-wrapper { margin-bottom: 24px; }
+  .news-image {
+    flex: 0 0 auto;
+    height: 190px;
+  }
+  .news-content { padding: 22px; }
+  .news-content h2 {
+    font-size: 1.28rem;
+    line-height: 1.35;
+  }
+  .news-content p {
+    line-height: 1.65;
+  }
 }
 </style>

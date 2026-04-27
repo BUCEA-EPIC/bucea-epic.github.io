@@ -8,13 +8,20 @@
       </router-link>
 
       <!-- 手机端 更多按钮 -->
-      <button class="more-btn" @click="toggleMenu">
+      <button
+        class="more-btn"
+        type="button"
+        :aria-expanded="menuOpen"
+        aria-controls="mobile-navigation"
+        aria-label="打开导航菜单"
+        @click="toggleMenu"
+      >
         更多 ▾
       </button>
 
       <!-- 导航链接 + 下拉动画 -->
       <transition name="dropdown">
-        <div v-if="menuOpen" class="nav-links-mobile">
+        <div v-if="menuOpen" id="mobile-navigation" class="nav-links-mobile">
           <router-link to="/" @click="closeMenu">首页</router-link>
           <router-link to="/event" @click="closeMenu">萌新种子杯</router-link>
           <router-link to="/about" @click="closeMenu">关于我们</router-link>
@@ -76,6 +83,8 @@ const closeMenu = () => (menuOpen.value = false);
   font-weight: bold;
   color: #343a40;
   text-decoration: none;
+  line-height: 1.2;
+  min-width: 0;
 }
 
 /* PC 显示时不换行 */
@@ -111,23 +120,32 @@ const closeMenu = () => (menuOpen.value = false);
 /* 手机端下拉菜单 */
 .nav-links-mobile {
   position: absolute;
-  top: 70px;
+  top: calc(100% + 10px);
   right: 20px;
   background: white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  border-radius: 10px;
-  padding: 15px 20px;
+  border-radius: 8px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  width: 180px;
+  width: 200px;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
   z-index: 2000;
 }
 
 .nav-links-mobile a {
-  margin: 8px 0;
+  min-height: 42px;
+  padding: 10px 12px;
   color: #555;
   text-decoration: none;
   font-size: 0.95rem;
+  border-radius: 6px;
+}
+
+.nav-links-mobile a.router-link-exact-active {
+  color: #007bff;
+  background: #eef6ff;
 }
 
 /* ---------- 动画定义 ---------- */
@@ -161,6 +179,14 @@ const closeMenu = () => (menuOpen.value = false);
 
 /* ------------- 手机端响应式 ------------- */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 0.7rem 0;
+  }
+
+  .container {
+    padding: 0 12px;
+    gap: 12px;
+  }
 
   /* 手机端 LOGO 换行 */
   .mobile-break {
@@ -170,7 +196,8 @@ const closeMenu = () => (menuOpen.value = false);
   /* 更紧密的两行间距 */
   .logo {
     line-height: 1.1;
-    font-size: 1.25rem;
+    font-size: 1.12rem;
+    overflow-wrap: anywhere;
   }
 
   .nav-links-desktop {
@@ -179,13 +206,30 @@ const closeMenu = () => (menuOpen.value = false);
 
   .more-btn {
     display: block;
+    flex: 0 0 auto;
     background: #007bff;
     color: white;
     border: none;
-    padding: 7px 14px;
+    padding: 8px 12px;
     border-radius: 6px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     cursor: pointer;
+  }
+
+  .nav-links-mobile {
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+}
+
+@media (max-width: 360px) {
+  .logo {
+    font-size: 1rem;
+  }
+
+  .more-btn {
+    padding: 8px 10px;
   }
 }
 </style>

@@ -89,5 +89,19 @@ onMounted(() => {
 .award-name { font-size:1.3rem; font-weight:600; color:#212529; margin:0 0 10px; flex-grow:1; }
 .competition { font-size:0.9rem; color:#6c757d; line-height:1.5; margin:0; }
 
-@media (max-width:768px) { .header-bg-text { font-size:6rem; } }
+@media (max-width:768px) {
+  .header-bg-text { font-size:6rem; }
+  .award-section { margin-bottom: 42px; }
+  .award-section h2 { margin-bottom: 20px; }
+  .awards-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .card-image { height: 190px; }
+  .card-content { padding: 18px; }
+  .award-name {
+    font-size: 1.15rem;
+    line-height: 1.35;
+  }
+}
 </style>

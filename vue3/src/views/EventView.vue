@@ -459,7 +459,22 @@ function checkFile(url) {
 /* 移动端 */
 @media (max-width: 768px) {
   .header-bg-text { font-size: 6rem; }
-  .content-section { flex-direction: column; gap: 40px; }
+  .content-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+  .text-content,
+  .image-content {
+    width: 100%;
+    flex: none;
+  }
+  .text-content p {
+    line-height: 1.7;
+  }
+  .image-content img {
+    max-width: 100%;
+  }
   .input-header-row { display: none; }
   .student-row { flex-direction: column; align-items: stretch; }
   .input-triple-group { flex-direction: column; }
@@ -471,8 +486,38 @@ function checkFile(url) {
   }
   
   .awards-link-btn {
+    max-width: none;
     font-size: 0.95rem;
     padding: 12px 15px;
+    border-radius: 8px;
+    align-items: flex-start;
+  }
+
+  .qq-group-img {
+    width: min(250px, 75vw) !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .awards-card {
+    padding: 16px;
+  }
+
+  .awards-link-btn {
+    font-size: 0.9rem;
+  }
+
+  .modal-box {
+    padding: 22px;
+  }
+
+  .modal-buttons {
+    flex-direction: column-reverse;
+  }
+
+  .btn-cancel,
+  .btn-confirm {
+    width: 100%;
   }
 }
 @media (min-width: 769px) { .input-triple-group input::placeholder { color: transparent; } }

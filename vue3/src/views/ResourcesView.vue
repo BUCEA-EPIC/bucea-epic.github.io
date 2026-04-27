@@ -87,7 +87,21 @@ onMounted(() => {
 
 /* 响应式 */
 @media (max-width:992px) { .resource-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width:768px) { .header-bg-text { font-size:6rem; } .resource-grid { grid-template-columns:1fr; } }
+@media (max-width:768px) {
+  .header-bg-text { font-size:6rem; }
+  .resource-section { margin-bottom: 42px; }
+  .resource-section h2 { margin-bottom: 18px; }
+  .resource-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  .card-content { padding: 20px; }
+  .card-content a {
+    font-size: 1.08rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+}
 
 .resource-grid li {
   background:#fff;

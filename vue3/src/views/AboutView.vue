@@ -114,7 +114,18 @@ onMounted(() => {
 /* 移动端适配 */
 @media (max-width: 768px) {
   .header-bg-text { font-size: 6rem; }
-  .content-section, .content-section.reverse { flex-direction: column; gap: 40px; }
+  .content-section, .content-section.reverse {
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .text-content,
+  .image-content {
+    width: 100%;
+  }
+  .text-content p {
+    line-height: 1.7;
+  }
   .animate-on-scroll .animate-text,
   .animate-on-scroll .animate-image,
   .content-section.reverse .animate-text,

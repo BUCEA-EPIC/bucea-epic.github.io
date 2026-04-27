@@ -571,4 +571,103 @@ const getTrackTagType = (trackName) => {
   justify-content: center; 
   gap: 8px; 
 }
+
+.table-card {
+  overflow: hidden;
+}
+
+:deep(.el-card__body) {
+  overflow-x: auto;
+}
+
+:deep(.el-table) {
+  min-width: 1030px;
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    min-height: 100vh;
+    height: auto;
+    padding: 24px 14px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    padding: 28px 22px;
+  }
+
+  .dashboard-container {
+    padding: 16px 10px 28px;
+  }
+
+  .top-bar,
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .top-bar {
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+
+  .bar-left {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .bar-left h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .filter-group,
+  .action-group {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .filter-group :deep(.el-select),
+  .filter-group :deep(.el-checkbox),
+  .action-group :deep(.el-button),
+  .refresh-btn {
+    width: 100% !important;
+  }
+
+  .filter-group :deep(.el-checkbox) {
+    margin-right: 0 !important;
+  }
+
+  .stats {
+    margin-left: 0 !important;
+  }
+
+  .table-card :deep(.el-card__body) {
+    padding: 0;
+  }
+
+  :deep(.el-dialog) {
+    width: calc(100vw - 24px) !important;
+    margin-top: 5vh !important;
+  }
+
+  .edit-student-row {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .row-index {
+    width: auto;
+  }
+
+  .edit-student-row :deep(.el-input) {
+    width: 100% !important;
+  }
+}
 </style>

@@ -108,7 +108,9 @@ onMounted(() => {
 }
 
 .about-image img {
+  width: 100%;
   max-width: 100%;
+  height: auto;
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
@@ -178,5 +180,49 @@ onMounted(() => {
   opacity: 1;
   transform: translateY(0);
   filter: blur(0);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 28px;
+  }
+
+  .about-section {
+    gap: 28px;
+  }
+
+  .about-text,
+  .about-image {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .about-text h2 {
+    font-size: 1.65rem;
+    margin-top: 0;
+  }
+
+  .about-text p {
+    line-height: 1.75;
+  }
+
+  .news-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .card-image-wrapper {
+    height: 180px;
+  }
+
+  .news-card-content {
+    padding: 20px;
+  }
 }
 </style>
