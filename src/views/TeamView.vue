@@ -1,7 +1,8 @@
 <script setup>
-import { advisors } from '../data/teamData.js'
+import { advisors, coreTeam } from '../data/teamData.js'
 
 const memberSlots = Array.from({ length: 6 }, (_, index) => index + 1)
+const leader = coreTeam.find((member) => member.name === '蔡思瑶')
 </script>
 
 <template>
@@ -29,16 +30,26 @@ const memberSlots = Array.from({ length: 6 }, (_, index) => index + 1)
     </section>
 
     <div class="team-layout">
-      <section class="team-block">
+      <section class="team-block leader-block">
         <div class="block-heading">
           <span class="eyebrow">Lead</span>
           <h2>主要负责人</h2>
         </div>
 
-        <div class="leader-card">
-          <div>
-            <h3>蔡思瑶</h3>
-            <p>主要负责人</p>
+        <div class="leader-card" v-if="leader">
+          <div class="leader-portrait">
+            <img :src="leader.avatar" :alt="leader.name">
+          </div>
+          <div class="leader-info">
+            <span class="leader-label">Current Lead</span>
+            <h3>{{ leader.name }}</h3>
+            <p class="leader-role">{{ leader.role }}</p>
+            <p class="leader-bio">{{ leader.bio }}</p>
+            <div class="leader-tags" aria-label="负责人信息">
+              <span>团队统筹</span>
+              <span>赛事组织</span>
+              <span>项目协作</span>
+            </div>
           </div>
         </div>
       </section>
@@ -55,7 +66,7 @@ const memberSlots = Array.from({ length: 6 }, (_, index) => index + 1)
             v-for="slot in memberSlots"
             :key="slot"
           >
-            <span>成员 {{ slot }}</span>
+            <span class="member-index">成员 {{ slot }}</span>
             <strong>待添加</strong>
           </div>
         </div>
@@ -212,15 +223,17 @@ const memberSlots = Array.from({ length: 6 }, (_, index) => index + 1)
 }
 
 .team-layout {
+  --member-photo-width: 320px;
+  --member-photo-aspect: 3 / 4;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 48px;
 }
 
 .team-block {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 .block-heading {
@@ -250,49 +263,140 @@ const memberSlots = Array.from({ length: 6 }, (_, index) => index + 1)
 
 .leader-card,
 .member-card {
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--color-card);
   border: 1px solid var(--border-standard);
   border-radius: 8px;
   box-shadow: var(--shadow-card);
 }
 
 .leader-card {
-  display: flex;
-  align-items: center;
-  min-height: 132px;
-  padding: 28px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(240px, var(--member-photo-width)) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 36px;
+  overflow: hidden;
+  padding: 32px;
+  background:
+    linear-gradient(135deg, rgba(130, 143, 255, 0.16), rgba(255, 255, 255, 0.035) 42%, rgba(255, 255, 255, 0.02)),
+    var(--color-card);
+}
+
+.leader-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%);
+}
+
+.leader-portrait {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: var(--member-photo-aspect);
+  overflow: hidden;
+  border: 1px solid var(--border-standard);
+  border-radius: 8px;
+  background: var(--color-panel);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+}
+
+.leader-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+}
+
+.leader-info {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  min-width: 0;
+  padding-right: 20px;
+}
+
+.leader-label {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: var(--color-accent-hover);
+  font-size: 0.75rem;
+  font-weight: 590;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .leader-card h3 {
-  margin: 0 0 8px;
+  margin: 0 0 14px;
   color: var(--color-text);
-  font-size: 1.6rem;
+  font-size: clamp(2.5rem, 5vw, 4.3rem);
   font-weight: 510;
-  letter-spacing: -0.288px;
+  letter-spacing: -1.6px;
+  line-height: 0.95;
 }
 
 .leader-card p {
   margin: 0;
   color: var(--color-text-secondary);
-  font-size: 0.95rem;
+  font-size: 1rem;
+}
+
+.leader-card .leader-role {
+  margin-bottom: 12px;
+  color: var(--color-accent-hover);
+  font-size: 1.05rem;
+  font-weight: 590;
+}
+
+.leader-card .leader-bio {
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+.leader-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.leader-tags span {
+  border: 1px solid var(--border-standard);
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
 }
 
 .member-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .member-card {
-  min-height: 92px;
-  padding: 18px;
+  min-height: 116px;
+  padding: 20px;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
-.member-card span {
+.member-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  background: var(--color-card-hover);
+}
+
+.member-card .member-index {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 18px;
   color: var(--color-text-muted);
   font-size: 0.8rem;
+  letter-spacing: 0.04em;
 }
 
 .member-card strong {
@@ -351,6 +455,28 @@ const memberSlots = Array.from({ length: 6 }, (_, index) => index + 1)
   .leader-card,
   .member-card {
     padding: 20px;
+  }
+
+  .leader-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 20px;
+  }
+
+  .leader-portrait {
+    width: min(100%, 320px);
+  }
+
+  .leader-info {
+    padding-right: 0;
+  }
+
+  .leader-card h3 {
+    font-size: clamp(2.25rem, 14vw, 3.25rem);
+  }
+
+  .leader-tags {
+    margin-top: 20px;
   }
 }
 </style>

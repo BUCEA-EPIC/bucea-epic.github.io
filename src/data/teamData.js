@@ -3,6 +3,7 @@ import huaFengFang from '@/assets/team/化老师.jpg'
 import laoJunYan from '@/assets/team/劳均彦.jpg'
 import fanYu from '@/assets/team/樊彧.jpg'
 import pengCanWen from '@/assets/team/彭粲文.jpg'
+import caiSiYao from '@/assets/team/caisiyao.jpg'
 import wangYaJie from '@/assets/team/王雅洁.jpg'
 import wangYuHan from '@/assets/team/王宇涵.jpg'
 
@@ -27,7 +28,7 @@ export const coreTeam = [
   { name: '劳均彦', role: '吉祥物', bio: '', avatar: laoJunYan },
   { name: '樊彧', role: '', bio: '嵌入式开发、Web开发和网络运维，以及本网站的开发和维护。', avatar: fanYu },
   { name: '彭粲文', role: '', bio: '机电学院，机器人专业', avatar: pengCanWen },
-  { name: '蔡思瑶', role: '', bio: '测绘学院，遥感科学与技术专业', avatar: noImage },
+  { name: '蔡思瑶', role: '主要负责人', bio: '测绘学院，遥感科学与技术专业', avatar: caiSiYao },
   { name: '王雅洁', role: '', bio: '智科学院，电气工程及其自动化专业', avatar: wangYaJie },
   { name: '王宇涵', role: '', bio: '机电学院，机器人专业', avatar: wangYuHan },
   { name: '张培豪', role: '', bio: '理学院，信息与计算科学专业', avatar: noImage },
