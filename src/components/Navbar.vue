@@ -60,14 +60,16 @@ const closeMenu = () => (menuOpen.value = false);
 
 <style scoped>
 .navbar {
-  background: #ffffff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  padding: 1rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
+  padding: 0;
+  background: rgba(8, 9, 10, 0.86);
+  border-bottom: 1px solid var(--border-subtle);
+  backdrop-filter: blur(18px);
 }
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -76,15 +78,17 @@ const closeMenu = () => (menuOpen.value = false);
   justify-content: space-between;
   align-items: center;
   gap: 18px;
+  min-height: 76px;
   position: relative;
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #343a40;
+  color: var(--color-text);
+  font-size: 1.22rem;
+  font-weight: 510;
+  letter-spacing: -0.182px;
+  line-height: 1.15;
   text-decoration: none;
-  line-height: 1.2;
   flex: 0 0 auto;
   white-space: nowrap;
 }
@@ -102,21 +106,27 @@ const closeMenu = () => (menuOpen.value = false);
   flex-wrap: nowrap;
   justify-content: flex-end;
   min-width: 0;
+  gap: 4px;
 }
+
 .nav-links-desktop a {
-  color: #555;
-  margin: 0 12px;
+  margin: 0;
+  padding: 8px 9px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 510;
   text-decoration: none;
-  font-size: 0.95rem;
-  padding-bottom: 5px;
-  border-bottom: 2px solid transparent;
-  transition: color 0.3s, border-bottom-color 0.3s;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   white-space: nowrap;
 }
+
 .nav-links-desktop a:hover,
 .nav-links-desktop a.router-link-exact-active {
-  color: #007bff;
-  border-bottom-color: #007bff;
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-standard);
+  color: var(--color-text);
 }
 
 /* 手机端导航 */
@@ -124,8 +134,14 @@ const closeMenu = () => (menuOpen.value = false);
   display: none;
   flex: 0 0 auto;
   padding: 9px 13px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-control);
+  color: var(--color-text);
   font-size: 0.94rem;
+  font-weight: 510;
   line-height: 1;
+  cursor: pointer;
 }
 
 /* 手机端下拉菜单 */
@@ -133,9 +149,11 @@ const closeMenu = () => (menuOpen.value = false);
   position: absolute;
   top: calc(100% + 10px);
   right: 20px;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  border-radius: 8px;
+  background: rgba(15, 16, 17, 0.98);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(18px);
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -148,15 +166,19 @@ const closeMenu = () => (menuOpen.value = false);
 .nav-links-mobile a {
   min-height: 42px;
   padding: 10px 12px;
-  color: #555;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: var(--color-text-secondary);
   text-decoration: none;
   font-size: 0.95rem;
-  border-radius: 6px;
+  font-weight: 510;
 }
 
+.nav-links-mobile a:hover,
 .nav-links-mobile a.router-link-exact-active {
-  color: #007bff;
-  background: #eef6ff;
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-standard);
+  color: var(--color-text);
 }
 
 /* ---------- 动画定义 ---------- */
@@ -202,12 +224,13 @@ const closeMenu = () => (menuOpen.value = false);
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 0.7rem 0;
+    padding: 0;
   }
 
   .container {
     padding: 0 12px;
     gap: 12px;
+    min-height: 68px;
   }
 
   /* 手机端 LOGO 换行 */
@@ -225,13 +248,8 @@ const closeMenu = () => (menuOpen.value = false);
 
   .more-btn {
     flex: 0 0 auto;
-    background: #007bff;
-    color: white;
-    border: none;
     padding: 8px 12px;
-    border-radius: 6px;
     font-size: 0.9rem;
-    cursor: pointer;
   }
 
   .nav-links-mobile {

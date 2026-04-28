@@ -45,11 +45,12 @@ const showBeianLinks =
 
 <style scoped>
 .footer {
-  background-color: #343a40;
-  color: #f8f9fa;
-  padding: 20px 0;
+  background: var(--color-bg-deep);
+  border-top: 1px solid var(--border-subtle);
+  color: var(--color-text-muted);
+  padding: 24px 0;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .container {
@@ -60,7 +61,8 @@ const showBeianLinks =
 
 .copyright {
   margin: 5px 0;
-  color: #adb5bd;
+  color: var(--color-text-muted);
+  line-height: 1.6;
 }
 
 .beian-links {
@@ -77,18 +79,18 @@ const showBeianLinks =
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #adb5bd;
+  color: var(--color-text-muted);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .beian-links a:hover {
-  color: #f8f9fa;
-  text-decoration: underline;
+  color: var(--color-text);
+  text-decoration: none;
 }
 
 .beian-separator {
-  color: #6c757d;
+  color: var(--color-text-subtle);
   user-select: none;
 }
 

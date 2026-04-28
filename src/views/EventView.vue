@@ -58,16 +58,16 @@ function checkFile(url) {
       <div class="text-content animate-text">
         <h2>赛事简介</h2>
         <p>
-          <span style="font-weight: bold;">“萌新种子杯”</span>由<span style="font-weight: bold;">工程实践创新中心</span>主办。<br/>
-          本次赛事整体规划和赛题设计由<span style="font-weight: bold;">工创中心314工作室</span>负责,
-          <span style="font-weight: bold;">学D317工作室</span>协助承办开关电源设计赛道，
-          <span style="font-weight: bold;">机器人社</span>提供培训支持。
+          <strong>“萌新种子杯”</strong>由<strong>工程实践创新中心</strong>主办。<br/>
+          本次赛事整体规划和赛题设计由<strong>工创中心314工作室</strong>负责,
+          <strong>学D317工作室</strong>协助承办开关电源设计赛道，
+          <strong>机器人社</strong>提供培训支持。
         </p>
         <p>
           比赛共设三个赛道：
-          <a href="#track1"><span style="font-weight: bold;">视觉循迹仿真赛道</span></a>、
-          <a href="#track2"><span style="font-weight: bold;">开关电源设计赛道</span></a>以及
-          <a href="#track3"><span style="font-weight: bold;">三维建模设计赛道</span></a>。
+          <a href="#track1"><strong>视觉循迹仿真赛道</strong></a>、
+          <a href="#track2"><strong>开关电源设计赛道</strong></a>以及
+          <a href="#track3"><strong>三维建模设计赛道</strong></a>。
         </p>
       </div>
       <div class="image-content animate-image">
@@ -75,24 +75,13 @@ function checkFile(url) {
       </div>
     </div>
 
-    <!-- <div class="content-section single-column animate-on-scroll">
-      <div class="text-content animate-text">
-        <h2>报名渠道</h2>
-        <p style="color: #ff0000; font-weight: bold; font-size: 20px; text-decoration: none;">
-          已截止报名
-        </p>
-      </div>
-    </div> -->
-
     <div id="schedule" class="content-section single-column animate-on-scroll">
       <div class="text-content animate-text">
         <h2>比赛时间</h2>
         <p>
-          于 <span style="font-weight: bold;">11月26日（周三）至12月15日（周一）</span> 举行。
+          于 <strong>11月26日（周三）至12月15日（周一）</strong> 举行。
         </p>
-        <p style="color: #ff0000; font-weight: bold; font-size: 20px; text-decoration: none;">
-          比赛已结束
-        </p>
+        <p class="event-status">比赛已结束</p>
       </div>
     </div>
 
@@ -188,11 +177,11 @@ function checkFile(url) {
 /* 样式保持不变，略 */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .header { text-align: center; padding: 60px 20px; margin-bottom: 60px; position: relative; overflow: hidden; }
-.header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 900; color: rgba(0,0,0,0.04); z-index: 1; user-select: none; white-space: nowrap; }
+.header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 590; color: rgba(255,255,255,0.032); z-index: 1; user-select: none; white-space: nowrap; }
 .header h1, .header p { position: relative; z-index: 2; animation: fadeInUp 0.8s ease-out forwards; }
-.header h1 { font-size: 3.5rem; font-weight: 300; margin-bottom: 20px; }
-.header h1::after { content: ''; display: block; width: 60px; height: 4px; background-color: #007bff; margin: 20px auto 0; }
-.header p { font-size: 1.25rem; color: #6c757d; margin-top: 0; animation-delay: 0.2s; }
+.header h1 { font-size: 3.5rem; font-weight: 510; letter-spacing: -1.056px; margin-bottom: 20px; }
+.header h1::after { content: ''; display: block; width: 42px; height: 1px; background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent); margin: 20px auto 0; }
+.header p { font-size: 1.25rem; color: var(--color-text-secondary); margin-top: 0; animation-delay: 0.2s; }
 
 /* 页面容器 */
 .page-container { max-width: 1000px; margin: 0 auto; padding: 0 15px 30px; }
@@ -206,10 +195,22 @@ function checkFile(url) {
 /* 内容布局 */
 .content-section { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; }
 .text-content { flex: 0.5; }
-.text-content h2 { font-size: 1.8rem; font-weight: 400; border-bottom: 2px solid #007bff; padding-bottom: 4px; margin-bottom: 10px; display: inline-block; }
-.text-content p { line-height: 1.4; color: #495057; font-size: 0.95rem; }
-.text-content a { text-decoration: none; color: #007bff; cursor: pointer; }
+.text-content h2 { font-size: 1.8rem; font-weight: 510; border-bottom: 1px solid var(--border-standard); padding-bottom: 4px; margin-bottom: 10px; display: inline-block; color: var(--color-text); letter-spacing: -0.288px; }
+.text-content p { line-height: 1.6; color: var(--color-text-secondary); font-size: 0.95rem; }
+.text-content a { text-decoration: none; color: var(--color-accent-hover); cursor: pointer; }
 .single-column { flex-direction: column; align-items: flex-start; padding: 0; }
+.event-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border-standard);
+  border-radius: 9999px;
+  background: rgba(113, 112, 255, 0.1);
+  color: var(--color-text);
+  font-size: 0.88rem;
+  font-weight: 510;
+}
 
 /* 图片 */
 .image-content { flex: 0.5; display: flex; justify-content: center; align-items: center; }
@@ -226,25 +227,25 @@ function checkFile(url) {
 
 /* 获奖信息卡片容器 */
 .awards-card {
-  background: linear-gradient(to right, #f8f9fa, #ffffff);
-  border: 1px solid #e9ecef;
-  border-left: 5px solid #ffc107; /* 左侧金色边框强调获奖 */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.048), rgba(255, 255, 255, 0.022));
+  border: 1px solid var(--border-standard);
+  border-left: 1px solid rgba(130, 143, 255, 0.32);
   border-radius: 8px;
   padding: 25px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .awards-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
 }
 
 /* 文本排版 */
 .awards-info p {
   margin-bottom: 12px;
   line-height: 1.6;
-  color: #495057;
+  color: var(--color-text-secondary);
 }
 
 .awards-info p:last-of-type {
@@ -253,13 +254,13 @@ function checkFile(url) {
 
 /* 高亮通知文本 */
 .highlight-notice {
-  color: #856404;
-  background-color: #fff3cd;
+  color: var(--color-text-secondary);
+  background: rgba(113, 112, 255, 0.1);
   padding: 10px 15px;
   border-radius: 6px;
-  font-weight: 500;
+  font-weight: 510;
   display: inline-block;
-  border: 1px solid #ffeeba;
+  border: 1px solid rgba(130, 143, 255, 0.24);
 }
 
 .notice-icon {
@@ -273,23 +274,22 @@ function checkFile(url) {
   justify-content: space-between;
   width: 100%;
   max-width: 400px; /* 限制按钮最大宽度 */
-  background-color: white;
-  border: 2px solid #007bff;
-  color: #007bff;
+  background: var(--color-brand);
+  border: 1px solid rgba(130, 143, 255, 0.6);
+  color: var(--color-text);
   padding: 12px 20px;
-  border-radius: 50px; /* 圆角按钮 */
+  border-radius: 6px;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 510;
   font-size: 1.05rem;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.15);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: none;
 }
 
 .awards-link-btn:hover {
-  background-color: #007bff;
-  color: white;
-  transform: scale(1.02);
-  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  background: var(--color-accent-hover);
+  color: var(--color-text);
+  transform: translateY(-1px);
   text-decoration: none; /* 覆盖默认下划线 */
 }
 

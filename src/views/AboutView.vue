@@ -63,11 +63,11 @@ onMounted(() => {
 /* 页面头部 */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .header { text-align: center; padding: 60px 20px; margin-bottom: 60px; position: relative; overflow: hidden; }
-.header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 900; color: rgba(0, 0, 0, 0.04); z-index: 1; user-select: none; white-space: nowrap; }
+.header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 590; color: rgba(255, 255, 255, 0.032); z-index: 1; user-select: none; white-space: nowrap; }
 .header h1, .header p { position: relative; z-index: 2; animation: fadeInUp 0.8s ease-out forwards; }
-.header h1 { font-size: 3.5rem; font-weight: 300; margin-bottom: 20px; }
-.header h1::after { content: ''; display: block; width: 60px; height: 4px; background-color: #007bff; margin: 20px auto 0; }
-.header p { font-size: 1.25rem; color: #6c757d; margin-top: 0; animation-delay: 0.2s; }
+.header h1 { font-size: 3.5rem; font-weight: 510; letter-spacing: -1.056px; margin-bottom: 20px; }
+.header h1::after { content: ''; display: block; width: 42px; height: 1px; background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent); margin: 20px auto 0; }
+.header p { font-size: 1.25rem; color: var(--color-text-secondary); margin-top: 0; animation-delay: 0.2s; }
 
 /* 页面容器 */
 .page-container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
@@ -96,19 +96,20 @@ onMounted(() => {
 .content-section.reverse { flex-direction: row-reverse; }
 
 .text-content { flex: 1; }
-.text-content h2 { font-size: 2rem; font-weight: 300; border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px; display: inline-block; }
-.text-content p { line-height: 1.8; color: #495057; }
+.text-content h2 { font-size: 2rem; font-weight: 510; border-bottom: 1px solid var(--border-standard); padding-bottom: 10px; margin-bottom: 20px; display: inline-block; color: var(--color-text); letter-spacing: -0.704px; }
+.text-content p { line-height: 1.8; color: var(--color-text-secondary); }
 
 .image-content { flex: 1; }
 .image-content img {
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border: 1px solid var(--border-standard);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 .image-content img:hover {
-  transform: translateY(-10px) scale(1.05);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
 }
 
 /* 移动端适配 */

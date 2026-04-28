@@ -64,8 +64,8 @@ onMounted(() => {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 10rem;
-  font-weight: 900;
-  color: rgba(0, 0, 0, 0.04);
+  font-weight: 590;
+  color: rgba(255, 255, 255, 0.032);
   z-index: 1;
   user-select: none;
   white-space: nowrap;
@@ -80,22 +80,23 @@ onMounted(() => {
 
 .header h1 {
   font-size: 3.5rem;
-  font-weight: 300;
+  font-weight: 510;
+  letter-spacing: -1.056px;
   margin-bottom: 20px;
 }
 
 .header h1::after {
   content: '';
   display: block;
-  width: 60px;
-  height: 4px;
-  background-color: #007bff;
+  width: 42px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent);
   margin: 20px auto 0;
 }
 
 .header p {
   font-size: 1.25rem;
-  color: #6c757d;
+  color: var(--color-text-secondary);
   margin-top: 0;
   animation-delay: 0.2s;
 }
@@ -123,28 +124,30 @@ onMounted(() => {
 .contact-content {
   max-width: 680px;
   margin: 0 auto;
-  background: #fff;
+  background: var(--color-card);
+  border: 1px solid var(--border-standard);
   padding: 40px;
   border-radius: 8px;
-  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
 }
 
 .contact-info h3 {
   font-size: 1.5rem;
-  font-weight: 400;
-  border-bottom: 2px solid #007bff;
+  font-weight: 510;
+  border-bottom: 1px solid var(--border-standard);
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
 
 .contact-info p {
   line-height: 1.8;
-  color: #495057;
+  color: var(--color-text-secondary);
 }
 
 .contact-info .icon {
   display: inline-block;
   width: 20px;
+  color: var(--color-accent-hover);
 }
 
 /* QQ群居中样式 */
@@ -156,21 +159,22 @@ onMounted(() => {
 .qq-group p {
   margin-bottom: 15px;
   font-size: 1rem;
-  color: #495057;
+  color: var(--color-text-secondary);
 }
 
 .qq-group .qq-image {
   width: 40%;
   max-width: 400px;
   border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-standard);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
 }
 
 .qq-group .qq-image:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
 }
 
 /* 响应式 */

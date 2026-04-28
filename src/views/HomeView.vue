@@ -151,7 +151,7 @@ onMounted(() => {
   color: var(--color-text);
   font-size: 5.75rem;
   font-weight: 510;
-  letter-spacing: 0;
+  letter-spacing: -1.584px;
   line-height: 0.98;
 }
 
@@ -189,12 +189,12 @@ onMounted(() => {
 .primary-link {
   background: var(--color-brand);
   border: 1px solid rgba(130, 143, 255, 0.6);
-  color: #fff;
+  color: var(--color-text);
 }
 
 .primary-link:hover {
   background: var(--color-accent-hover);
-  color: #fff;
+  color: var(--color-text);
 }
 
 .secondary-link {
@@ -214,7 +214,7 @@ onMounted(() => {
   height: 118px;
   border: 1px solid var(--border-standard);
   border-radius: 22px;
-  background: #fff;
+  background: var(--color-text);
   box-shadow: var(--shadow-card);
 }
 
@@ -252,10 +252,10 @@ onMounted(() => {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease;
 }
-.about-image img:hover { transform: scale(1.05); }
+.about-image img:hover { transform: translateY(-4px); }
 
 /* ========== 新闻卡片 ========== */
 .news-grid {
@@ -265,23 +265,24 @@ onMounted(() => {
 }
 
 .news-card {
-  background: #ffffff;
+  background: var(--color-card);
+  border: 1px solid var(--border-standard);
   border-radius: 8px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
 ::v-deep(.news-card:hover) {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
 }
 
 .card-image-wrapper {
   overflow: hidden;
   width: 100%;
   height: 200px;
-  background-color: #f0f0f0;
+  background: var(--color-panel);
 }
 
 .card-image-wrapper img {
@@ -300,11 +301,11 @@ onMounted(() => {
 .news-card h3 {
   margin-top: 0;
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 510;
 }
 
 .news-card p {
-  color: #6c757d;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
 }

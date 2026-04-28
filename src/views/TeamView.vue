@@ -96,8 +96,8 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 10rem;
-  font-weight: 900;
-  color: rgba(0, 0, 0, 0.04);
+  font-weight: 590;
+  color: rgba(255, 255, 255, 0.032);
   z-index: 1;
   user-select: none;
   white-space: nowrap;
@@ -111,22 +111,23 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
 
 .header h1 {
   font-size: 3.5rem;
-  font-weight: 300;
+  font-weight: 510;
+  letter-spacing: -1.056px;
   margin-bottom: 20px;
 }
 
 .header h1::after {
   content: '';
   display: block;
-  width: 60px;
-  height: 4px;
-  background-color: #007bff;
+  width: 42px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent);
   margin: 20px auto 0;
 }
 
 .header p {
   font-size: 1.25rem;
-  color: #6c757d;
+  color: var(--color-text-secondary);
   margin-top: 0;
 }
 
@@ -168,8 +169,10 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
 }
 
 .team-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 22px 68px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  background: var(--color-card-hover);
+  box-shadow: var(--shadow-card);
 }
 
 .team-card img {
