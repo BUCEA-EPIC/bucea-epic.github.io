@@ -1,22 +1,17 @@
 <script setup>
-import { useRoute } from 'vue-router'
-// 请确保路径正确，如果你的组件在其他位置，请调整 import 路径
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
-
-// 获取当前路由对象，用于访问 meta 属性
-const route = useRoute()
 </script>
 
 <template>
   <div id="app">
-    <Navbar v-if="!route.meta.hideLayout" />
+    <Navbar />
     
-    <main :class="route.meta.hideLayout ? '' : 'main-content'">
+    <main class="main-content">
       <router-view />
     </main>
     
-    <Footer v-if="!route.meta.hideLayout" />
+    <Footer />
   </div>
 </template>
 

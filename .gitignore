@@ -67,92 +67,6 @@ out/
 *.elc
 
 # ==========================
-# Python / FastAPI (后端)
-# ==========================
-# Python 字节码
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-
-# 虚拟环境
-venv/
-env/
-ENV/
-env.bak/
-venv.bak/
-.venv
-
-# 分发/打包
-*.egg
-*.egg-info/
-dist/
-build/
-eggs/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.manifest
-*.spec
-
-# PyInstaller
-*.manifest
-*.spec
-
-# 单元测试 / 覆盖率
-.pytest_cache/
-.coverage
-.coverage.*
-htmlcov/
-.tox/
-.nox/
-.hypothesis/
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb
-
-# pyenv
-.python-version
-
-# pipenv
-Pipfile.lock
-
-# PEP 582
-__pypackages__/
-
-# Celery
-celerybeat-schedule
-celerybeat.pid
-
-# 数据库文件
-*.db
-*.sqlite
-*.sqlite3
-fastapi/submissions.db
-fastapi/submissions.db-journal
-
-# 上传文件目录
-fastapi/uploads/
-fastapi/uploads/*
-
-# 环境变量文件 (包含敏感信息)
-.env
-.env.local
-.env.*.local
-*.env
-
-# 日志文件
-*.log
-logs/
-*.log.*
-
-# ==========================
 # Node.js / Vue.js (前端)
 # ==========================
 # 依赖
@@ -189,6 +103,7 @@ coverage/
 .turbo/
 
 # 环境变量
+.env
 .env.local
 .env.*.local
 .env.production
@@ -197,23 +112,6 @@ coverage/
 # 编辑器配置
 .vscode/
 .idea/
-
-# ==========================
-# 项目特定文件 (Project Specific)
-# ==========================
-# 上传文件
-fastapi/uploads/
-!fastapi/uploads/.gitkeep
-
-# 数据库文件
-fastapi/submissions.db
-fastapi/submissions.db-journal
-fastapi/submissions.db-shm
-fastapi/submissions.db-wal
-
-# 构建产物
-vue3/dist/
-vue3/.vite/
 
 # 临时文件
 *.tmp
@@ -251,9 +149,3 @@ site/
 *.bak
 *.backup
 *~
-
-# ==========================
-# 保留空目录 (Keep Empty Directories)
-# ==========================
-# 使用 .gitkeep 保留必要的空目录结构
-!fastapi/uploads/.gitkeep

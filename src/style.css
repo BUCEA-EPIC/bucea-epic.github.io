@@ -208,12 +208,7 @@ textarea {
 #app .resource-grid li,
 #app .news-item-inner,
 #app .contact-content,
-#app .awards-card,
-#app .submission-form,
-#app .modal-box,
-#app .login-card,
-#app .top-bar,
-#app .table-card {
+#app .awards-card {
   background: var(--color-card);
   border: 1px solid var(--border-standard);
   border-radius: var(--radius-card);
@@ -352,7 +347,7 @@ textarea {
 }
 
 #app .more-btn,
-#app button:not(.el-button) {
+#app button {
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--border-standard);
   border-radius: var(--radius-control);
@@ -362,23 +357,19 @@ textarea {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-#app button:not(.el-button):hover,
+#app button:hover,
 #app .more-btn:hover {
   background: rgba(255, 255, 255, 0.055);
   border-color: var(--border-strong);
   color: var(--color-text);
 }
 
-#app .submit-button,
-#app .btn-confirm,
 #app .awards-link-btn {
   background: var(--color-brand);
   border-color: rgba(130, 143, 255, 0.6);
   color: #fff;
 }
 
-#app .submit-button:hover,
-#app .btn-confirm:hover,
 #app .awards-link-btn:hover {
   background: var(--color-accent-hover);
   color: #fff;
@@ -401,41 +392,6 @@ textarea {
   color: var(--color-text-muted);
 }
 
-#app .form-group label {
-  color: var(--color-text-secondary);
-  font-weight: 510;
-}
-
-#app .form-group select,
-#app .form-group input[type="text"],
-#app .modal-box input,
-#app .modal-box textarea {
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-control);
-  color: var(--color-text);
-}
-
-#app .form-group input::placeholder {
-  color: var(--color-text-subtle);
-}
-
-#app .form-group select:focus,
-#app .form-group input[type="text"]:focus {
-  border-color: rgba(130, 143, 255, 0.62);
-  box-shadow: 0 0 0 3px rgba(113, 112, 255, 0.16);
-}
-
-#app .note.success,
-#app .submission-status.success {
-  color: #7ee4a2;
-}
-
-#app .required,
-#app .submission-status.error {
-  color: var(--color-danger);
-}
-
 #app .highlight-notice {
   background: rgba(246, 196, 83, 0.09);
   border: 1px solid rgba(246, 196, 83, 0.24);
@@ -450,157 +406,6 @@ textarea {
 #app .awards-link-btn {
   border-radius: var(--radius-control);
   max-width: 460px;
-}
-
-#app .modal-overlay {
-  background: rgba(0, 0, 0, 0.85);
-}
-
-#app .modal-box h3,
-#app .modal-list,
-#app .modal-tip {
-  color: var(--color-text-secondary);
-}
-
-#app .btn-cancel {
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid var(--border-standard);
-  color: var(--color-text-secondary);
-}
-
-#app .btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.055);
-  color: var(--color-text);
-}
-
-#app .admin-wrapper {
-  min-height: 100vh;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: inherit;
-}
-
-#app .login-container {
-  background: var(--color-bg);
-}
-
-#app .dashboard-container {
-  color: var(--color-text);
-}
-
-#app .bar-left h2,
-#app .login-card h2 {
-  color: var(--color-text);
-  font-weight: 510;
-  letter-spacing: -0.704px;
-}
-
-#app .student-row {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle);
-  color: var(--color-text-secondary);
-}
-
-#app .s-name {
-  color: var(--color-text);
-}
-
-#app .s-cls,
-#app .s-id,
-#app .stats {
-  color: var(--color-text-muted);
-}
-
-#app .s-id {
-  font-family: "Berkeley Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-}
-
-#app .star-btn {
-  color: var(--color-text-subtle);
-}
-
-#app .star-btn:hover,
-#app .star-btn.is-active {
-  color: var(--color-warning);
-}
-
-#app .admin-wrapper .el-card,
-#app .admin-wrapper .el-table,
-#app .admin-wrapper .el-table__inner-wrapper,
-#app .admin-wrapper .el-table tr,
-#app .admin-wrapper .el-table th.el-table__cell,
-#app .admin-wrapper .el-table td.el-table__cell {
-  background: transparent;
-  color: var(--color-text-secondary);
-}
-
-#app .admin-wrapper .el-card {
-  border-color: var(--border-standard);
-}
-
-#app .admin-wrapper .el-table {
-  --el-table-border-color: var(--border-subtle);
-  --el-table-header-bg-color: rgba(255, 255, 255, 0.035);
-  --el-table-tr-bg-color: transparent;
-  --el-table-row-hover-bg-color: rgba(255, 255, 255, 0.045);
-  --el-table-text-color: var(--color-text-secondary);
-  --el-table-header-text-color: var(--color-text);
-}
-
-#app .admin-wrapper .el-input__wrapper,
-#app .admin-wrapper .el-select__wrapper,
-#app .admin-wrapper .el-input-number__decrease,
-#app .admin-wrapper .el-input-number__increase,
-#app .admin-wrapper .el-checkbox.is-bordered {
-  background: rgba(255, 255, 255, 0.035) !important;
-  border-color: var(--border-standard) !important;
-  box-shadow: 0 0 0 1px var(--border-standard) inset !important;
-  color: var(--color-text);
-}
-
-#app .admin-wrapper .el-input__inner,
-#app .admin-wrapper .el-select__placeholder,
-#app .admin-wrapper .el-checkbox__label {
-  color: var(--color-text-secondary);
-}
-
-#app .admin-wrapper .el-button {
-  border-radius: var(--radius-control);
-}
-
-#app .admin-wrapper .el-tag {
-  border-color: var(--border-standard);
-}
-
-body .el-overlay {
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
-body .el-dialog,
-body .el-message-box {
-  background: var(--color-panel);
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-panel);
-  box-shadow: var(--shadow-card);
-  color: var(--color-text);
-}
-
-body .el-dialog__title,
-body .el-dialog__body,
-body .el-message-box__title,
-body .el-message-box__content {
-  color: var(--color-text-secondary);
-}
-
-body .el-dialog .el-input__wrapper,
-body .el-dialog .el-select__wrapper {
-  background: rgba(255, 255, 255, 0.035);
-  box-shadow: 0 0 0 1px var(--border-standard) inset;
-}
-
-body .el-dialog .el-input__inner,
-body .el-dialog .el-form-item__label {
-  color: var(--color-text-secondary);
 }
 
 @media (max-width: 1180px) {

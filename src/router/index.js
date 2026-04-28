@@ -14,15 +14,6 @@ const routes = [
   { path: '/contact', name: 'Contact', component: () => import('../views/ContactView.vue') },
   { path: '/event', name: 'Event', component: () => import('../views/EventView.vue') },
 
-  // --- 管理员页面 ---
-  { 
-    path: '/admin', 
-    name: 'Admin', 
-    component: () => import('../views/AdminView.vue'),
-    // 【关键点】添加这个 meta 标记，告诉 App.vue 隐藏导航栏和页脚
-    meta: { hideLayout: true } 
-  },
-
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ]
 

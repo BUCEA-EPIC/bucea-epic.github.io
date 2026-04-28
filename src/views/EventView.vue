@@ -120,15 +120,6 @@ function checkFile(url) {
       </div>
     </div>
 
-    <!-- <div id="submit" class="content-section single-column animate-on-scroll submission-guide">
-      <div class="text-content animate-text">
-        <h2>📧 作品提交</h2>
-        <p style="color: #ff0000; font-weight: bold; font-size: 20px; text-decoration: none;">
-          作品提交已截止
-        </p>
-      </div>
-    </div> -->
-
     <div class="track-container">
         <div id="track1" class="content-section animate-on-scroll">
           <div class="text-content animate-text">
@@ -220,138 +211,11 @@ function checkFile(url) {
 .text-content a { text-decoration: none; color: #007bff; cursor: pointer; }
 .single-column { flex-direction: column; align-items: flex-start; padding: 0; }
 
-/* 表单 */
-.submission-guide .text-content { width: 100%; }
-.submission-form { width: 100%; max-width: 600px; margin-top: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #f8f9fa; }
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #343a40; }
-.required { color: #dc3545; margin-left: 3px; }
-.form-group select, .form-group input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-size: 1rem; }
-.form-group input[type="file"] { padding: 8px 0; }
-
-/* 学生信息行 */
-.input-header-row { display: flex; gap: 10px; margin-bottom: 5px; padding: 0 10px; }
-.header-label { flex: 1; font-size: 0.85rem; font-weight: bold; color: #555; }
-.header-placeholder, .header-placeholder-btn { width: 24px; min-width: 25px; }
-
-.student-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; background: #fff; padding: 10px; border: 1px solid #eee; border-radius: 4px; }
-.row-label { font-size: 0.9rem; color: #666; min-width: 25px; }
-.input-triple-group { display: flex; flex: 1; gap: 8px; }
-.input-triple-group input { flex: 1; min-width: 0; padding: 8px !important; font-size: 0.9rem !important; }
-
-/* 按钮 */
-.remove-btn { background-color: #dc3545; color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; padding: 0; }
-.add-btn { background-color: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-top: 5px; font-size: 0.9rem; }
-.submit-button { width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 1.1rem; cursor: pointer; transition: background-color 0.3s ease; }
-.submit-button:disabled { background-color: #adb5bd; cursor: not-allowed; }
-
-/* 其他组件 */
-.note { font-size: 0.85rem; margin-top: 5px; margin-bottom: 0; }
-.note.info { color: #007bff; margin-bottom: 10px; }
-.note.success { color: #28a745; }
-.deadline-info { border-top: 1px dashed #ced4da; padding-top: 15px; margin-top: 20px; margin-bottom: 20px; }
-.deadline-info p { color: #dc3545; font-size: 1rem; }
-.progress-bar-container { width: 100%; height: 10px; background-color: #e9ecef; border-radius: 5px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background-color: #28a745; transition: width 0.2s ease; }
-.progress-text { font-size: 0.85rem; color: #666; margin-top: 5px; text-align: center; }
-.submission-status { margin-top: 15px; padding: 10px; border-radius: 4px; font-weight: bold; }
-.submission-status.success { background-color: #d4edda; color: #155724; }
-.submission-status.error { background-color: #f8d7da; color: #721c24; }
-
 /* 图片 */
 .image-content { flex: 0.5; display: flex; justify-content: center; align-items: center; }
 .image-content img { width: 100%; max-width: 600px; border-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
 .image-content img:hover { transform: translateY(-5px); }
 .qq-group-img { width: 250px !important; }
-
-/* --- 新增：弹窗样式 --- */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
-  backdrop-filter: blur(5px); /* 背景模糊效果 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease;
-}
-
-.modal-box {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  width: 90%;
-  max-width: 400px;
-  text-align: left;
-  animation: scaleIn 0.3s ease;
-}
-
-.modal-box h3 {
-  margin-top: 0;
-  color: #333;
-  font-size: 1.4rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-}
-
-.modal-list {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0;
-  font-size: 0.95rem;
-  color: #555;
-}
-
-.modal-list li {
-  margin-bottom: 6px;
-}
-
-.modal-tip {
-  font-size: 0.85rem;
-  color: #888;
-  margin-top: 15px;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 25px;
-}
-
-.btn-cancel {
-  padding: 8px 16px;
-  background: #f1f3f5;
-  color: #495057;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.btn-cancel:hover { background: #e9ecef; }
-
-.btn-confirm {
-  padding: 8px 16px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s;
-}
-.btn-confirm:hover { background: #0056b3; }
-
-/* 成功弹窗特有样式 */
-.success-box { text-align: center; }
-.success-icon { font-size: 3rem; margin-bottom: 10px; }
-.success-box .modal-buttons { justify-content: center; }
 
 /* --- 获奖公示板块优化样式 --- */
 
@@ -452,10 +316,6 @@ function checkFile(url) {
   transform: translateX(0);
 }
 
-/* 弹窗动画 */
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
 /* 移动端 */
 @media (max-width: 768px) {
   .header-bg-text { font-size: 6rem; }
@@ -475,12 +335,6 @@ function checkFile(url) {
   .image-content img {
     max-width: 100%;
   }
-  .input-header-row { display: none; }
-  .student-row { flex-direction: column; align-items: stretch; }
-  .input-triple-group { flex-direction: column; }
-  .remove-btn { align-self: flex-end; margin-top: -10px; }
-  .input-triple-group input::placeholder { color: #999; }
-  
   .awards-card {
     padding: 20px;
   }
@@ -507,18 +361,5 @@ function checkFile(url) {
     font-size: 0.9rem;
   }
 
-  .modal-box {
-    padding: 22px;
-  }
-
-  .modal-buttons {
-    flex-direction: column-reverse;
-  }
-
-  .btn-cancel,
-  .btn-confirm {
-    width: 100%;
-  }
 }
-@media (min-width: 769px) { .input-triple-group input::placeholder { color: transparent; } }
 </style>
