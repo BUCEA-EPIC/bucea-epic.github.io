@@ -35,11 +35,12 @@ html {
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f8f9fa;
-  color: #333;
+  font-family: "Inter Variable", Inter, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #08090a;
+  color: #f7f8f8;
   line-height: 1.5;
   overflow-x: hidden;
+  font-feature-settings: "cv01", "ss03";
 }
 
 img,
@@ -59,12 +60,12 @@ textarea {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: #08090a;
 }
 
-/* 普通页面的内容区域样式：保持 20px 内边距 */
 .main-content {
   flex: 1;
-  padding: 20px;
+  padding: 0 20px 72px;
 }
 
 @media (max-width: 768px) {

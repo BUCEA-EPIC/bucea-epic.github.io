@@ -1,33 +1,18 @@
 <script setup>
-import { onMounted } from 'vue'
-import { advisors, coreTeam } from '../data/teamData.js'
+import { advisors } from '../data/teamData.js'
 
-// 滚动入场动画
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('is-visible')
-      })
-    },
-    { threshold: 0.1 }
-  )
-
-  document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el))
-})
+const memberSlots = Array.from({ length: 6 }, (_, index) => index + 1)
 </script>
 
 <template>
   <div class="page-container">
-    <!-- 页面头部 -->
     <div class="header">
       <span class="header-bg-text">TEAM</span>
-      <h1>我们的团队</h1>
-      <p>一群热爱创造的梦想家和实践者</p>
+      <h1>团队成员</h1>
+      <p>简单、清晰地展示当前团队结构</p>
     </div>
 
-    <!-- 指导老师 -->
-    <section class="team-section animate-on-scroll">
+    <section class="advisor-section">
       <h2>指导老师</h2>
       <div class="advisor-grid">
         <div class="team-card" v-for="advisor in advisors" :key="advisor.name">
@@ -43,42 +28,53 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- 核心团队 -->
-    <section class="team-section animate-on-scroll">
-      <h2>核心团队</h2>
-      <div class="team-grid">
-        <div class="team-card" v-for="member in coreTeam" :key="member.name">
-          <div class="image-wrapper-member">
-            <img :src="member.avatar" :alt="member.name">
-          </div>
-          <div class="card-info">
-            <h3>{{ member.name }}</h3>
-            <p class="role">{{ member.role }}</p>
-            <p class="bio">{{ member.bio }}</p>
+    <div class="team-layout">
+      <section class="team-block">
+        <div class="block-heading">
+          <span class="eyebrow">Lead</span>
+          <h2>主要负责人</h2>
+        </div>
+
+        <div class="leader-card">
+          <div>
+            <h3>蔡思瑶</h3>
+            <p>主要负责人</p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
+      <section class="team-block">
+        <div class="block-heading">
+          <span class="eyebrow">Members</span>
+          <h2>成员</h2>
+        </div>
+
+        <div class="member-grid">
+          <div
+            class="member-card"
+            v-for="slot in memberSlots"
+            :key="slot"
+          >
+            <span>成员 {{ slot }}</span>
+            <strong>待添加</strong>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
 <style scoped>
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 56px;
 }
 
 .header {
   text-align: center;
   padding: 60px 20px;
-  margin-bottom: 40px;
+  margin-bottom: 34px;
   position: relative;
   overflow: hidden;
 }
@@ -100,7 +96,6 @@ onMounted(() => {
 .header p {
   position: relative;
   z-index: 2;
-  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .header h1 {
@@ -122,37 +117,19 @@ onMounted(() => {
   font-size: 1.25rem;
   color: #6c757d;
   margin-top: 0;
-  animation-delay: 0.2s;
 }
 
-.page-container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 20px 40px;
+.advisor-section {
+  margin-bottom: 54px;
 }
 
-.team-section {
-  margin-bottom: 60px;
-}
-
-.team-section h2 {
+.advisor-section h2 {
+  margin: 0 0 32px;
+  color: var(--color-text);
   font-size: 2rem;
-  font-weight: 300;
+  font-weight: 510;
+  letter-spacing: -0.704px;
   text-align: center;
-  margin-bottom: 40px;
-}
-
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(50px);
-  filter: blur(5px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out, filter 0.8s ease-out;
-}
-
-.animate-on-scroll.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
 }
 
 .advisor-grid {
@@ -167,17 +144,12 @@ onMounted(() => {
   flex-shrink: 0;
 }
 
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
 .team-card {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-standard);
   border-radius: 8px;
+  box-shadow: var(--shadow-card);
   text-align: center;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -186,48 +158,30 @@ onMounted(() => {
 
 .team-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 22px 68px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.055);
 }
 
-/* ============================== */
-/* ⭐ 图片放大效果（悬停） */
-/* ============================== */
 .team-card img {
-  transition: transform 0.3s ease; /* 保证平滑过渡 */
+  transition: transform 0.3s ease;
 }
 
 .team-card:hover img {
-  transform: scale(1.05); /* 放大 5% */
+  transform: scale(1.05);
 }
 
-/* ============================== */
-/* ⭐ 指导老师：更大图片尺寸 */
-/* ============================== */
 .image-wrapper-advisor {
   width: 100%;
   height: 500px;
   overflow: hidden;
+  background: var(--color-panel);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .image-wrapper-advisor img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-/* ============================== */
-/* ⭐ 核心团队：普通尺寸 */
-/* ============================== */
-.image-wrapper-member {
-  width: 100%;
-  height: 280px;
-  overflow: hidden;
-}
-
-.image-wrapper-member img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  display: block;
 }
 
 .card-info {
@@ -236,38 +190,139 @@ onMounted(() => {
 
 .card-info h3 {
   margin: 0 0 5px;
+  color: var(--color-text);
   font-size: 1.3rem;
+  font-weight: 510;
 }
 
 .card-info .role {
-  color: #007bff;
+  color: var(--color-accent-hover);
   margin: 0 0 10px;
   font-size: 0.9rem;
-  font-weight: bold;
+  font-weight: 590;
 }
 
 .card-info .bio {
+  margin: 0;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
-  color: #6c757d;
+  line-height: 1.65;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
+.team-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.team-block {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.block-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--border-standard);
+  padding-bottom: 12px;
+}
+
+.block-heading h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.45rem;
+  font-weight: 510;
+  letter-spacing: -0.288px;
+}
+
+.eyebrow {
+  color: var(--color-accent-hover);
+  font-size: 0.75rem;
+  font-weight: 590;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.leader-card,
+.member-card {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-standard);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+}
+
+.leader-card {
+  display: flex;
+  align-items: center;
+  min-height: 132px;
+  padding: 28px;
+}
+
+.leader-card h3 {
+  margin: 0 0 8px;
+  color: var(--color-text);
+  font-size: 1.6rem;
+  font-weight: 510;
+  letter-spacing: -0.288px;
+}
+
+.leader-card p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.member-card {
+  min-height: 92px;
+  padding: 18px;
+}
+
+.member-card span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.member-card strong {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  font-weight: 510;
+}
+
 @media (max-width: 768px) {
+  .page-container {
+    padding: 0 0 40px;
+  }
+
   .header-bg-text {
     font-size: 6rem;
   }
 
-  .team-section {
+  .team-layout {
+    gap: 32px;
+  }
+
+  .advisor-section {
     margin-bottom: 42px;
   }
 
-  .team-section h2 {
+  .advisor-section h2 {
     margin-bottom: 24px;
   }
 
-  .advisor-grid,
-  .team-grid {
+  .advisor-grid {
     gap: 20px;
   }
 
@@ -279,12 +334,23 @@ onMounted(() => {
     height: min(420px, 115vw);
   }
 
-  .image-wrapper-member {
-    height: 240px;
-  }
-
   .card-info {
     padding: 18px;
+  }
+
+  .block-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .member-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .leader-card,
+  .member-card {
+    padding: 20px;
   }
 }
 </style>

@@ -21,7 +21,7 @@ onMounted(() => {
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el))
   })
 
-  const navHeight = 70
+  const navHeight = 82
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', e => {
       e.preventDefault()

@@ -75,6 +75,7 @@ const closeMenu = () => (menuOpen.value = false);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 18px;
   position: relative;
 }
 
@@ -84,7 +85,8 @@ const closeMenu = () => (menuOpen.value = false);
   color: #343a40;
   text-decoration: none;
   line-height: 1.2;
-  min-width: 0;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 /* PC 显示时不换行 */
@@ -96,6 +98,10 @@ const closeMenu = () => (menuOpen.value = false);
 .nav-links-desktop {
   display: flex;
   align-items: center;
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  min-width: 0;
 }
 .nav-links-desktop a {
   color: #555;
@@ -105,6 +111,7 @@ const closeMenu = () => (menuOpen.value = false);
   padding-bottom: 5px;
   border-bottom: 2px solid transparent;
   transition: color 0.3s, border-bottom-color 0.3s;
+  white-space: nowrap;
 }
 .nav-links-desktop a:hover,
 .nav-links-desktop a.router-link-exact-active {
@@ -115,6 +122,10 @@ const closeMenu = () => (menuOpen.value = false);
 /* 手机端导航 */
 .more-btn {
   display: none;
+  flex: 0 0 auto;
+  padding: 9px 13px;
+  font-size: 0.94rem;
+  line-height: 1;
 }
 
 /* 手机端下拉菜单 */
@@ -178,6 +189,17 @@ const closeMenu = () => (menuOpen.value = false);
 }
 
 /* ------------- 手机端响应式 ------------- */
+@media (max-width: 1180px) {
+  .nav-links-desktop {
+    display: none;
+  }
+
+  .more-btn {
+    display: block;
+    flex: 0 0 auto;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 0.7rem 0;
@@ -198,14 +220,10 @@ const closeMenu = () => (menuOpen.value = false);
     line-height: 1.1;
     font-size: 1.12rem;
     overflow-wrap: anywhere;
-  }
-
-  .nav-links-desktop {
-    display: none;
+    white-space: normal;
   }
 
   .more-btn {
-    display: block;
     flex: 0 0 auto;
     background: #007bff;
     color: white;

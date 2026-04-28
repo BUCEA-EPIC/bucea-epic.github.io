@@ -70,10 +70,3 @@ CORS_ALLOW_ORIGINS = _env_list(
     "CORS_ALLOW_ORIGINS",
     "http://localhost:5173,http://127.0.0.1:5173"
 )
-
-# 邮件配置
-SMTP_HOST = _env("SMTP_HOST", "smtp.163.com")
-SMTP_PORT = _env_int("SMTP_PORT", 465)
-SMTP_USER = _env("SMTP_USER")
-SMTP_PASS = _env("SMTP_PASS")
-TO_EMAIL = _env("TO_EMAIL")

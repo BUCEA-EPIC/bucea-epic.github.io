@@ -7,33 +7,16 @@ from urllib.parse import quote
 
 from fastapi import APIRouter, Form, File, UploadFile, HTTPException, Depends
 from fastapi.responses import FileResponse
-from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.core.config import UPLOAD_DIR, logger
 from app.core.security import verify_admin
 from app.models.tables import Submission, Student
-from app.utils.email import send_contact_email
 
 router = APIRouter()
 
-# --- Pydantic 模型 ---
-class ContactForm(BaseModel):
-    name: str
-    email: EmailStr
-    message: str
-
-# 1. 联系我们
-@router.post("/contact")
-async def contact(form: ContactForm):
-    try:
-        send_contact_email(form.name, form.email, form.message)
-        return {"message": "发送成功"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-# 2. 管理员文件下载
+# 1. 管理员文件下载
 @router.get("/download/{submission_id}", dependencies=[Depends(verify_admin)])
 async def download_file(submission_id: int, db: Session = Depends(get_db)):
     sub = db.query(Submission).filter(Submission.id == submission_id).first()
@@ -58,7 +41,7 @@ async def download_file(submission_id: int, db: Session = Depends(get_db)):
         headers={"Content-Disposition": f"attachment; filename*=utf-8''{filename_encoded}"}
     )
 
-# 3. 作品提交 (🟢 已移除 target_email)
+# 2. 作品提交 (🟢 已移除 target_email)
 @router.post("/submit")
 async def submit_work(
     track_name: str = Form(...),
