@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="container">
       <p class="copyright">
-        Copyright &copy; {{ copyrightYears }} 樊彧. All Rights Reserved.
+        Copyright &copy; 2025-2026 北京建筑大学工程实践创新中心 314工作室. All Rights Reserved.
       </p>
       <nav v-if="showBeianLinks" class="beian-links" aria-label="备案信息">
         <a
@@ -34,11 +34,6 @@
 </template>
 
 <script setup>
-const startYear = 2025
-const currentYear = new Date().getFullYear()
-const copyrightYears =
-  currentYear > startYear ? `${startYear}-${currentYear}` : `${startYear}`
-
 const icpText = import.meta.env.VITE_ICP_TEXT || ''
 const icpUrl = import.meta.env.VITE_ICP_URL || 'https://beian.miit.gov.cn/'
 const policeText = import.meta.env.VITE_POLICE_TEXT || ''
