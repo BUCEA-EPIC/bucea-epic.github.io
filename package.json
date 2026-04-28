@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:server": "vite --mode server",
     "build": "vite build",
+    "build:github": "vite build --mode github",
+    "build:server": "vite build --mode server",
     "preview": "vite preview"
   },
   "dependencies": {
