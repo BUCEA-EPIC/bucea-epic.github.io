@@ -13,17 +13,22 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
       <p>简单、清晰地展示当前团队结构</p>
     </div>
 
-    <section class="advisor-section">
-      <h2>指导老师</h2>
-      <div class="advisor-grid">
-        <div class="team-card" v-for="advisor in advisors" :key="advisor.name">
-          <div class="image-wrapper-advisor">
+    <section class="team-block advisor-section">
+      <div class="block-heading">
+        <span class="eyebrow">Advisors</span>
+        <h2>指导老师</h2>
+      </div>
+
+      <div class="advisor-list">
+        <div class="advisor-card" v-for="advisor in advisors" :key="advisor.name">
+          <div class="advisor-portrait">
             <img :src="advisor.avatar" :alt="advisor.name">
           </div>
-          <div class="card-info">
+          <div class="advisor-info">
+            <span class="advisor-label">Faculty Advisor</span>
             <h3>{{ advisor.name }}</h3>
-            <p class="role">{{ advisor.role }}</p>
-            <p class="bio">{{ advisor.bio }}</p>
+            <p class="advisor-role">{{ advisor.role }}</p>
+            <p class="advisor-bio">{{ advisor.bio }}</p>
           </div>
         </div>
       </div>
@@ -135,94 +140,10 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   margin-bottom: 54px;
 }
 
-.advisor-section h2 {
-  margin: 0 0 32px;
-  color: var(--color-text);
-  font-size: 2rem;
-  font-weight: 510;
-  letter-spacing: -0.704px;
-  text-align: center;
-}
-
-.advisor-grid {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 30px;
-}
-
-.advisor-grid .team-card {
-  width: min(430px, 100%);
-  flex-shrink: 0;
-}
-
-.team-card {
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid var(--border-standard);
-  border-radius: 8px;
-  box-shadow: var(--shadow-card);
-  text-align: center;
+.advisor-list {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.team-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-strong);
-  background: var(--color-card-hover);
-  box-shadow: var(--shadow-card);
-}
-
-.team-card img {
-  transition: transform 0.3s ease;
-}
-
-.team-card:hover img {
-  transform: scale(1.05);
-}
-
-.image-wrapper-advisor {
-  width: 100%;
-  height: 500px;
-  overflow: hidden;
-  background: var(--color-panel);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.image-wrapper-advisor img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.card-info {
-  padding: 20px;
-}
-
-.card-info h3 {
-  margin: 0 0 5px;
-  color: var(--color-text);
-  font-size: 1.3rem;
-  font-weight: 510;
-}
-
-.card-info .role {
-  color: var(--color-accent-hover);
-  margin: 0 0 10px;
-  font-size: 0.9rem;
-  font-weight: 590;
-}
-
-.card-info .bio {
-  margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.65;
-  white-space: pre-wrap;
-  word-break: break-word;
+  gap: 20px;
 }
 
 .team-layout {
@@ -264,6 +185,7 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   text-transform: uppercase;
 }
 
+.advisor-card,
 .leader-card,
 .member-card {
   background: var(--color-card);
@@ -272,6 +194,7 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   box-shadow: var(--shadow-card);
 }
 
+.advisor-card,
 .leader-card {
   position: relative;
   display: grid;
@@ -283,8 +206,23 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   background:
     linear-gradient(135deg, rgba(130, 143, 255, 0.16), rgba(255, 255, 255, 0.035) 42%, rgba(255, 255, 255, 0.02)),
     var(--color-card);
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
+.advisor-card {
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+}
+
+.advisor-card:hover,
+.leader-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  background:
+    linear-gradient(135deg, rgba(130, 143, 255, 0.19), rgba(255, 255, 255, 0.045) 42%, rgba(255, 255, 255, 0.028)),
+    var(--color-card-hover);
+}
+
+.advisor-card::before,
 .leader-card::before {
   content: '';
   position: absolute;
@@ -295,6 +233,7 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
     linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%);
 }
 
+.advisor-portrait,
 .leader-portrait {
   position: relative;
   z-index: 1;
@@ -307,6 +246,7 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
 }
 
+.advisor-portrait img,
 .leader-portrait img {
   display: block;
   width: 100%;
@@ -315,6 +255,11 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   object-position: center 38%;
 }
 
+.advisor-portrait img {
+  object-position: center 18%;
+}
+
+.advisor-info,
 .leader-info {
   position: relative;
   z-index: 1;
@@ -323,6 +268,7 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   padding-right: 20px;
 }
 
+.advisor-label,
 .leader-label {
   display: inline-flex;
   margin-bottom: 18px;
@@ -333,6 +279,7 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   text-transform: uppercase;
 }
 
+.advisor-card h3,
 .leader-card h3 {
   margin: 0 0 14px;
   color: var(--color-text);
@@ -342,12 +289,18 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   line-height: 0.95;
 }
 
+.advisor-card h3 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+}
+
+.advisor-card p,
 .leader-card p {
   margin: 0;
   color: var(--color-text-secondary);
   font-size: 1rem;
 }
 
+.advisor-card .advisor-role,
 .leader-card .leader-role {
   margin-bottom: 12px;
   color: var(--color-accent-hover);
@@ -355,9 +308,15 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
   font-weight: 590;
 }
 
+.advisor-card .advisor-bio,
 .leader-card .leader-bio {
   max-width: 520px;
   line-height: 1.6;
+}
+
+.advisor-card .advisor-bio {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .leader-tags {
@@ -425,26 +384,6 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
     margin-bottom: 42px;
   }
 
-  .advisor-section h2 {
-    margin-bottom: 24px;
-  }
-
-  .advisor-grid {
-    gap: 20px;
-  }
-
-  .advisor-grid .team-card {
-    width: 100%;
-  }
-
-  .image-wrapper-advisor {
-    height: min(420px, 115vw);
-  }
-
-  .card-info {
-    padding: 18px;
-  }
-
   .block-heading {
     align-items: flex-start;
     flex-direction: column;
@@ -455,25 +394,30 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .advisor-card,
   .leader-card,
   .member-card {
     padding: 20px;
   }
 
+  .advisor-card,
   .leader-card {
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
     padding: 20px;
   }
 
+  .advisor-portrait,
   .leader-portrait {
     width: min(100%, 320px);
   }
 
+  .advisor-info,
   .leader-info {
     padding-right: 0;
   }
 
+  .advisor-card h3,
   .leader-card h3 {
     font-size: clamp(2.25rem, 14vw, 3.25rem);
   }
