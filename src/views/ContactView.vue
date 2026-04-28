@@ -31,7 +31,7 @@ onMounted(() => {
     <div class="contact-content animate-on-scroll">
       <div class="contact-info">
         <h3>联系信息</h3>
-        <p><strong><i class="icon">📍</i> 实验室地址:</strong><br>北京建筑大学大学工程实践中心314室</p>
+        <p><strong><i class="icon">📍</i> 实验室地址:</strong><br>北京建筑大学大兴校区工程实践创新中心316室</p>
 
         <!-- 居中图片和文字 -->
         <div class="qq-group">
