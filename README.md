@@ -66,7 +66,7 @@ npm run preview       # 预览 dist/
 GitHub Pages 使用 `npm run build:github` 构建，部署到：
 
 ```text
-https://fyfelix.github.io/epic314-website/
+https://miofelix.github.io/epic314-website/
 ```
 
 工作流在 `.github/workflows/deploy.yml` 中配置，构建时会读取 `.env.github`，所以不会渲染备案信息。
