@@ -2,12 +2,14 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
     base: env.VITE_SITE_BASE || '/',
-    plugins: [vue()],
+    plugins: [vue(), cloudflare()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src')
@@ -17,5 +19,5 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       port: 5173
     }
-  }
+  };
 })
