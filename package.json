@@ -9,14 +9,17 @@
     "build": "vite build",
     "build:github": "vite build --mode github",
     "build:server": "vite build --mode server",
-    "preview": "vite preview"
+    "preview": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "vue": "^3.5.24",
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.38.0",
     "@vitejs/plugin-vue": "^6.0.1",
-    "vite": "^7.2.2"
+    "vite": "^7.2.2",
+    "wrangler": "^4.94.0"
   }
 }
