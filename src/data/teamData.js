@@ -1,13 +1,14 @@
 // src/data/teamData.js
 import huaFengFang from '@/assets/team/化老师.jpg'
-import laoJunYan from '@/assets/team/劳均彦.jpg'
-import fanYu from '@/assets/team/樊彧.jpg'
 import pengCanWen from '@/assets/team/彭粲文.jpg'
-import caiSiYao from '@/assets/team/caisiyao.jpg'
+import caiSiYao from '@/assets/team/蔡思瑶.jpg'
 import wangYaJie from '@/assets/team/王雅洁.jpg'
-import wangYuHan from '@/assets/team/王宇涵.jpg'
-
-import noImage from '@/assets/暂无图片.jpg'
+import zhaoTianYe from '@/assets/team/赵天野.jpg'
+import liGuiFan from '@/assets/team/李珪璠.jpg'
+import wangYuXuan from '@/assets/team/王宇轩.jpg'
+import baiXuan from '@/assets/team/白暄.png'
+import zhangYiChuan from '@/assets/team/张易川.jpg'
+import wangBoYao from '@/assets/team/王博垚.png'
 
 export const advisors = [
   {
@@ -24,16 +25,27 @@ export const advisors = [
 ]
 
 export const coreTeam = [
-  { name: '田振鹏', role: '工作室主要负责人', bio: '', avatar: noImage },
-  { name: '劳均彦', role: '吉祥物', bio: '', avatar: laoJunYan },
-  { name: '樊彧', role: '', bio: '嵌入式开发、Web开发和网络运维，以及本网站的开发和维护。', avatar: fanYu },
   { name: '彭粲文', role: '', bio: '机电学院，机器人专业', avatar: pengCanWen },
   { name: '蔡思瑶', role: '主要负责人', bio: '测绘学院，遥感科学与技术专业', avatar: caiSiYao },
-  { name: '王雅洁', role: '', bio: '智科学院，电气工程及其自动化专业', avatar: wangYaJie },
-  { name: '王宇涵', role: '', bio: '机电学院，机器人专业', avatar: wangYuHan },
-  { name: '张培豪', role: '', bio: '理学院，信息与计算科学专业', avatar: noImage },
-  { name: '田济源', role: '', bio: '机电学院，机器人专业', avatar: noImage },
-  { name: '秦志勇', role: '', bio: '智科学院，自动化专业', avatar: noImage },
-  { name: '刘昭君', role: '', bio: '理学院，信息与计算科学专业', avatar: noImage },
-  { name: '李昊阅', role: '', bio: '理学院，信息与计算科学专业', avatar: noImage },
+  { name: '赵天野', role: '', bio: '智科计科专业', avatar: zhaoTianYe },
+  {
+    name: '李珪璠',
+    role: '',
+    bio: `看向这个图片
+如果你看到的是一头被蛇吃掉的大象
+说明你童心未泯
+如果你看到的是略有过冲的方波，那你完了`,
+    avatar: liGuiFan
+  },
+  { name: '王宇轩', role: '', bio: '想进一步了解加入的同学请联系本人。', avatar: wangYuXuan },
+  { name: '白暄', role: '', bio: 'ཞུམ་མེད་མདུན་སྐྱོད་', avatar: baiXuan },
+  { name: '张易川', role: '', bio: 'SGWCMAID260405150132B67545D2123F8104FB9C53F97AD6DDC1053FB53F9CD9660277C3E2D32901DC04', avatar: zhangYiChuan },
+  { name: '王雅洁', role: '', bio: '电气工程及其自动化专业（实验班），共青团员，负责工作室财务报销', avatar: wangYaJie },
+  {
+    name: '王博垚',
+    role: '',
+    bio: `没有天赋，那就反复
+汗水会比朝阳更先到达我的脸庞。`,
+    avatar: wangBoYao
+  }
 ]

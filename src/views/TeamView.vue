@@ -1,8 +1,8 @@
 <script setup>
 import { advisors, coreTeam } from '../data/teamData.js'
 
-const memberSlots = Array.from({ length: 6 }, (_, index) => index + 1)
 const leader = coreTeam.find((member) => member.name === '蔡思瑶')
+const members = coreTeam.filter((member) => member.name !== leader?.name)
 </script>
 
 <template>
@@ -68,11 +68,18 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
         <div class="member-grid">
           <div
             class="member-card"
-            v-for="slot in memberSlots"
-            :key="slot"
+            v-for="member in members"
+            :key="member.name"
           >
-            <span class="member-index">成员 {{ slot }}</span>
-            <strong>待添加</strong>
+            <div class="member-avatar">
+              <img :src="member.avatar" :alt="member.name">
+            </div>
+            <div class="member-content">
+              <span class="member-label">Member</span>
+              <h3>{{ member.name }}</h3>
+              <p class="member-role">{{ member.role || '成员' }}</p>
+              <p class="member-bio" v-if="member.bio">{{ member.bio }}</p>
+            </div>
           </div>
         </div>
       </section>
@@ -337,34 +344,105 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
 
 .member-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
 }
 
 .member-card {
-  min-height: 116px;
-  padding: 20px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  align-items: center;
+  gap: 36px;
+  min-width: 0;
+  overflow: hidden;
+  padding: 28px;
+  background:
+    linear-gradient(135deg, rgba(130, 143, 255, 0.16), rgba(255, 255, 255, 0.035) 42%, rgba(255, 255, 255, 0.02)),
+    var(--color-card);
   transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .member-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   border-color: var(--border-strong);
-  background: var(--color-card-hover);
+  background:
+    linear-gradient(135deg, rgba(130, 143, 255, 0.19), rgba(255, 255, 255, 0.045) 42%, rgba(255, 255, 255, 0.028)),
+    var(--color-card-hover);
 }
 
-.member-card .member-index {
+.member-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%);
+}
+
+.member-avatar {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--border-standard);
+  border-radius: 8px;
+  background: var(--color-panel);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+}
+
+.member-avatar img {
   display: block;
-  margin-bottom: 18px;
-  color: var(--color-text-muted);
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
+  width: 100%;
+  height: auto;
 }
 
-.member-card strong {
+.member-content {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  min-width: 0;
+  padding-right: 20px;
+}
+
+.member-label {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: var(--color-accent-hover);
+  font-size: 0.75rem;
+  font-weight: 590;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.member-card h3 {
+  margin: 0 0 14px;
+  color: var(--color-text);
+  font-size: clamp(2.2rem, 4.6vw, 3.8rem);
+  font-weight: 510;
+  letter-spacing: -1.2px;
+  line-height: 0.95;
+}
+
+.member-card p {
+  margin: 0;
   color: var(--color-text-secondary);
   font-size: 1rem;
-  font-weight: 510;
+}
+
+.member-card .member-role {
+  margin-bottom: 12px;
+  color: var(--color-accent-hover);
+  font-size: 1.05rem;
+  font-weight: 590;
+}
+
+.member-card .member-bio {
+  max-width: 560px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 @media (max-width: 768px) {
@@ -394,10 +472,22 @@ const leader = coreTeam.find((member) => member.name === '蔡思瑶')
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .advisor-card,
-  .leader-card,
   .member-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
     padding: 20px;
+  }
+
+  .member-avatar {
+    width: min(100%, 320px);
+  }
+
+  .member-content {
+    padding-right: 0;
+  }
+
+  .member-card h3 {
+    font-size: clamp(2.1rem, 13vw, 3.1rem);
   }
 
   .advisor-card,
