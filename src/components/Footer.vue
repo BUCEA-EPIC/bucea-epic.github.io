@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="container">
       <p class="copyright">
-        Copyright &copy; 2025-2026 北京建筑大学工程实践创新中心 314工作室. All Rights Reserved.
+        Copyright &copy; 2025-2026 北京建筑大学工程实践创新中心 317工作室. All Rights Reserved.
       </p>
       <nav v-if="showBeianLinks" class="beian-links" aria-label="备案信息">
         <a

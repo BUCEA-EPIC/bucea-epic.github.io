@@ -4,7 +4,7 @@
 
       <!-- LOGO：PC 正常显示；手机端自动换行成两行 -->
       <router-link to="/" class="logo">
-        工程实践创新中心<span class="mobile-break"><br/></span>314工作室
+        工程实践创新中心<span class="mobile-break"><br/></span>317工作室
       </router-link>
 
       <!-- 手机端 更多按钮 -->

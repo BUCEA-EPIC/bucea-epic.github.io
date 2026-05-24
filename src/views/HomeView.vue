@@ -33,10 +33,10 @@ onMounted(() => {
           <img :src="epicLogoImg" alt="工程实践创新中心 EPIC 标志" />
         </div>
         <div class="hero-copy">
-          <p class="hero-eyebrow">EPIC 314 STUDIO</p>
+          <p class="hero-eyebrow">EPIC 317 STUDIO</p>
           <h1>
             <span>工程实践创新中心</span>
-            <span>314工作室</span>
+            <span>317工作室</span>
           </h1>
           <p>
             面向机器人、机械、电控与计算机视觉的工程实践团队，
