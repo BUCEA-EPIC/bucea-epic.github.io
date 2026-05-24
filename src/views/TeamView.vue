@@ -343,20 +343,18 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
 }
 
 .member-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 24px;
+  column-count: 3;
+  column-gap: 18px;
 }
 
 .member-card {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
-  align-items: center;
-  gap: 36px;
+  display: inline-block;
+  width: 100%;
   min-width: 0;
+  margin: 0 0 18px;
   overflow: hidden;
-  padding: 28px;
+  break-inside: avoid;
   background:
     linear-gradient(135deg, rgba(130, 143, 255, 0.16), rgba(255, 255, 255, 0.035) 42%, rgba(255, 255, 255, 0.02)),
     var(--color-card);
@@ -364,7 +362,7 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
 }
 
 .member-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   border-color: var(--border-strong);
   background:
     linear-gradient(135deg, rgba(130, 143, 255, 0.19), rgba(255, 255, 255, 0.045) 42%, rgba(255, 255, 255, 0.028)),
@@ -386,10 +384,8 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
   z-index: 1;
   width: 100%;
   overflow: hidden;
-  border: 1px solid var(--border-standard);
-  border-radius: 8px;
+  border-bottom: 1px solid var(--border-standard);
   background: var(--color-panel);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
 }
 
 .member-avatar img {
@@ -401,14 +397,13 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
 .member-content {
   position: relative;
   z-index: 1;
-  align-self: center;
   min-width: 0;
-  padding-right: 20px;
+  padding: 18px 18px 20px;
 }
 
 .member-label {
   display: inline-flex;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
   color: var(--color-accent-hover);
   font-size: 0.75rem;
   font-weight: 590;
@@ -417,12 +412,12 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
 }
 
 .member-card h3 {
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   color: var(--color-text);
-  font-size: clamp(2.2rem, 4.6vw, 3.8rem);
+  font-size: clamp(1.65rem, 2.8vw, 2.2rem);
   font-weight: 510;
-  letter-spacing: -1.2px;
-  line-height: 0.95;
+  letter-spacing: 0;
+  line-height: 1.05;
 }
 
 .member-card p {
@@ -432,17 +427,23 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
 }
 
 .member-card .member-role {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   color: var(--color-accent-hover);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 590;
 }
 
 .member-card .member-bio {
-  max-width: 560px;
+  max-width: none;
   line-height: 1.6;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
+}
+
+@media (max-width: 980px) {
+  .member-grid {
+    column-count: 2;
+  }
 }
 
 @media (max-width: 768px) {
@@ -469,25 +470,19 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
   }
 
   .member-grid {
-    grid-template-columns: minmax(0, 1fr);
+    column-count: 1;
   }
 
   .member-card {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
-    padding: 20px;
+    margin-bottom: 16px;
   }
 
   .member-avatar {
-    width: min(100%, 320px);
-  }
-
-  .member-content {
-    padding-right: 0;
+    width: 100%;
   }
 
   .member-card h3 {
-    font-size: clamp(2.1rem, 13vw, 3.1rem);
+    font-size: clamp(1.55rem, 8vw, 2.1rem);
   }
 
   .advisor-card,
