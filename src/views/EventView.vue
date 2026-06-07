@@ -1,7 +1,6 @@
 <script setup>
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
-// --- ⚠️ 图片资源引入 ---
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
 import track1Img from '../assets/event/视觉循迹仿真.gif'
 import track2Img from '../assets/event/开关电源设计.jpg'
@@ -9,7 +8,6 @@ import track3Img from '../assets/event/三维建模设计.png'
 import qqImg from '../assets/contact/qq群.jpg'
 
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
-const awardNoticeUrl = assetPath('docs/event/2025萌新种子杯获奖公示.pdf')
 const track1DocUrl = assetPath('docs/event/萌新种子杯-视觉循迹仿真命题文档.pdf')
 const track2DocUrl = assetPath('docs/event/萌新种子杯-开关电源设计命题文档.pdf')
 const track3DocUrl = assetPath('docs/event/萌新种子杯-三维建模设计命题文档.pdf')
@@ -67,18 +65,13 @@ useRevealOnScroll()
               <span class="notice-icon">📢</span> 
               荣誉证书敬请期待后续发放安排，见QQ群(455362758)通知。
             </p>
-            <p>最终获奖名单现已公示，请点击下方按钮查看：</p>
+            <p>最终获奖名单已整理为独立公示页面，请点击下方按钮查看：</p>
           </div>
 
-          <a
-            :href="awardNoticeUrl"
-            class="awards-link-btn"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="file-icon">📄</span>
-            <span class="link-text">查看《第五届萌新种子杯获奖公示》</span>
-          </a>
+          <router-link to="/event/awards" class="awards-link-btn">
+            <span class="file-icon">↗</span>
+            <span class="link-text">进入第五届萌新种子杯获奖公示</span>
+          </router-link>
         </div>
       </div>
     </div>
@@ -184,14 +177,10 @@ useRevealOnScroll()
 .image-content img:hover { transform: translateY(-5px); }
 .qq-group-img { width: 250px !important; }
 
-/* --- 获奖公示板块优化样式 --- */
-
-/* 调整整体板块间距 */
 .awards-section {
   margin-top: 20px;
 }
 
-/* 获奖信息卡片容器 */
 .awards-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.048), rgba(255, 255, 255, 0.022));
   border: 1px solid var(--border-standard);
@@ -207,7 +196,6 @@ useRevealOnScroll()
   border-color: var(--border-strong);
 }
 
-/* 文本排版 */
 .awards-info p {
   margin-bottom: 12px;
   line-height: 1.6;
@@ -218,7 +206,6 @@ useRevealOnScroll()
   margin-bottom: 20px;
 }
 
-/* 高亮通知文本 */
 .highlight-notice {
   color: var(--color-text-secondary);
   background: rgba(113, 112, 255, 0.1);
@@ -233,13 +220,12 @@ useRevealOnScroll()
   margin-right: 6px;
 }
 
-/* 下载按钮样式优化 */
 .awards-link-btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 400px; /* 限制按钮最大宽度 */
+  max-width: 400px;
   background: var(--color-brand);
   border: 1px solid rgba(130, 143, 255, 0.6);
   color: var(--color-text);
@@ -256,10 +242,9 @@ useRevealOnScroll()
   background: var(--color-accent-hover);
   color: var(--color-text);
   transform: translateY(-1px);
-  text-decoration: none; /* 覆盖默认下划线 */
+  text-decoration: none;
 }
 
-/* 按钮内部图标微调 */
 .file-icon {
   font-size: 1.2rem;
   margin-right: 10px;
@@ -268,18 +253,6 @@ useRevealOnScroll()
 .link-text {
   flex-grow: 1;
   text-align: left;
-}
-
-.arrow-icon {
-  font-size: 1.2rem;
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: all 0.3s ease;
-}
-
-.awards-link-btn:hover .arrow-icon {
-  opacity: 1;
-  transform: translateX(0);
 }
 
 /* 移动端 */
@@ -300,6 +273,7 @@ useRevealOnScroll()
   .image-content img {
     max-width: 100%;
   }
+
   .awards-card {
     padding: 20px;
   }
@@ -325,6 +299,5 @@ useRevealOnScroll()
   .awards-link-btn {
     font-size: 0.9rem;
   }
-
 }
 </style>

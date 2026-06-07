@@ -12,6 +12,7 @@ const routes = [
   { path: '/news', name: 'News', component: () => import('../views/NewsView.vue') },
   { path: '/contact', name: 'Contact', component: () => import('../views/ContactView.vue') },
   { path: '/event', name: 'Event', component: () => import('../views/EventView.vue') },
+  { path: '/event/awards', name: 'EventAwards', component: () => import('../views/EventAwardsView.vue') },
 
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ]
