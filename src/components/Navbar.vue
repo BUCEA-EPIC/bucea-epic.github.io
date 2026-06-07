@@ -27,7 +27,6 @@
           <router-link to="/about" @click="closeMenu">关于我们</router-link>
           <router-link to="/team" @click="closeMenu">团队成员</router-link>
           <router-link to="/projects" @click="closeMenu">项目与机器人</router-link>
-          <router-link to="/awards" @click="closeMenu">赛事与荣誉</router-link>
           <router-link to="/resources" @click="closeMenu">教程与资源</router-link>
           <router-link to="/news" @click="closeMenu">新闻与动态</router-link>
           <router-link to="/contact" @click="closeMenu">联系我们</router-link>
@@ -58,7 +57,6 @@
         <router-link to="/about">关于我们</router-link>
         <router-link to="/team">团队成员</router-link>
         <router-link to="/projects">项目与机器人</router-link>
-        <router-link to="/awards">赛事与荣誉</router-link>
         <router-link to="/resources">教程与资源</router-link>
         <router-link to="/news">新闻与动态</router-link>
         <router-link to="/contact">联系我们</router-link>
