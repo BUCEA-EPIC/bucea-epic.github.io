@@ -12,9 +12,10 @@ const routes = [
   { path: '/news', name: 'News', component: () => import('../views/NewsView.vue') },
   { path: '/contact', name: 'Contact', component: () => import('../views/ContactView.vue') },
   { path: '/event', name: 'Event', component: () => import('../views/EventView.vue') },
+  { path: '/event/history', name: 'EventHistory', component: () => import('../views/EventHistoryView.vue') },
   { path: '/event/awards', redirect: '/event/5/awards' },
   { path: '/event/5/awards', name: 'EventAwards5', component: () => import('../views/EventAwardsView.vue') },
-  { path: '/event/:editionId(\\d+)', name: 'EventEdition', component: () => import('../views/EventEditionView.vue') },
+  { path: '/event/:editionId(\\d+)', name: 'EventEdition', component: () => import('../views/EventView.vue') },
 
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ]

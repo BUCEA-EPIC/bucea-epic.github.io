@@ -36,7 +36,7 @@ useRevealOnScroll()
 
     <section class="notice-summary animate-on-scroll">
       <div class="summary-copy">
-        <router-link to="/event" class="back-link">返回萌新种子杯</router-link>
+        <router-link to="/event/5" class="back-link">返回第五届</router-link>
         <h2>{{ currentEventEdition.title }}公示名单</h2>
         <p>第五届各项赛程已圆满结束，以下名单按赛道与奖项分组展示。荣誉证书发放安排请关注 QQ 群（455362758）通知。</p>
       </div>
