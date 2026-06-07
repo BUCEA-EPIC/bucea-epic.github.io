@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { awardTracks } from '../data/awardsData.js'
+import { currentEventEdition } from '../data/eventEditionsData.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 const trackTotal = (track) =>
@@ -29,15 +30,15 @@ useRevealOnScroll()
   <div class="page-container">
     <div class="header">
       <span class="header-bg-text">AWARDS</span>
-      <h1>获奖公示</h1>
+      <h1>第五届获奖公示</h1>
       <p>第五届“萌新种子杯”最终获奖名单</p>
     </div>
 
     <section class="notice-summary animate-on-scroll">
       <div class="summary-copy">
         <router-link to="/event" class="back-link">返回萌新种子杯</router-link>
-        <h2>公示名单</h2>
-        <p>各项赛程已圆满结束，以下名单按赛道与奖项分组展示。荣誉证书发放安排请关注 QQ 群（455362758）通知。</p>
+        <h2>{{ currentEventEdition.title }}公示名单</h2>
+        <p>第五届各项赛程已圆满结束，以下名单按赛道与奖项分组展示。荣誉证书发放安排请关注 QQ 群（455362758）通知。</p>
       </div>
 
       <div class="summary-grid" aria-label="获奖统计">

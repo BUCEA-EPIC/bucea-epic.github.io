@@ -1,5 +1,6 @@
 <script setup>
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+import { currentEventEdition, eventEditions } from '../data/eventEditionsData.js'
 
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
 import track1Img from '../assets/event/视觉循迹仿真.gif'
@@ -19,21 +20,41 @@ useRevealOnScroll()
   <div class="page-container">
     <div class="header">
       <span class="header-bg-text">EVENT</span>
-      <h1>萌新种子杯</h1>
-      <p>实践、创新、工程、成长</p>
+      <h1>第五届萌新种子杯</h1>
+      <p>第五届 · 已结束 · 实践、创新、工程、成长</p>
+    </div>
+
+    <div class="edition-overview animate-on-scroll">
+      <div class="edition-current">
+        <span class="edition-label">本届赛事</span>
+        <strong>{{ currentEventEdition.title }}</strong>
+        <p>{{ currentEventEdition.description }}</p>
+      </div>
+      <div class="edition-links" aria-label="历届萌新种子杯">
+        <router-link
+          v-for="edition in eventEditions"
+          :key="edition.id"
+          :to="edition.route"
+          class="edition-link"
+          :class="{ active: edition.id === currentEventEdition.id }"
+        >
+          <span>{{ edition.shortTitle }}</span>
+          <small>{{ edition.status }}</small>
+        </router-link>
+      </div>
     </div>
 
     <div class="content-section animate-on-scroll">
       <div class="text-content animate-text">
         <h2>赛事简介</h2>
         <p>
-          <strong>“萌新种子杯”</strong>由<strong>工程实践创新中心</strong>主办。<br/>
-          本次赛事整体规划和赛题设计由<strong>工创中心314工作室</strong>负责,
+          <strong>第五届“萌新种子杯”</strong>由<strong>工程实践创新中心</strong>主办。<br/>
+          本届赛事整体规划和赛题设计由<strong>工创中心314工作室</strong>负责,
           <strong>学D317工作室</strong>协助承办开关电源设计赛道，
           <strong>机器人社</strong>提供培训支持。
         </p>
         <p>
-          比赛共设三个赛道：
+          第五届比赛共设三个赛道：
           <a href="#track1"><strong>视觉循迹仿真赛道</strong></a>、
           <a href="#track2"><strong>开关电源设计赛道</strong></a>以及
           <a href="#track3"><strong>三维建模设计赛道</strong></a>。
@@ -48,7 +69,7 @@ useRevealOnScroll()
       <div class="text-content animate-text">
         <h2>比赛时间</h2>
         <p>
-          于 <strong>11月26日（周三）至12月15日（周一）</strong> 举行。
+          第五届赛事于 <strong>11月26日（周三）至12月15日（周一）</strong> 举行。
         </p>
         <p class="event-status">比赛已结束</p>
       </div>
@@ -65,12 +86,12 @@ useRevealOnScroll()
               <span class="notice-icon">📢</span> 
               荣誉证书敬请期待后续发放安排，见QQ群(455362758)通知。
             </p>
-            <p>最终获奖名单已整理为独立公示页面，请点击下方按钮查看：</p>
+            <p>第五届最终获奖名单已整理为独立公示页面，请点击下方按钮查看：</p>
           </div>
 
-          <router-link to="/event/awards" class="awards-link-btn">
+          <router-link to="/event/5/awards" class="awards-link-btn">
             <span class="file-icon">↗</span>
-            <span class="link-text">进入第五届萌新种子杯获奖公示</span>
+            <span class="link-text">进入第五届获奖公示</span>
           </router-link>
         </div>
       </div>
@@ -177,6 +198,92 @@ useRevealOnScroll()
 .image-content img:hover { transform: translateY(-5px); }
 .qq-group-img { width: 250px !important; }
 
+.edition-overview {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 18px;
+  margin: -24px 0 42px;
+  padding: 18px;
+  border: 1px solid var(--border-standard);
+  border-radius: 8px;
+  background: var(--color-card);
+  box-shadow: var(--shadow-card);
+}
+
+.edition-current {
+  min-width: 0;
+}
+
+.edition-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 510;
+}
+
+.edition-current strong {
+  display: block;
+  color: var(--color-text);
+  font-size: 1.18rem;
+  font-weight: 510;
+}
+
+.edition-current p {
+  max-width: 620px;
+  margin: 8px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.edition-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 10px;
+  min-width: 280px;
+}
+
+.edition-link {
+  border: 1px solid var(--border-standard);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.edition-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 68px;
+  padding: 12px;
+}
+
+.edition-link.active,
+.edition-link:hover {
+  border-color: var(--border-strong);
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--color-text);
+}
+
+.edition-link:hover {
+  transform: translateY(-2px);
+}
+
+.edition-link span {
+  color: var(--color-text);
+  font-weight: 510;
+}
+
+.edition-link small {
+  margin-top: 5px;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
 .awards-section {
   margin-top: 20px;
 }
@@ -272,6 +379,16 @@ useRevealOnScroll()
   }
   .image-content img {
     max-width: 100%;
+  }
+
+  .edition-overview {
+    flex-direction: column;
+    margin-top: -12px;
+  }
+
+  .edition-links {
+    grid-template-columns: 1fr;
+    min-width: 0;
   }
 
   .awards-card {
