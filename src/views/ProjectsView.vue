@@ -1,17 +1,8 @@
 <script setup>
-import { onMounted } from 'vue'
 import { projects } from '../data/projectsData.js'
+import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
-// 滚动入场动画
-onMounted(() => {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('is-visible')
-    })
-  }, { threshold: 0.1 })
-
-  document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el))
-})
+useRevealOnScroll()
 
 // 点击卡片打开链接
 function handleCardClick(url) {
@@ -56,14 +47,6 @@ function handleCardClick(url) {
 </template>
 
 <style scoped>
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.header { text-align: center; padding: 60px 20px; margin-bottom: 40px; position: relative; overflow: hidden; }
-.header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 590; color: rgba(255, 255, 255, 0.032); z-index: 1; user-select: none; white-space: nowrap; }
-.header h1, .header p { position: relative; z-index: 2; animation: fadeInUp 0.8s ease-out forwards; }
-.header h1 { font-size: 3.5rem; font-weight: 510; letter-spacing: -1.056px; margin-bottom: 20px; }
-.header h1::after { content: ''; display: block; width: 42px; height: 1px; background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent); margin: 20px auto 0; }
-.header p { font-size: 1.25rem; color: var(--color-text-secondary); margin-top: 0; animation-delay: 0.2s; }
-
 .page-container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
 
 .projects-list { display: flex; flex-direction: column; gap: 50px; opacity: 0; transform: translateY(50px); filter: blur(5px); transition: opacity 0.8s ease-out, transform 0.8s ease-out, filter 0.8s ease-out; }
@@ -86,7 +69,6 @@ function handleCardClick(url) {
 @media (max-width: 768px) {
   .project-card, .project-card.reverse-layout { flex-direction: column; }
   .card-image { flex-basis: auto; width: 100%; height: 220px; }
-  .header-bg-text { font-size: 6rem; }
   .projects-list { gap: 24px; }
   .card-content { padding: 22px; }
   .card-content h3 {

@@ -1,7 +1,8 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { newsData } from '../data/newsData.js'
 import competitionImg from '../assets/news/2025工训-大连.jpg'
+import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 const epicLogoImg = `${import.meta.env.BASE_URL}logo.jpg`
 const githubUrl = 'https://github.com/BUCEA-EPIC'
@@ -9,29 +10,7 @@ const latestNews = ref(newsData.slice(0, 3))
 
 const focusAreas = ['机器人系统', '机械结构', '电控与驱动', '计算机视觉']
 
-let sectionObserver
-
-onMounted(() => {
-  const elements = document.querySelectorAll('.animate-on-scroll')
-
-  sectionObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible')
-        }
-      })
-    },
-    { threshold: 0.14 }
-  )
-
-  elements.forEach((element) => sectionObserver?.observe(element))
-})
-
-onBeforeUnmount(() => {
-  sectionObserver?.disconnect()
-  sectionObserver = null
-})
+useRevealOnScroll()
 </script>
 
 <template>

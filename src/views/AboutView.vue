@@ -1,20 +1,11 @@
 <script setup>
-import { onMounted } from 'vue'
+import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 // 图片引用（Vite 支持通过 import 直接引入）
 import studio1Img from '../assets/about/工作室1.jpg'
 import studio2Img from '../assets/about/工作室2.jpg'
 
-// 滚动动画
-onMounted(() => {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('is-visible')
-    })
-  }, { threshold: 0.1 })
-
-  document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el))
-})
+useRevealOnScroll()
 </script>
 
 <template>
@@ -60,15 +51,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* 页面头部 */
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.header { text-align: center; padding: 60px 20px; margin-bottom: 60px; position: relative; overflow: hidden; }
-.header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 590; color: rgba(255, 255, 255, 0.032); z-index: 1; user-select: none; white-space: nowrap; }
-.header h1, .header p { position: relative; z-index: 2; animation: fadeInUp 0.8s ease-out forwards; }
-.header h1 { font-size: 3.5rem; font-weight: 510; letter-spacing: -1.056px; margin-bottom: 20px; }
-.header h1::after { content: ''; display: block; width: 42px; height: 1px; background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent); margin: 20px auto 0; }
-.header p { font-size: 1.25rem; color: var(--color-text-secondary); margin-top: 0; animation-delay: 0.2s; }
-
 /* 页面容器 */
 .page-container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
 
@@ -114,7 +96,6 @@ onMounted(() => {
 
 /* 移动端适配 */
 @media (max-width: 768px) {
-  .header-bg-text { font-size: 6rem; }
   .content-section, .content-section.reverse {
     flex-direction: column;
     gap: 24px;

@@ -99,7 +99,7 @@ textarea {
   }
 
   #app .header {
-    padding: 36px 8px 30px;
+    padding: 42px 8px 32px;
     margin-bottom: 32px;
   }
 

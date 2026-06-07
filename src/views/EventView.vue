@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, onMounted, nextTick } from 'vue'
+import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 // --- ⚠️ 图片资源引入 ---
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
@@ -14,24 +14,7 @@ const track1DocUrl = assetPath('docs/event/萌新种子杯-视觉循迹仿真命
 const track2DocUrl = assetPath('docs/event/萌新种子杯-开关电源设计命题文档.pdf')
 const track3DocUrl = assetPath('docs/event/萌新种子杯-三维建模设计命题文档.pdf')
 
-let sectionObserver
-
-// 页面动画与交互
-onMounted(() => {
-  nextTick(() => {
-    sectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('is-visible')
-      })
-    }, { threshold: 0.1 })
-    document.querySelectorAll('.animate-on-scroll').forEach(el => sectionObserver?.observe(el))
-  })
-})
-
-onBeforeUnmount(() => {
-  sectionObserver?.disconnect()
-  sectionObserver = null
-})
+useRevealOnScroll()
 </script>
 
 <template>
@@ -165,15 +148,6 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-/* 样式保持不变，略 */
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.header { text-align: center; padding: 60px 20px; margin-bottom: 60px; position: relative; overflow: hidden; }
-.header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 590; color: rgba(255,255,255,0.032); z-index: 1; user-select: none; white-space: nowrap; }
-.header h1, .header p { position: relative; z-index: 2; animation: fadeInUp 0.8s ease-out forwards; }
-.header h1 { font-size: 3.5rem; font-weight: 510; letter-spacing: -1.056px; margin-bottom: 20px; }
-.header h1::after { content: ''; display: block; width: 42px; height: 1px; background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent); margin: 20px auto 0; }
-.header p { font-size: 1.25rem; color: var(--color-text-secondary); margin-top: 0; animation-delay: 0.2s; }
-
 /* 页面容器 */
 .page-container { max-width: 1000px; margin: 0 auto; padding: 0 15px 30px; }
 
@@ -310,7 +284,6 @@ onBeforeUnmount(() => {
 
 /* 移动端 */
 @media (max-width: 768px) {
-  .header-bg-text { font-size: 6rem; }
   .content-section {
     flex-direction: column;
     align-items: stretch;

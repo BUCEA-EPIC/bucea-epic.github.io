@@ -141,18 +141,55 @@ textarea {
 }
 
 #app .header {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  overflow: hidden;
   margin-bottom: 52px;
-  padding: 96px 20px 64px;
+  padding: 92px 20px 64px;
   color: var(--color-text);
   isolation: isolate;
+  text-align: center;
+}
+
+#app .header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(94, 106, 210, 0.12), transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.032), rgba(255, 255, 255, 0) 72%);
+  pointer-events: none;
+}
+
+#app .header::after {
+  content: '';
+  position: absolute;
+  right: 18%;
+  bottom: 0;
+  left: 18%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(130, 143, 255, 0.5), transparent);
+  pointer-events: none;
+}
+
+#app .header > * {
+  position: relative;
+  z-index: 1;
 }
 
 #app .header-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   color: rgba(255, 255, 255, 0.032);
   font-size: clamp(4.5rem, 15vw, 10rem);
   font-weight: 590;
   letter-spacing: -0.08em;
   line-height: 0.8;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  white-space: nowrap;
 }
 
 #app .header h1 {
@@ -165,6 +202,8 @@ textarea {
 }
 
 #app .header h1::after {
+  content: '';
+  display: block;
   width: 42px;
   height: 1px;
   margin-top: 22px;

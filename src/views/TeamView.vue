@@ -1,8 +1,11 @@
 <script setup>
 import { advisors, coreTeam } from '../data/teamData.js'
+import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 const leader = coreTeam.find((member) => member.name === '蔡思瑶')
 const members = coreTeam.filter((member) => member.name !== leader?.name)
+
+useRevealOnScroll('.team-reveal')
 </script>
 
 <template>
@@ -13,7 +16,7 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
       <p>简单、清晰地展示当前团队结构</p>
     </div>
 
-    <section class="team-block advisor-section">
+    <section class="team-block advisor-section team-reveal">
       <div class="block-heading">
         <span class="eyebrow">Advisors</span>
         <h2>指导老师</h2>
@@ -34,7 +37,7 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
       </div>
     </section>
 
-    <div class="team-layout">
+    <div class="team-layout team-reveal">
       <section class="team-block leader-block">
         <div class="block-heading">
           <span class="eyebrow">Lead</span>
@@ -94,53 +97,17 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
   padding: 0 20px 56px;
 }
 
-.header {
-  text-align: center;
-  padding: 60px 20px;
-  margin-bottom: 34px;
-  position: relative;
-  overflow: hidden;
+.team-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(8px);
+  transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
 }
 
-.header-bg-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 10rem;
-  font-weight: 590;
-  color: rgba(255, 255, 255, 0.032);
-  z-index: 1;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.header h1,
-.header p {
-  position: relative;
-  z-index: 2;
-}
-
-.header h1 {
-  font-size: 3.5rem;
-  font-weight: 510;
-  letter-spacing: -1.056px;
-  margin-bottom: 20px;
-}
-
-.header h1::after {
-  content: '';
-  display: block;
-  width: 42px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent);
-  margin: 20px auto 0;
-}
-
-.header p {
-  font-size: 1.25rem;
-  color: var(--color-text-secondary);
-  margin-top: 0;
+.team-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
 }
 
 .advisor-section {
@@ -449,10 +416,6 @@ const members = coreTeam.filter((member) => member.name !== leader?.name)
 @media (max-width: 768px) {
   .page-container {
     padding: 0 0 40px;
-  }
-
-  .header-bg-text {
-    font-size: 6rem;
   }
 
   .team-layout {

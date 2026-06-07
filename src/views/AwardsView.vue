@@ -1,25 +1,12 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { awardsData } from '../data/awardsData.js'
+import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 // 使用 ref 保存数据
 const awards = ref(awardsData)
 
-// 滚动入场动画
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible')
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-
-  document.querySelectorAll('.award-section').forEach(el => observer.observe(el))
-})
+useRevealOnScroll('.award-section')
 </script>
 
 <template>
@@ -61,15 +48,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-.header { text-align: center; padding: 60px 20px; margin-bottom: 40px; position: relative; overflow: hidden; }
-.header-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10rem; font-weight: 590; color: rgba(255,255,255,0.032); z-index: 1; user-select: none; white-space: nowrap; }
-.header h1, .header p { position: relative; z-index: 2; animation: fadeInUp 0.8s ease-out forwards; }
-.header h1 { font-size: 3.5rem; font-weight: 510; letter-spacing: -1.056px; margin-bottom: 20px; }
-.header h1::after { content: ''; display: block; width: 42px; height: 1px; background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent); margin: 20px auto 0; }
-.header p { font-size: 1.25rem; color:var(--color-text-secondary); margin-top:0; animation-delay:0.2s; }
-
 .page-container { max-width:1200px; margin:0 auto; padding:0 20px 40px; }
 
 .award-section { margin-bottom: 60px; opacity:0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
@@ -90,7 +68,6 @@ onMounted(() => {
 .competition { font-size:0.9rem; color:var(--color-text-secondary); line-height:1.5; margin:0; }
 
 @media (max-width:768px) {
-  .header-bg-text { font-size:6rem; }
   .award-section { margin-bottom: 42px; }
   .award-section h2 { margin-bottom: 20px; }
   .awards-grid {
