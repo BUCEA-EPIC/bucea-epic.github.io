@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, nextTick } from 'vue'
+import { onBeforeUnmount, onMounted, nextTick } from 'vue'
 
 // --- ⚠️ 图片资源引入 ---
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
@@ -9,41 +9,29 @@ import track3Img from '../assets/event/三维建模设计.png'
 import qqImg from '../assets/contact/qq群.jpg'
 
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
+const awardNoticeUrl = assetPath('docs/event/2025萌新种子杯获奖公示.pdf')
+const track1DocUrl = assetPath('docs/event/萌新种子杯-视觉循迹仿真命题文档.pdf')
+const track2DocUrl = assetPath('docs/event/萌新种子杯-开关电源设计命题文档.pdf')
+const track3DocUrl = assetPath('docs/event/萌新种子杯-三维建模设计命题文档.pdf')
+
+let sectionObserver
 
 // 页面动画与交互
 onMounted(() => {
   nextTick(() => {
-    const observer = new IntersectionObserver(entries => {
+    sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('is-visible')
       })
     }, { threshold: 0.1 })
-    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el))
-  })
-
-  const navHeight = 82
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', e => {
-      e.preventDefault()
-      const targetId = anchor.getAttribute('href')
-      if (targetId === '#') return
-      const target = document.querySelector(targetId)
-      if (target) {
-        const top = target.offsetTop - navHeight
-        window.scrollTo({ top, behavior: 'smooth' })
-      }
-    })
+    document.querySelectorAll('.animate-on-scroll').forEach(el => sectionObserver?.observe(el))
   })
 })
 
-function checkFile(url) {
-  fetch(url, { method: 'HEAD' })
-    .then(res => {
-      if (res.ok) window.open(url, '_blank', 'noopener,noreferrer')
-      else alert('暂无此文件，请稍后重试或联系管理员。')
-    })
-    .catch(() => alert('无法访问文件服务器。'))
-}
+onBeforeUnmount(() => {
+  sectionObserver?.disconnect()
+  sectionObserver = null
+})
 </script>
 
 <template>
@@ -99,9 +87,12 @@ function checkFile(url) {
             <p>最终获奖名单现已公示，请点击下方按钮查看：</p>
           </div>
 
-          <a href="javascript:void(0)"
-             @click.prevent="checkFile(assetPath('docs/event/2025萌新种子杯获奖公示.pdf'))"
-             class="awards-link-btn">
+          <a
+            :href="awardNoticeUrl"
+            class="awards-link-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="file-icon">📄</span>
             <span class="link-text">查看《第五届萌新种子杯获奖公示》</span>
           </a>
@@ -117,7 +108,7 @@ function checkFile(url) {
               本赛道基于 <strong>Webots</strong> 仿真平台，参赛队伍需在我们提供的仿真环境中，
               对摄像头采集的图像进行处理，并控制指定小车自主完成视觉循迹任务。<br/>
               详细任务要求和评分标准请参见
-              <a href="javascript:void(0)" @click.prevent="checkFile(assetPath('docs/event/萌新种子杯-视觉循迹仿真命题文档.pdf'))">
+              <a :href="track1DocUrl" target="_blank" rel="noopener noreferrer">
                 《视觉循迹仿真命题文档》
               </a>。
             </p>
@@ -134,7 +125,7 @@ function checkFile(url) {
               本赛道以 <strong>电力电子技术</strong> 为核心，参赛者需使用 <strong>立创EDA</strong> 及 <strong>PLECS</strong> 仿真平台，
               完成指定 <strong>DCDC 升降压变换器</strong> 与 <strong>三相逆变器</strong> 的电路设计、参数计算与仿真调试。<br/>
               详细任务要求和评分标准请参见
-              <a href="javascript:void(0)" @click.prevent="checkFile(assetPath('docs/event/萌新种子杯-开关电源设计命题文档.pdf'))">
+              <a :href="track2DocUrl" target="_blank" rel="noopener noreferrer">
                 《开关电源设计命题文档》
               </a>。
             </p>
@@ -151,7 +142,7 @@ function checkFile(url) {
               本赛道以 <strong>SolidWorks</strong> 为主要建模工具，参赛者需根据给定任务要求完成零件建模、
               装配体结构设计及自定义创新零件的设计表达。<br/>
               详细任务要求和评分标准请参见
-              <a href="javascript:void(0)" @click.prevent="checkFile(assetPath('docs/event/萌新种子杯-三维建模设计命题文档.pdf'))">
+              <a :href="track3DocUrl" target="_blank" rel="noopener noreferrer">
                 《三维建模设计命题文档》
               </a>。
             </p>
@@ -194,10 +185,11 @@ function checkFile(url) {
 
 /* 内容布局 */
 .content-section { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; }
+.content-section[id] { scroll-margin-top: 96px; }
 .text-content { flex: 0.5; }
 .text-content h2 { font-size: 1.8rem; font-weight: 510; border-bottom: 1px solid var(--border-standard); padding-bottom: 4px; margin-bottom: 10px; display: inline-block; color: var(--color-text); letter-spacing: -0.288px; }
 .text-content p { line-height: 1.6; color: var(--color-text-secondary); font-size: 0.95rem; }
-.text-content a { text-decoration: none; color: var(--color-accent-hover); cursor: pointer; }
+.text-content a { text-decoration: none; color: var(--color-accent-hover); }
 .single-column { flex-direction: column; align-items: flex-start; padding: 0; }
 .event-status {
   display: inline-flex;
