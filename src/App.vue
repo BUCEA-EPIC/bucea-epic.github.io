@@ -8,7 +8,11 @@ import Footer from './components/Footer.vue'
     <Navbar />
     
     <main class="main-content">
-      <router-view />
+      <router-view v-slot="{ Component, route }">
+        <transition name="page-shell" mode="out-in">
+          <component :is="Component" :key="route.fullPath" />
+        </transition>
+      </router-view>
     </main>
     
     <Footer />
@@ -61,6 +65,25 @@ textarea {
 .main-content {
   flex: 1;
   padding: 0 20px 72px;
+}
+
+.page-shell-enter-active,
+.page-shell-leave-active {
+  transition: opacity 0.42s ease, transform 0.42s ease, filter 0.42s ease;
+}
+
+.page-shell-enter-from,
+.page-shell-leave-to {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(14px);
+}
+
+.page-shell-enter-to,
+.page-shell-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
 }
 
 @media (max-width: 768px) {

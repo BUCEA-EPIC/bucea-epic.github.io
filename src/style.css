@@ -81,15 +81,46 @@ textarea {
 }
 
 #app {
+  position: relative;
   width: 100%;
   min-height: 100vh;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0) 280px),
     var(--color-bg);
   color: var(--color-text);
+  isolation: isolate;
+}
+
+#app::before,
+#app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+#app::before {
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 128px 128px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.62), transparent 82%);
+  opacity: 0.1;
+}
+
+#app::after {
+  z-index: 0;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(94, 106, 210, 0.08), transparent 24%),
+    radial-gradient(circle at 82% 14%, rgba(16, 185, 129, 0.04), transparent 20%);
+  opacity: 0.52;
 }
 
 #app .main-content {
+  position: relative;
+  z-index: 1;
   flex: 1;
   width: 100%;
   padding: 0 20px 72px;
@@ -256,6 +287,20 @@ textarea {
 #app .qq-image {
   border: 1px solid var(--border-standard);
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.34);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
 }
 
 #app .card-image,
