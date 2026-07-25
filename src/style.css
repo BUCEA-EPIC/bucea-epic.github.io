@@ -518,7 +518,9 @@ textarea {
   }
 
   #app .more-btn {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
