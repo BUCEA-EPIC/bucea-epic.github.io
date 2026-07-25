@@ -66,7 +66,7 @@ useRevealOnScroll()
         <article
           v-for="edition in upcomingEditions"
           :key="edition.id"
-          class="edition-card"
+          class="edition-card upcoming"
         >
           <div>
             <span class="edition-status">{{ edition.status }}</span>
@@ -85,7 +85,7 @@ useRevealOnScroll()
 
 <style scoped>
 .page-container {
-  max-width: 1120px;
+  max-width: var(--container);
   margin: 0 auto;
   padding: 0 var(--page-gutter) 48px;
 }
@@ -100,15 +100,21 @@ useRevealOnScroll()
 }
 
 .history-section {
-  margin-bottom: 52px;
+  margin-bottom: 72px;
 }
 
 .section-heading {
-  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-standard);
 }
 
 .section-heading h2 {
-  margin: 0 0 10px;
+  margin: 0;
   color: var(--color-text);
   font-size: 2rem;
   font-weight: 510;
@@ -125,19 +131,31 @@ useRevealOnScroll()
 .edition-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 
 .edition-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 220px;
-  padding: 20px;
+  min-height: 250px;
+  padding: 26px;
   border: 1px solid var(--border-standard);
-  border-radius: 6px;
+  border-radius: var(--radius-card);
   background: var(--color-card);
   box-shadow: none;
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edition-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  background: var(--color-card-hover);
+  box-shadow: var(--shadow-card);
+}
+
+.edition-card.upcoming {
+  border-top-color: rgba(141, 152, 216, 0.6);
 }
 
 .edition-status {
@@ -155,7 +173,7 @@ useRevealOnScroll()
 .edition-card h3 {
   margin: 14px 0 10px;
   color: var(--color-text);
-  font-size: 1.25rem;
+  font-size: 1.45rem;
   font-weight: 510;
 }
 
@@ -200,6 +218,16 @@ useRevealOnScroll()
 
   .edition-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-heading {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .edition-card {
+    min-height: 0;
+    padding: 22px;
   }
 }
 </style>

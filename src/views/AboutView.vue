@@ -2,8 +2,8 @@
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 // 图片引用（Vite 支持通过 import 直接引入）
-import studio1Img from '../assets/about/工作室1.jpg'
-import studio2Img from '../assets/about/工作室2.jpg'
+import studio1Img from '../assets/about/studio-1.webp'
+import studio2Img from '../assets/about/studio-2.webp'
 
 useRevealOnScroll()
 </script>
@@ -18,8 +18,9 @@ useRevealOnScroll()
     </div>
 
     <!-- 核心内容 -->
-    <div class="content-section animate-on-scroll">
+    <section class="content-section animate-on-scroll">
       <div class="text-content animate-text">
+        <span class="section-index">01 / ORIGIN</span>
         <h2>工作室简介</h2>
         <p>
           <strong>317工作室</strong>诞生于2013年，是在<strong>工程实践创新中心</strong>专业指导下成立的多学科交叉学术科技团队。我们虽然年轻，但充满活力与雄心，致力于成为校园内前沿技术探索与创新项目孵化的先锋力量。
@@ -29,12 +30,13 @@ useRevealOnScroll()
         </p>
       </div>
       <div class="image-content animate-image">
-        <img :src="studio1Img" alt="工作室">
+        <img :src="studio1Img" alt="317工作室环境" loading="lazy" decoding="async">
       </div>
-    </div>
+    </section>
 
-    <div class="content-section reverse animate-on-scroll">
+    <section class="content-section reverse animate-on-scroll">
       <div class="text-content animate-text">
+        <span class="section-index">02 / MISSION</span>
         <h2>我们的使命与愿景</h2>
         <p>
           <strong>使命:</strong> 我们致力于搭建一个开放、协作的技术交流平台，激发成员的创新潜能，培养具备卓越工程实践能力、团队协作精神与解决复杂问题能力的未来工程师。
@@ -44,15 +46,15 @@ useRevealOnScroll()
         </p>
       </div>
       <div class="image-content animate-image">
-        <img :src="studio2Img" alt="我们的使命">
+        <img :src="studio2Img" alt="工作室成员开展工程实践" loading="lazy" decoding="async">
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <style scoped>
 /* 页面容器 */
-.page-container { max-width: 1100px; margin: 0 auto; padding: 0 var(--page-gutter) 40px; }
+.page-container { max-width: var(--container); margin: 0 auto; padding: 0 var(--page-gutter) 56px; }
 
 /* 滚动动画 */
 .animate-on-scroll .animate-text,
@@ -67,32 +69,52 @@ useRevealOnScroll()
 }
 
 /* 核心内容布局 */
-.content-section { display: flex; align-items: center; gap: 50px; margin-bottom: 100px; }
-.content-section.reverse { flex-direction: row-reverse; }
+.content-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.88fr);
+  align-items: center;
+  gap: 80px;
+  margin-bottom: 120px;
+}
+.content-section.reverse { grid-template-columns: minmax(360px, 0.88fr) minmax(0, 1fr); }
+.content-section.reverse .text-content { order: 2; }
+.content-section.reverse .image-content { order: 1; }
 
-.text-content { flex: 1; }
-.text-content h2 { font-size: 2rem; font-weight: 510; border-bottom: 1px solid var(--border-standard); padding-bottom: 10px; margin-bottom: 20px; display: inline-block; color: var(--color-text); letter-spacing: 0; }
-.text-content p { line-height: 1.8; color: var(--color-text-secondary); }
+.section-index {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--color-accent);
+  font-size: 0.76rem;
+  font-weight: 590;
+  letter-spacing: 0.1em;
+}
+.text-content h2 { margin: 0 0 24px; border: 0; padding: 0; font-size: 2.25rem; font-weight: 510; color: var(--color-text); letter-spacing: 0; }
+.text-content p { margin: 0 0 18px; line-height: 1.82; color: var(--color-text-secondary); }
+.text-content p:last-child { margin-bottom: 0; }
 
-.image-content { flex: 1; }
+.image-content { position: relative; }
 .image-content img {
   width: 100%;
-  border-radius: 6px;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-panel);
   border: 1px solid var(--border-standard);
   box-shadow: var(--shadow-soft);
   transition: border-color 0.2s ease;
+  object-fit: cover;
 }
 .image-content img:hover {
   border-color: var(--border-strong);
 }
 
 /* 移动端适配 */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .content-section, .content-section.reverse {
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 48px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+    margin-bottom: 64px;
   }
+  .content-section.reverse .text-content,
+  .content-section.reverse .image-content { order: initial; }
   .text-content,
   .image-content {
     width: 100%;
@@ -100,5 +122,7 @@ useRevealOnScroll()
   .text-content p {
     line-height: 1.7;
   }
+
+  .text-content h2 { font-size: 1.8rem; }
 }
 </style>

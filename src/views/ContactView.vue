@@ -17,28 +17,41 @@ useRevealOnScroll()
     <!-- 核心内容 -->
     <div class="contact-content animate-on-scroll">
       <div class="contact-info">
-        <h3>联系信息</h3>
-        <p><strong><i class="icon">📍</i> 实验室地址:</strong><br>北京建筑大学大兴校区工程实践创新中心317室</p>
+        <span class="contact-label">VISIT</span>
+        <h2>来工作室聊聊</h2>
+        <p class="contact-intro">技术交流、项目协作或加入团队，都可以通过下面的方式找到我们。</p>
 
-        <!-- 居中图片和文字 -->
-        <div class="qq-group">
-          <p>扫码下方二维码加入我们的QQ群<br/>群号：455362758</p>
-          <img :src="qqImage" alt="QQ群二维码" class="qq-image">
+        <dl class="contact-list">
+          <div>
+            <dt>实验室</dt>
+            <dd>北京建筑大学大兴校区<br>工程实践创新中心 317 室</dd>
+          </div>
+          <div>
+            <dt>QQ群</dt>
+            <dd>455362758</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="qq-group">
+        <div>
+          <span class="contact-label">JOIN</span>
+          <h3>加入交流群</h3>
+          <p>使用 QQ 扫码，获取活动通知并与成员交流。</p>
         </div>
+        <img :src="qqImage" alt="QQ群455362758二维码" class="qq-image" loading="lazy" decoding="async">
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* 页面容器 */
 .page-container {
-  max-width: 1100px;
+  max-width: 1040px;
   margin: 0 auto;
-  padding: 0 var(--page-gutter) 40px;
+  padding: 0 var(--page-gutter) 64px;
 }
 
-/* 滚动入场动画 */
 .contact-content.animate-on-scroll {
   opacity: 0;
   transition: opacity 0.35s ease;
@@ -48,81 +61,131 @@ useRevealOnScroll()
   opacity: 1;
 }
 
-/* 联系内容布局 */
 .contact-content {
-  max-width: 680px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  gap: 0;
   background: var(--color-card);
   border: 1px solid var(--border-standard);
-  padding: 40px;
-  border-radius: 6px;
-  box-shadow: none;
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
 }
 
-.contact-info h3 {
-  font-size: 1.5rem;
+.contact-info {
+  padding: 46px;
+}
+
+.contact-label {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--color-accent);
+  font-size: 0.74rem;
+  font-weight: 590;
+  letter-spacing: 0.12em;
+}
+
+.contact-info h2,
+.qq-group h3 {
+  margin: 0;
+  color: var(--color-text);
   font-weight: 510;
+}
+
+.contact-info h2 {
+  font-size: 2.25rem;
+  line-height: 1.15;
+}
+
+.contact-intro {
+  max-width: 490px;
+  margin: 18px 0 0;
+  line-height: 1.75;
+}
+
+.contact-list {
+  display: grid;
+  margin: 34px 0 0;
+  border-top: 1px solid var(--border-standard);
+}
+
+.contact-list div {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 18px;
+  padding: 20px 0;
   border-bottom: 1px solid var(--border-standard);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
 }
 
-.contact-info p {
-  line-height: 1.8;
-  color: var(--color-text-secondary);
-  overflow-wrap: anywhere;
+.contact-list dt {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-weight: 510;
 }
 
-.contact-info .icon {
-  display: inline-block;
-  width: 20px;
-  color: var(--color-accent-hover);
+.contact-list dd {
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.7;
 }
 
-/* QQ群居中样式 */
 .qq-group {
-  text-align: center;
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 46px;
+  border-left: 1px solid var(--border-standard);
+  background: var(--color-bg-deep);
+}
+
+.qq-group h3 {
+  font-size: 1.4rem;
 }
 
 .qq-group p {
-  margin-bottom: 15px;
-  font-size: 1rem;
+  margin: 12px 0 0;
   color: var(--color-text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.7;
 }
 
 .qq-group .qq-image {
-  width: 40%;
-  max-width: 400px;
-  border-radius: 6px;
+  width: min(100%, 260px);
+  aspect-ratio: 1;
+  align-self: center;
   border: 1px solid var(--border-standard);
-  box-shadow: none;
-  transition: border-color 0.2s ease;
-  cursor: pointer;
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-soft);
 }
 
-.qq-group .qq-image:hover {
-  border-color: var(--border-strong);
-}
-
-/* 响应式 */
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .contact-content {
-    padding: 22px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-info,
+  .qq-group {
+    padding: 28px;
+  }
+
+  .qq-group {
+    border-top: 1px solid var(--border-standard);
+    border-left: 0;
+  }
+
+  .contact-info h2 {
+    font-size: 1.8rem;
   }
 
   .qq-group .qq-image {
-    width: min(220px, 75vw);
-  }
-
-  .contact-info h3 {
-    font-size: 1.3rem;
+    width: min(240px, 74vw);
   }
 }
 
 @media (max-width: 420px) {
-  .contact-content {
-    padding: 18px;
-  }
+  .contact-info,
+  .qq-group { padding: 22px; }
+  .contact-list div { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 }
 </style>

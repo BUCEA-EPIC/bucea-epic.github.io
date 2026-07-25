@@ -110,7 +110,7 @@ useRevealOnScroll()
 
 <style scoped>
 .page-container {
-  max-width: 1120px;
+  max-width: var(--container);
   margin: 0 auto;
   padding: 0 var(--page-gutter) 48px;
 }
@@ -127,10 +127,10 @@ useRevealOnScroll()
 .notice-summary {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr);
-  gap: 28px;
+  gap: 56px;
   align-items: start;
-  margin-bottom: 44px;
-  padding-bottom: 32px;
+  margin-bottom: 64px;
+  padding-bottom: 44px;
   border-bottom: 1px solid var(--border-standard);
 }
 
@@ -173,14 +173,14 @@ useRevealOnScroll()
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 10px;
 }
 
 .summary-item {
   min-height: 84px;
   padding: 16px;
   border: 1px solid var(--border-standard);
-  border-radius: 6px;
+  border-radius: var(--radius-card);
   background: var(--color-card);
   box-shadow: none;
 }
@@ -201,7 +201,7 @@ useRevealOnScroll()
 }
 
 .notice-track {
-  margin-bottom: 48px;
+  margin-bottom: 64px;
 }
 
 .track-heading {
@@ -209,7 +209,9 @@ useRevealOnScroll()
   align-items: flex-end;
   justify-content: space-between;
   gap: 18px;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-standard);
 }
 
 .track-label {
@@ -242,14 +244,14 @@ useRevealOnScroll()
 .level-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
   align-items: start;
 }
 
 .level-card {
   overflow: hidden;
   border: 1px solid var(--border-standard);
-  border-radius: 6px;
+  border-radius: var(--radius-card);
   background: var(--color-card);
   box-shadow: none;
 }
@@ -322,7 +324,7 @@ useRevealOnScroll()
   }
 
   .level-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -339,6 +341,10 @@ useRevealOnScroll()
   .track-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .level-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

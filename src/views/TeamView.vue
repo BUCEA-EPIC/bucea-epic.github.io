@@ -13,7 +13,7 @@ useRevealOnScroll('.team-reveal')
     <div class="header">
       <span class="header-bg-text">TEAM</span>
       <h1>团队成员</h1>
-      <p>简单、清晰地展示当前团队结构</p>
+      <p>汇聚不同专业背景，在长期协作中共同完成工程实践</p>
     </div>
 
     <section class="team-block advisor-section team-reveal">
@@ -25,7 +25,7 @@ useRevealOnScroll('.team-reveal')
       <div class="advisor-list">
         <div class="advisor-card" v-for="advisor in advisors" :key="advisor.name">
           <div class="advisor-portrait">
-            <img :src="advisor.avatar" :alt="advisor.name">
+            <img :src="advisor.avatar" :alt="advisor.name" loading="lazy" decoding="async">
           </div>
           <div class="advisor-info">
             <span class="advisor-label">Faculty Advisor</span>
@@ -46,7 +46,7 @@ useRevealOnScroll('.team-reveal')
 
         <div class="leader-card" v-if="leader">
           <div class="leader-portrait">
-            <img :src="leader.avatar" :alt="leader.name">
+            <img :src="leader.avatar" :alt="leader.name" loading="lazy" decoding="async">
           </div>
           <div class="leader-info">
             <span class="leader-label">Current Lead</span>
@@ -75,7 +75,7 @@ useRevealOnScroll('.team-reveal')
             :key="member.name"
           >
             <div class="member-avatar">
-              <img :src="member.avatar" :alt="member.name">
+              <img :src="member.avatar" :alt="member.name" loading="lazy" decoding="async">
             </div>
             <div class="member-content">
               <span class="member-label">Member</span>
@@ -92,7 +92,7 @@ useRevealOnScroll('.team-reveal')
 
 <style scoped>
 .page-container {
-  max-width: 1100px;
+  max-width: var(--container);
   margin: 0 auto;
   padding: 0 var(--page-gutter) 56px;
 }
@@ -106,9 +106,7 @@ useRevealOnScroll('.team-reveal')
   opacity: 1;
 }
 
-.advisor-section {
-  margin-bottom: 54px;
-}
+.advisor-section { margin-bottom: 68px; }
 
 .advisor-list {
   display: flex;
@@ -117,11 +115,11 @@ useRevealOnScroll('.team-reveal')
 }
 
 .team-layout {
-  --member-photo-width: 320px;
+  --member-photo-width: 300px;
   --member-photo-aspect: 3 / 4;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 64px;
 }
 
 .team-block {
@@ -142,7 +140,7 @@ useRevealOnScroll('.team-reveal')
 .block-heading h2 {
   margin: 0;
   color: var(--color-text);
-  font-size: 1.45rem;
+  font-size: 1.65rem;
   font-weight: 510;
   letter-spacing: 0;
 }
@@ -170,15 +168,15 @@ useRevealOnScroll('.team-reveal')
   display: grid;
   grid-template-columns: minmax(240px, var(--member-photo-width)) minmax(0, 1fr);
   align-items: stretch;
-  gap: 36px;
+  gap: 48px;
   overflow: hidden;
-  padding: 32px;
+  padding: 30px;
   background: var(--color-card);
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .advisor-card {
-  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
 }
 
 .advisor-card:hover,
@@ -242,15 +240,13 @@ useRevealOnScroll('.team-reveal')
 .leader-card h3 {
   margin: 0 0 14px;
   color: var(--color-text);
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   font-weight: 510;
   letter-spacing: 0;
   line-height: 1.1;
 }
 
-.advisor-card h3 {
-  font-size: 2.5rem;
-}
+.advisor-card h3 { font-size: 2.3rem; }
 
 .advisor-card p,
 .leader-card p {
@@ -442,7 +438,7 @@ useRevealOnScroll('.team-reveal')
 
   .advisor-card h3,
   .leader-card h3 {
-    font-size: 2.6rem;
+    font-size: 2.1rem;
     overflow-wrap: anywhere;
   }
 
@@ -450,4 +446,5 @@ useRevealOnScroll('.team-reveal')
     margin-top: 20px;
   }
 }
+
 </style>

@@ -2,9 +2,11 @@
   <nav ref="navbarElement" class="navbar" :class="{ 'is-scrolled': isScrolled }">
     <div class="container">
 
-      <!-- LOGO：PC 正常显示；手机端自动换行成两行 -->
       <router-link to="/" class="logo">
-        工程实践创新中心<span class="mobile-break"><br/></span>317工作室
+        <img :src="epicLogoImg" alt="" aria-hidden="true" class="logo-mark">
+        <span class="logo-copy">
+          工程实践创新中心<span class="mobile-break"><br/></span>317工作室
+        </span>
       </router-link>
 
       <!-- 移动端菜单按钮 -->
@@ -94,6 +96,7 @@ const menuOpen = ref(false);
 const isScrolled = ref(false);
 const navbarElement = ref(null);
 const menuButton = ref(null);
+const epicLogoImg = `${import.meta.env.BASE_URL}logo.jpg`;
 const githubUrl = "https://github.com/BUCEA-EPIC";
 const desktopBreakpoint = 1180;
 let desktopMediaQuery;
@@ -149,20 +152,20 @@ onBeforeUnmount(() => {
   z-index: 1000;
   width: 100%;
   padding: 0;
-  background: var(--color-bg);
+  background: rgba(11, 12, 13, 0.94);
   border-bottom: 1px solid var(--border-subtle);
-  backdrop-filter: none;
-  transition: border-color 0.2s ease;
+  backdrop-filter: blur(16px);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .navbar.is-scrolled {
-  background: var(--color-bg);
+  background: rgba(8, 9, 10, 0.97);
   border-bottom-color: var(--border-standard);
   box-shadow: none;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 0 var(--page-gutter);
   display: flex;
@@ -174,6 +177,9 @@ onBeforeUnmount(() => {
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   position: relative;
   color: var(--color-text);
   font-size: 1.08rem;
@@ -184,6 +190,21 @@ onBeforeUnmount(() => {
   flex: 0 0 auto;
   white-space: nowrap;
   transition: color 0.2s ease;
+}
+
+.logo-mark {
+  display: block;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-control);
+  background: #fff;
+  object-fit: cover;
+}
+
+.logo-copy {
+  display: inline-block;
 }
 
 .logo:hover {
@@ -214,7 +235,7 @@ onBeforeUnmount(() => {
   border-bottom: 2px solid transparent;
   border-radius: 0;
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   font-weight: 510;
   text-decoration: none;
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -323,7 +344,7 @@ onBeforeUnmount(() => {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 220px;
   max-height: calc(100vh - 90px);
   max-height: calc(100dvh - 90px);
   overflow-y: auto;
@@ -431,9 +452,15 @@ onBeforeUnmount(() => {
   /* 更紧密的两行间距 */
   .logo {
     line-height: 1.1;
-    font-size: 1.12rem;
+    font-size: 1rem;
     overflow-wrap: anywhere;
     white-space: normal;
+  }
+
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
   }
 
   .more-btn {

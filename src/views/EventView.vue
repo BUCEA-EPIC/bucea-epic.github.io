@@ -81,7 +81,7 @@ useRevealOnScroll()
             </p>
           </div>
           <div class="image-content animate-image">
-            <img :src="eventImg" alt="第五届萌新种子杯赛事简介">
+            <img :src="eventImg" alt="第五届萌新种子杯赛事简介" loading="lazy" decoding="async">
           </div>
         </div>
 
@@ -97,14 +97,14 @@ useRevealOnScroll()
 
         <div id="awards" class="content-section single-column animate-on-scroll awards-section">
           <div class="text-content animate-text">
-            <h2>🏆 获奖公示</h2>
+            <h2>获奖公示</h2>
 
             <div class="awards-card">
               <div class="awards-info">
                 <p>第五届“萌新种子杯”各项赛程已圆满结束，感谢各位同学的积极参与。</p>
                 <p class="highlight-notice">
-                  <span class="notice-icon">📢</span>
-                  荣誉证书敬请期待后续发放安排，见QQ群(455362758)通知。
+                  <strong>证书通知</strong>
+                  荣誉证书敬请期待后续发放安排，见QQ群（455362758）通知。
                 </p>
                 <p>第五届最终获奖名单已整理为独立公示页面，请点击下方按钮查看：</p>
               </div>
@@ -131,7 +131,7 @@ useRevealOnScroll()
               </p>
             </div>
             <div class="image-content animate-image">
-              <img :src="track1Img" alt="视觉循迹仿真">
+              <img :src="track1Img" alt="视觉循迹仿真" loading="lazy" decoding="async">
             </div>
           </div>
 
@@ -148,7 +148,7 @@ useRevealOnScroll()
               </p>
             </div>
             <div class="image-content animate-image">
-              <img :src="track2Img" alt="开关电源设计">
+              <img :src="track2Img" alt="开关电源设计" loading="lazy" decoding="async">
             </div>
           </div>
 
@@ -165,7 +165,7 @@ useRevealOnScroll()
               </p>
             </div>
             <div class="image-content animate-image">
-              <img :src="track3Img" alt="三维建模设计">
+              <img :src="track3Img" alt="三维建模设计" loading="lazy" decoding="async">
             </div>
           </div>
         </div>
@@ -201,7 +201,7 @@ useRevealOnScroll()
           <h2>咨询我们</h2>
           <p>QQ群：455362758</p>
         </div>
-        <div class="image-content animate-image"><img :src="qqImg" class="qq-group-img" alt="萌新种子杯咨询群二维码"></div>
+        <div class="image-content animate-image"><img :src="qqImg" class="qq-group-img" alt="萌新种子杯咨询群二维码" loading="lazy" decoding="async"></div>
       </div>
     </template>
 
@@ -217,7 +217,7 @@ useRevealOnScroll()
 </template>
 
 <style scoped>
-.page-container { max-width: 1000px; margin: 0 auto; padding: 0 var(--page-gutter) 30px; }
+.page-container { max-width: 1120px; margin: 0 auto; padding: 0 var(--page-gutter) 56px; }
 
 .animate-on-scroll .animate-text, .animate-on-scroll .animate-image { opacity: 0; transition: opacity 0.35s ease; }
 .animate-on-scroll.is-visible .animate-text, .animate-on-scroll.is-visible .animate-image { opacity: 1; }
@@ -231,13 +231,15 @@ useRevealOnScroll()
   transform: translateY(0);
 }
 
-.content-section { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; }
+.content-section { display: flex; align-items: center; gap: 64px; margin-bottom: 72px; }
 .content-section[id] { scroll-margin-top: 96px; }
-.text-content { flex: 0.5; }
-.text-content h2 { font-size: 1.8rem; font-weight: 510; border-bottom: 1px solid var(--border-standard); padding-bottom: 4px; margin-bottom: 10px; display: inline-block; color: var(--color-text); letter-spacing: 0; }
-.text-content p { line-height: 1.6; color: var(--color-text-secondary); font-size: 0.95rem; }
+.text-content { flex: 1 1 0; min-width: 0; }
+.text-content h2 { margin: 0 0 20px; border: 0; padding: 0; font-size: 2rem; font-weight: 510; color: var(--color-text); letter-spacing: 0; line-height: 1.25; }
+.text-content p { margin: 0 0 16px; line-height: 1.75; color: var(--color-text-secondary); font-size: 1rem; }
+.text-content p:last-child { margin-bottom: 0; }
 .text-content a { text-decoration: none; color: var(--color-accent-hover); }
-.single-column { flex-direction: column; align-items: flex-start; padding: 0; }
+.single-column { flex-direction: column; align-items: flex-start; gap: 18px; padding: 30px 0; border-top: 1px solid var(--border-standard); }
+.single-column .text-content { width: 100%; }
 .full-width { width: 100%; flex: none; }
 .event-status {
   display: inline-flex;
@@ -252,18 +254,18 @@ useRevealOnScroll()
   font-weight: 510;
 }
 
-.image-content { flex: 0.5; display: flex; justify-content: center; align-items: center; }
-.image-content img { width: 100%; max-width: 600px; border-radius: 6px; box-shadow: none; }
+.image-content { flex: 1 1 0; min-width: 0; display: flex; justify-content: center; align-items: center; }
+.image-content img { width: 100%; max-width: 600px; aspect-ratio: 4 / 3; border-radius: var(--radius-panel); box-shadow: var(--shadow-soft); object-fit: cover; }
 .image-content img:hover { transform: none; }
-.qq-group-img { width: 250px !important; }
+.qq-group-img { width: 250px !important; aspect-ratio: 1 !important; }
 
 .edition-overview {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 24px;
-  margin: -24px 0 42px;
-  padding: 14px 16px;
+  margin: -30px 0 68px;
+  padding: 18px 20px;
   border: 1px solid var(--border-standard);
   border-radius: 8px;
   background: var(--color-card);
@@ -303,7 +305,7 @@ useRevealOnScroll()
 .edition-current strong {
   display: block;
   color: var(--color-text);
-  font-size: 1.1rem;
+  font-size: 1.18rem;
   font-weight: 510;
 }
 
@@ -361,7 +363,7 @@ useRevealOnScroll()
 }
 
 .awards-section {
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .awards-card {
@@ -369,7 +371,8 @@ useRevealOnScroll()
   border: 1px solid var(--border-standard);
   border-left: 1px solid rgba(130, 143, 255, 0.32);
   border-radius: 8px;
-  padding: 25px;
+  width: 100%;
+  padding: 28px;
   box-shadow: var(--shadow-card);
   transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
@@ -392,16 +395,16 @@ useRevealOnScroll()
 .highlight-notice {
   color: var(--color-text-secondary);
   background: rgba(113, 112, 255, 0.1);
-  padding: 10px 15px;
+  padding: 12px 14px;
   border-radius: 6px;
   font-weight: 510;
-  display: inline-block;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
   border: 1px solid rgba(130, 143, 255, 0.24);
 }
 
-.notice-icon {
-  margin-right: 6px;
-}
+.highlight-notice strong { flex: 0 0 auto; color: var(--color-text); }
 
 .awards-link-btn {
   display: flex;
@@ -444,11 +447,41 @@ useRevealOnScroll()
   gap: 24px;
   align-items: start;
   margin-bottom: 44px;
-  padding: 22px;
+  padding: 30px;
   border: 1px solid var(--border-standard);
   border-radius: 8px;
   background: var(--color-card);
   box-shadow: var(--shadow-card);
+}
+
+.track-container {
+  margin-top: 24px;
+  border-top: 1px solid var(--border-standard);
+}
+
+.track-container .content-section {
+  margin: 0;
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border-standard);
+}
+
+.track-container .content-section:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+#contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  align-items: center;
+  margin: 72px 0 0;
+  padding: 42px;
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-panel);
+  background: var(--color-card);
+}
+
+#contact .image-content {
+  width: 100%;
 }
 
 .brief-main h2 {
@@ -507,6 +540,7 @@ useRevealOnScroll()
     flex-direction: column;
     align-items: stretch;
     gap: 24px;
+    margin-bottom: 56px;
   }
   .text-content,
   .image-content {
@@ -524,6 +558,7 @@ useRevealOnScroll()
     grid-template-columns: 1fr;
     gap: 16px;
     margin-top: -12px;
+    margin-bottom: 48px;
   }
 
   .edition-actions {
@@ -551,6 +586,29 @@ useRevealOnScroll()
 
   .awards-card {
     padding: 20px;
+  }
+
+  .highlight-notice {
+    display: block;
+  }
+
+  .highlight-notice strong {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .track-container .content-section,
+  .track-container .content-section:nth-child(even) {
+    flex-direction: column;
+    padding: 46px 0;
+  }
+
+  #contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    margin-top: 56px;
+    padding: 26px;
   }
   
   .awards-link-btn {

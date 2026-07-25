@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { newsData } from '../data/newsData.js'
 import competitionImg from '../assets/news/2025工训-大连.jpg'
+import studioImg from '../assets/about/studio-1.webp'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 const epicLogoImg = `${import.meta.env.BASE_URL}logo.jpg`
@@ -9,6 +10,12 @@ const githubUrl = 'https://github.com/BUCEA-EPIC'
 const latestNews = ref(newsData.slice(0, 3))
 
 const focusAreas = ['机器人系统', '机械结构', '电控与驱动', '计算机视觉']
+const exploreLinks = [
+  { index: '01', title: '项目与机器人', description: '查看从机械结构到感知算法的完整工程作品。', to: '/projects' },
+  { index: '02', title: '团队成员', description: '认识共同推进训练、赛事与项目的伙伴。', to: '/team' },
+  { index: '03', title: '教程与资源', description: '从基础概念开始，逐步进入工程实践。', to: '/resources' },
+  { index: '04', title: '联系我们', description: '交流技术问题、合作想法或加入团队。', to: '/contact' }
+]
 
 useRevealOnScroll()
 </script>
@@ -17,7 +24,7 @@ useRevealOnScroll()
   <div class="home-view">
     <section class="home-hero animate-on-scroll">
       <div class="hero-background" aria-hidden="true">
-        <img :src="competitionImg" alt="" />
+        <img :src="competitionImg" alt="" fetchpriority="high" />
       </div>
 
       <div class="container hero-layout">
@@ -83,12 +90,40 @@ useRevealOnScroll()
         </div>
 
         <div class="about-image">
-          <img :src="competitionImg" alt="工程实践创新中心团队活动现场" />
+          <img :src="studioImg" alt="工程实践创新中心317工作室环境" loading="lazy" decoding="async" />
         </div>
       </div>
     </section>
 
-    <section class="section animate-on-scroll" id="news">
+    <section class="section explore-section animate-on-scroll" aria-labelledby="explore-title">
+      <div class="container">
+        <div class="section-heading explore-heading">
+          <div>
+            <span class="section-kicker">EXPLORE</span>
+            <h2 id="explore-title" class="section-title">从这里开始</h2>
+          </div>
+          <p>找到作品、伙伴与学习路径，把一次兴趣变成持续实践。</p>
+        </div>
+
+        <div class="explore-grid">
+          <router-link
+            v-for="item in exploreLinks"
+            :key="item.to"
+            :to="item.to"
+            class="explore-link"
+          >
+            <span class="explore-index">{{ item.index }}</span>
+            <div>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description }}</p>
+            </div>
+            <span class="explore-arrow" aria-hidden="true">→</span>
+          </router-link>
+        </div>
+      </div>
+    </section>
+
+    <section class="section news-section animate-on-scroll" id="news">
       <div class="container">
         <div class="section-heading">
           <div>
@@ -106,7 +141,7 @@ useRevealOnScroll()
             :style="{ '--index': index }"
           >
             <div class="card-image-wrapper">
-              <img v-if="item.image" :src="item.image" :alt="item.title" />
+              <img v-if="item.image" :src="item.image" :alt="item.title" loading="lazy" decoding="async" />
               <div v-else class="image-placeholder"></div>
             </div>
 
@@ -131,13 +166,14 @@ useRevealOnScroll()
 }
 
 .container {
-  max-width: 1100px;
+  max-width: var(--container);
   margin: 0 auto;
   padding: 0 var(--page-gutter);
 }
 
 .section {
-  padding: 84px 0;
+  padding: 96px 0;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .section-kicker {
@@ -152,7 +188,7 @@ useRevealOnScroll()
 .about-text h2 {
   margin: 10px 0 0;
   color: var(--color-text);
-  font-size: 2.25rem;
+  font-size: 2.4rem;
   font-weight: 510;
   line-height: 1;
 }
@@ -181,9 +217,9 @@ useRevealOnScroll()
 .home-hero {
   position: relative;
   display: flex;
-  min-height: calc(100svh - 156px);
+  min-height: calc(100svh - 138px);
   margin: 0;
-  padding: 72px 0 88px;
+  padding: 74px 0 96px;
   overflow: hidden;
 }
 
@@ -197,14 +233,14 @@ useRevealOnScroll()
   height: 100%;
   object-fit: cover;
   object-position: center 32%;
-  filter: saturate(0.72) brightness(0.42);
+  filter: saturate(0.8) brightness(0.48);
 }
 
 .hero-background::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(12, 13, 14, 0.94) 0%, rgba(12, 13, 14, 0.72) 58%, rgba(12, 13, 14, 0.42) 100%);
+  background: linear-gradient(90deg, rgba(8, 9, 10, 0.96) 0%, rgba(8, 9, 10, 0.75) 58%, rgba(8, 9, 10, 0.38) 100%);
 }
 
 .hero-layout {
@@ -217,7 +253,7 @@ useRevealOnScroll()
 }
 
 .hero-copy {
-  max-width: 760px;
+  max-width: 790px;
 }
 
 .hero-brand {
@@ -337,10 +373,21 @@ useRevealOnScroll()
   font-weight: 510;
 }
 
+.hero-focus span::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  vertical-align: 2px;
+}
+
 .about-section {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 460px);
-  gap: 40px;
+  gap: 72px;
   align-items: center;
 }
 
@@ -357,14 +404,15 @@ useRevealOnScroll()
 .about-image {
   overflow: hidden;
   border: 1px solid var(--border-standard);
-  border-radius: 8px;
-  box-shadow: none;
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 .about-image img {
   display: block;
   width: 100%;
-  min-height: 320px;
+  aspect-ratio: 4 / 3;
+  min-height: 0;
   object-fit: cover;
 }
 
@@ -374,6 +422,79 @@ useRevealOnScroll()
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 34px;
+}
+
+.explore-section {
+  background: var(--color-bg-deep);
+}
+
+.explore-heading p {
+  max-width: 440px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--border-standard);
+}
+
+.explore-link {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 24px;
+  gap: 18px;
+  align-items: start;
+  min-height: 176px;
+  padding: 30px 28px;
+  border-bottom: 1px solid var(--border-standard);
+  color: var(--color-text);
+  transition: background-color 0.2s ease;
+}
+
+.explore-link:nth-child(odd) {
+  border-right: 1px solid var(--border-standard);
+}
+
+.explore-link:hover {
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--color-text);
+}
+
+.explore-index {
+  color: var(--color-accent);
+  font-size: 0.78rem;
+  font-weight: 590;
+}
+
+.explore-link h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  font-weight: 510;
+}
+
+.explore-link p {
+  margin: 10px 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.explore-arrow {
+  color: var(--color-text-muted);
+  font-size: 1.15rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.explore-link:hover .explore-arrow {
+  transform: translateX(3px);
+  color: var(--color-text);
+}
+
+.news-section {
+  background: var(--color-bg);
 }
 
 .news-grid {
@@ -403,10 +524,10 @@ useRevealOnScroll()
 }
 
 .news-card:hover {
-  transform: none;
+  transform: translateY(-2px);
   border-color: var(--border-strong);
   background: var(--color-card-hover);
-  box-shadow: none;
+  box-shadow: var(--shadow-card);
 }
 
 .card-image-wrapper {
@@ -478,12 +599,12 @@ useRevealOnScroll()
 
 @media (max-width: 768px) {
   .section {
-    padding: 56px 0;
+    padding: 64px 0;
   }
 
   .home-hero {
-    min-height: calc(100svh - 132px);
-    padding: 56px 0 72px;
+    min-height: calc(100svh - 118px);
+    padding: 52px 0 72px;
   }
 
   .hero-layout {
@@ -491,7 +612,7 @@ useRevealOnScroll()
   }
 
   .hero-copy h1 {
-    font-size: 3.1rem;
+    font-size: 3rem;
     line-height: 1.02;
   }
 
@@ -514,13 +635,30 @@ useRevealOnScroll()
   }
 
   .about-image img {
-    min-height: 240px;
+    min-height: 0;
   }
 
   .section-heading {
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 26px;
+  }
+
+  .explore-heading p {
+    max-width: 34rem;
+  }
+
+  .explore-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .explore-link {
+    min-height: 0;
+    padding: 24px 4px;
+  }
+
+  .explore-link:nth-child(odd) {
+    border-right: 0;
   }
 
   .news-grid {

@@ -1,5 +1,5 @@
 // src/data/teamData.js
-import huaFengFang from '@/assets/team/化老师.jpg'
+import huaFengFang from '@/assets/team/advisor-hua.webp'
 import pengCanWen from '@/assets/team/彭粲文.jpg'
 import caiSiYao from '@/assets/team/蔡思瑶.jpg'
 import wangYaJie from '@/assets/team/王雅洁.jpg'

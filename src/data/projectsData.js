@@ -1,7 +1,7 @@
 // src/data/projectsData.js
 
 // 导入本地图片
-import rescueRobot1 from '@/assets/projects/智能救援小车图片1.jpg'
+import rescueRobot1 from '@/assets/projects/rescue-robot.webp'
 import logisticsRobot1 from '@/assets/projects/智能物流搬运小车图片1.jpg'
 
 export const projects = [
