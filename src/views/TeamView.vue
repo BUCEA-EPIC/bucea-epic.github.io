@@ -99,15 +99,11 @@ useRevealOnScroll('.team-reveal')
 
 .team-reveal {
   opacity: 0;
-  transform: translateY(32px);
-  filter: blur(8px);
-  transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
+  transition: opacity 0.35s ease;
 }
 
 .team-reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
 }
 
 .advisor-section {
@@ -148,11 +144,11 @@ useRevealOnScroll('.team-reveal')
   color: var(--color-text);
   font-size: 1.45rem;
   font-weight: 510;
-  letter-spacing: -0.288px;
+  letter-spacing: 0;
 }
 
 .eyebrow {
-  color: var(--color-accent-hover);
+  color: var(--color-text-muted);
   font-size: 0.75rem;
   font-weight: 590;
   letter-spacing: 0.08em;
@@ -177,10 +173,8 @@ useRevealOnScroll('.team-reveal')
   gap: 36px;
   overflow: hidden;
   padding: 32px;
-  background:
-    linear-gradient(135deg, rgba(130, 143, 255, 0.16), rgba(255, 255, 255, 0.035) 42%, rgba(255, 255, 255, 0.02)),
-    var(--color-card);
-  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  background: var(--color-card);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .advisor-card {
@@ -189,22 +183,13 @@ useRevealOnScroll('.team-reveal')
 
 .advisor-card:hover,
 .leader-card:hover {
-  transform: translateY(-4px);
   border-color: var(--border-strong);
-  background:
-    linear-gradient(135deg, rgba(130, 143, 255, 0.19), rgba(255, 255, 255, 0.045) 42%, rgba(255, 255, 255, 0.028)),
-    var(--color-card-hover);
+  background: var(--color-card-hover);
 }
 
 .advisor-card::before,
 .leader-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.07), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%);
+  content: none;
 }
 
 .advisor-portrait,
@@ -217,7 +202,7 @@ useRevealOnScroll('.team-reveal')
   border: 1px solid var(--border-standard);
   border-radius: 8px;
   background: var(--color-panel);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+  box-shadow: none;
 }
 
 .advisor-portrait img,
@@ -246,7 +231,7 @@ useRevealOnScroll('.team-reveal')
 .leader-label {
   display: inline-flex;
   margin-bottom: 18px;
-  color: var(--color-accent-hover);
+  color: var(--color-text-muted);
   font-size: 0.75rem;
   font-weight: 590;
   letter-spacing: 0.12em;
@@ -257,14 +242,14 @@ useRevealOnScroll('.team-reveal')
 .leader-card h3 {
   margin: 0 0 14px;
   color: var(--color-text);
-  font-size: 4rem;
+  font-size: 2.5rem;
   font-weight: 510;
-  letter-spacing: -1.6px;
-  line-height: 0.95;
+  letter-spacing: 0;
+  line-height: 1.1;
 }
 
 .advisor-card h3 {
-  font-size: 3.75rem;
+  font-size: 2.5rem;
 }
 
 .advisor-card p,
@@ -277,7 +262,7 @@ useRevealOnScroll('.team-reveal')
 .advisor-card .advisor-role,
 .leader-card .leader-role {
   margin-bottom: 12px;
-  color: var(--color-accent-hover);
+  color: var(--color-text-secondary);
   font-size: 1.05rem;
   font-weight: 590;
 }
@@ -302,7 +287,7 @@ useRevealOnScroll('.team-reveal')
 
 .leader-tags span {
   border: 1px solid var(--border-standard);
-  border-radius: 999px;
+  border-radius: var(--radius-control);
   padding: 7px 12px;
   background: rgba(255, 255, 255, 0.04);
   color: var(--color-text-secondary);
@@ -322,28 +307,17 @@ useRevealOnScroll('.team-reveal')
   margin: 0 0 18px;
   overflow: hidden;
   break-inside: avoid;
-  background:
-    linear-gradient(135deg, rgba(130, 143, 255, 0.16), rgba(255, 255, 255, 0.035) 42%, rgba(255, 255, 255, 0.02)),
-    var(--color-card);
-  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  background: var(--color-card);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .member-card:hover {
-  transform: translateY(-3px);
   border-color: var(--border-strong);
-  background:
-    linear-gradient(135deg, rgba(130, 143, 255, 0.19), rgba(255, 255, 255, 0.045) 42%, rgba(255, 255, 255, 0.028)),
-    var(--color-card-hover);
+  background: var(--color-card-hover);
 }
 
 .member-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.07), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%);
+  content: none;
 }
 
 .member-avatar {
@@ -371,7 +345,7 @@ useRevealOnScroll('.team-reveal')
 .member-label {
   display: inline-flex;
   margin-bottom: 12px;
-  color: var(--color-accent-hover);
+  color: var(--color-text-muted);
   font-size: 0.75rem;
   font-weight: 590;
   letter-spacing: 0.12em;
@@ -395,7 +369,7 @@ useRevealOnScroll('.team-reveal')
 
 .member-card .member-role {
   margin-bottom: 10px;
-  color: var(--color-accent-hover);
+  color: var(--color-text-secondary);
   font-size: 0.95rem;
   font-weight: 590;
 }

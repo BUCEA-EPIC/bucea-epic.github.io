@@ -41,13 +41,11 @@ useRevealOnScroll()
 /* 滚动入场动画 */
 .contact-content.animate-on-scroll {
   opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transition: opacity 0.35s ease;
 }
 
 .contact-content.animate-on-scroll.is-visible {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* 联系内容布局 */
@@ -57,8 +55,8 @@ useRevealOnScroll()
   background: var(--color-card);
   border: 1px solid var(--border-standard);
   padding: 40px;
-  border-radius: 8px;
-  box-shadow: var(--shadow-card);
+  border-radius: 6px;
+  box-shadow: none;
 }
 
 .contact-info h3 {
@@ -96,15 +94,14 @@ useRevealOnScroll()
 .qq-group .qq-image {
   width: 40%;
   max-width: 400px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid var(--border-standard);
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  box-shadow: none;
+  transition: border-color 0.2s ease;
   cursor: pointer;
 }
 
 .qq-group .qq-image:hover {
-  transform: translateY(-4px);
   border-color: var(--border-strong);
 }
 

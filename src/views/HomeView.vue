@@ -141,14 +141,8 @@ useRevealOnScroll()
 }
 
 .section-kicker {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 0 10px;
-  border: 1px solid rgba(130, 143, 255, 0.24);
-  border-radius: 9999px;
-  background: rgba(113, 112, 255, 0.08);
-  color: #bcc6ff;
+  display: block;
+  color: var(--color-text-muted);
   font-size: 0.76rem;
   font-weight: 590;
   letter-spacing: 0.08em;
@@ -156,9 +150,9 @@ useRevealOnScroll()
 
 .section-title,
 .about-text h2 {
-  margin: 18px 0 0;
+  margin: 10px 0 0;
   color: var(--color-text);
-  font-size: 3rem;
+  font-size: 2.25rem;
   font-weight: 510;
   line-height: 1;
 }
@@ -166,22 +160,22 @@ useRevealOnScroll()
 .section-link {
   display: inline-flex;
   align-items: center;
-  min-height: 38px;
-  padding: 0 14px;
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-control);
-  background: rgba(255, 255, 255, 0.03);
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--border-standard);
+  border-radius: 0;
+  background: transparent;
   color: var(--color-text-secondary);
   font-size: 0.94rem;
   font-weight: 510;
-  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .section-link:hover {
   color: var(--color-text);
-  border-color: rgba(130, 143, 255, 0.34);
-  background: rgba(255, 255, 255, 0.06);
-  transform: translateY(-2px);
+  border-color: var(--color-text-secondary);
+  background: transparent;
 }
 
 .home-hero {
@@ -189,7 +183,7 @@ useRevealOnScroll()
   display: flex;
   min-height: calc(100svh - 156px);
   margin: 0;
-  padding: 88px 0 104px;
+  padding: 72px 0 88px;
   overflow: hidden;
 }
 
@@ -203,18 +197,14 @@ useRevealOnScroll()
   height: 100%;
   object-fit: cover;
   object-position: center 32%;
-  filter: saturate(0.86) brightness(0.38);
-  transform: scale(1.04);
-  animation: heroBackdropShift 16s ease-in-out infinite alternate;
+  filter: saturate(0.72) brightness(0.42);
 }
 
 .hero-background::after {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(1, 1, 2, 0.18), rgba(1, 1, 2, 0.72) 28%, rgba(1, 1, 2, 0.9) 82%, rgba(1, 1, 2, 0.98)),
-    linear-gradient(90deg, rgba(1, 1, 2, 0.78), rgba(1, 1, 2, 0.42) 42%, rgba(1, 1, 2, 0.78));
+  background: linear-gradient(90deg, rgba(12, 13, 14, 0.94) 0%, rgba(12, 13, 14, 0.72) 58%, rgba(12, 13, 14, 0.42) 100%);
 }
 
 .hero-layout {
@@ -234,18 +224,13 @@ useRevealOnScroll()
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  min-height: 40px;
-  padding: 6px 14px 6px 6px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 9999px;
-  background: rgba(8, 9, 10, 0.34);
-  backdrop-filter: blur(14px);
+  min-height: 32px;
 }
 
 .hero-brand img {
   width: 28px;
   height: 28px;
-  border-radius: 9999px;
+  border-radius: 4px;
   object-fit: cover;
   background: rgba(255, 255, 255, 0.96);
 }
@@ -258,19 +243,17 @@ useRevealOnScroll()
 }
 
 .hero-copy h1 {
-  margin: 26px 0 0;
+  margin: 22px 0 0;
   color: var(--color-text);
-  font-size: 5.25rem;
+  font-size: 4.5rem;
   font-weight: 510;
-  letter-spacing: -1.6px;
-  line-height: 0.97;
+  letter-spacing: 0;
+  line-height: 1.02;
 }
 
 .hero-copy h1 span {
   display: block;
-  background: linear-gradient(90deg, #f7f8f8 0%, #c8d0ff 58%, #eef1ff 100%);
-  -webkit-background-clip: text;
-  color: transparent;
+  color: var(--color-text);
 }
 
 .hero-description {
@@ -298,32 +281,27 @@ useRevealOnScroll()
   border-radius: 6px;
   font-size: 0.94rem;
   font-weight: 510;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.hero-actions a:hover,
-.hero-links a:hover {
-  transform: translateY(-2px);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .primary-link {
-  border: 1px solid rgba(130, 143, 255, 0.58);
-  background: rgba(94, 106, 210, 0.82);
-  box-shadow: 0 12px 30px rgba(94, 106, 210, 0.24);
+  border: 1px solid var(--color-brand);
+  background: var(--color-brand);
+  box-shadow: none;
   color: var(--color-text);
 }
 
 .primary-link:hover {
-  background: var(--color-accent-hover);
+  background: #6674b7;
+  border-color: #6674b7;
   color: var(--color-text);
 }
 
 .secondary-link,
 .hero-github-link {
   border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(8, 9, 10, 0.28);
+  background: rgba(12, 13, 14, 0.76);
   color: rgba(240, 244, 255, 0.86);
-  backdrop-filter: blur(12px);
 }
 
 .secondary-link:hover,
@@ -354,23 +332,9 @@ useRevealOnScroll()
 }
 
 .hero-focus span {
-  position: relative;
   color: rgba(208, 214, 224, 0.84);
   font-size: 0.9rem;
   font-weight: 510;
-  padding-left: 16px;
-}
-
-.hero-focus span::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: linear-gradient(180deg, var(--color-accent-hover), #9af6d5);
-  transform: translateY(-50%);
 }
 
 .about-section {
@@ -394,7 +358,7 @@ useRevealOnScroll()
   overflow: hidden;
   border: 1px solid var(--border-standard);
   border-radius: 8px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: none;
 }
 
 .about-image img {
@@ -402,11 +366,6 @@ useRevealOnScroll()
   width: 100%;
   min-height: 320px;
   object-fit: cover;
-  transition: transform 0.35s ease;
-}
-
-.about-image:hover img {
-  transform: scale(1.03);
 }
 
 .section-heading {
@@ -424,20 +383,18 @@ useRevealOnScroll()
 }
 
 .news-card {
-  opacity: 0;
-  transform: translateY(24px);
+  opacity: 1;
   border: 1px solid var(--border-standard);
   border-radius: 8px;
   background: var(--color-card);
   box-shadow: var(--shadow-card);
   overflow: hidden;
   transition:
-    opacity 0.5s ease,
-    transform 0.5s ease,
+    opacity 0.35s ease,
     border-color 0.2s ease,
     background-color 0.2s ease,
     box-shadow 0.2s ease;
-  transition-delay: calc(var(--index) * 80ms + 120ms);
+  transition-delay: 0s;
 }
 
 #news.is-visible .news-card {
@@ -446,10 +403,10 @@ useRevealOnScroll()
 }
 
 .news-card:hover {
-  transform: translateY(-4px);
+  transform: none;
   border-color: var(--border-strong);
   background: var(--color-card-hover);
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+  box-shadow: none;
 }
 
 .card-image-wrapper {
@@ -463,11 +420,6 @@ useRevealOnScroll()
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.35s ease;
-}
-
-.news-card:hover .card-image-wrapper img {
-  transform: scale(1.05);
 }
 
 .news-card-content {
@@ -511,25 +463,11 @@ useRevealOnScroll()
 
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(32px);
-  filter: blur(8px);
-  transition: opacity 0.72s ease, transform 0.72s ease, filter 0.72s ease;
+  transition: opacity 0.35s ease;
 }
 
 .animate-on-scroll.is-visible {
   opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
-
-@keyframes heroBackdropShift {
-  from {
-    transform: scale(1.04) translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: scale(1.08) translate3d(0, -1%, 0);
-  }
 }
 
 @media (max-width: 980px) {
@@ -549,15 +487,7 @@ useRevealOnScroll()
   }
 
   .hero-layout {
-    align-items: center;
-  }
-
-  .hero-copy {
-    text-align: center;
-  }
-
-  .hero-brand {
-    justify-content: center;
+    align-items: flex-end;
   }
 
   .hero-copy h1 {
@@ -566,14 +496,12 @@ useRevealOnScroll()
   }
 
   .hero-description {
-    margin-left: auto;
-    margin-right: auto;
     font-size: 1rem;
   }
 
   .hero-actions,
   .hero-focus {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .hero-actions a {
@@ -619,7 +547,7 @@ useRevealOnScroll()
 @media (max-width: 420px) {
   .hero-brand {
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .hero-focus {

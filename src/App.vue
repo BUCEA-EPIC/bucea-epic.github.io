@@ -28,38 +28,24 @@ import Footer from './components/Footer.vue'
 
 .page-shell-enter-active,
 .page-shell-leave-active {
-  transition: opacity 0.42s ease, transform 0.42s ease, filter 0.42s ease;
+  transition: opacity 0.18s ease;
 }
 
 .page-shell-enter-from,
 .page-shell-leave-to {
   opacity: 0;
-  transform: translateY(18px);
-  filter: blur(14px);
 }
 
 .page-shell-enter-to,
 .page-shell-leave-from {
   opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
 }
 
 @media (max-width: 768px) {
-  #app .header-bg-text {
-    max-width: 100%;
-    overflow: hidden;
-    font-size: 4.8rem;
-  }
-
-  #app .header h1::after {
-    margin-top: 14px;
-  }
-
   #app .header p {
     max-width: 30rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0;
+    margin-right: 0;
     font-size: 1rem;
     line-height: 1.55;
   }
@@ -92,16 +78,5 @@ import Footer from './components/Footer.vue'
     transition-duration: 0.24s;
   }
 
-  .page-shell-enter-from,
-  .page-shell-leave-to {
-    transform: translateY(8px);
-    filter: none;
-  }
-}
-
-@media (max-width: 420px) {
-  #app .header-bg-text {
-    font-size: 3.35rem;
-  }
 }
 </style>

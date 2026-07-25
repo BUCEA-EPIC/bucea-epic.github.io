@@ -219,10 +219,8 @@ useRevealOnScroll()
 <style scoped>
 .page-container { max-width: 1000px; margin: 0 auto; padding: 0 var(--page-gutter) 30px; }
 
-.animate-on-scroll .animate-text, .animate-on-scroll .animate-image { opacity: 0; transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-.animate-on-scroll .animate-text { transform: translateX(-30px); }
-.animate-on-scroll .animate-image { transform: translateX(30px); }
-.animate-on-scroll.is-visible .animate-text, .animate-on-scroll.is-visible .animate-image { opacity: 1; transform: translateX(0); }
+.animate-on-scroll .animate-text, .animate-on-scroll .animate-image { opacity: 0; transition: opacity 0.35s ease; }
+.animate-on-scroll.is-visible .animate-text, .animate-on-scroll.is-visible .animate-image { opacity: 1; }
 .animate-on-scroll.brief-notice {
   opacity: 0;
   transform: translateY(20px);
@@ -236,7 +234,7 @@ useRevealOnScroll()
 .content-section { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; }
 .content-section[id] { scroll-margin-top: 96px; }
 .text-content { flex: 0.5; }
-.text-content h2 { font-size: 1.8rem; font-weight: 510; border-bottom: 1px solid var(--border-standard); padding-bottom: 4px; margin-bottom: 10px; display: inline-block; color: var(--color-text); letter-spacing: -0.288px; }
+.text-content h2 { font-size: 1.8rem; font-weight: 510; border-bottom: 1px solid var(--border-standard); padding-bottom: 4px; margin-bottom: 10px; display: inline-block; color: var(--color-text); letter-spacing: 0; }
 .text-content p { line-height: 1.6; color: var(--color-text-secondary); font-size: 0.95rem; }
 .text-content a { text-decoration: none; color: var(--color-accent-hover); }
 .single-column { flex-direction: column; align-items: flex-start; padding: 0; }
@@ -247,16 +245,16 @@ useRevealOnScroll()
   min-height: 28px;
   padding: 0 10px;
   border: 1px solid var(--border-standard);
-  border-radius: 9999px;
-  background: rgba(113, 112, 255, 0.1);
+  border-radius: var(--radius-control);
+  background: var(--color-panel);
   color: var(--color-text);
   font-size: 0.88rem;
   font-weight: 510;
 }
 
 .image-content { flex: 0.5; display: flex; justify-content: center; align-items: center; }
-.image-content img { width: 100%; max-width: 600px; border-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
-.image-content img:hover { transform: translateY(-5px); }
+.image-content img { width: 100%; max-width: 600px; border-radius: 6px; box-shadow: none; }
+.image-content img:hover { transform: none; }
 .qq-group-img { width: 250px !important; }
 
 .edition-overview {
@@ -268,7 +266,7 @@ useRevealOnScroll()
   padding: 14px 16px;
   border: 1px solid var(--border-standard);
   border-radius: 8px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0.02));
+  background: var(--color-card);
   box-shadow: var(--shadow-card);
 }
 
@@ -295,7 +293,7 @@ useRevealOnScroll()
   min-height: 24px;
   padding: 0 8px;
   border: 1px solid var(--border-standard);
-  border-radius: 9999px;
+  border-radius: var(--radius-control);
   background: rgba(255, 255, 255, 0.025);
   color: var(--color-text-secondary);
   font-size: 0.76rem;
@@ -367,7 +365,7 @@ useRevealOnScroll()
 }
 
 .awards-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.048), rgba(255, 255, 255, 0.022));
+  background: var(--color-card);
   border: 1px solid var(--border-standard);
   border-left: 1px solid rgba(130, 143, 255, 0.32);
   border-radius: 8px;
@@ -377,7 +375,7 @@ useRevealOnScroll()
 }
 
 .awards-card:hover {
-  transform: translateY(-4px);
+  transform: none;
   border-color: var(--border-strong);
 }
 
@@ -426,7 +424,7 @@ useRevealOnScroll()
 .awards-link-btn:hover {
   background: var(--color-accent-hover);
   color: var(--color-text);
-  transform: translateY(-1px);
+  transform: none;
   text-decoration: none;
 }
 
@@ -458,7 +456,7 @@ useRevealOnScroll()
   color: var(--color-text);
   font-size: 1.6rem;
   font-weight: 510;
-  letter-spacing: -0.288px;
+  letter-spacing: 0;
 }
 
 .brief-main p {

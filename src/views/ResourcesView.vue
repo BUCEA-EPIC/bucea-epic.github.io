@@ -52,16 +52,14 @@ useRevealOnScroll()
 .animate-on-scroll.is-visible { opacity:1; }
 .animate-on-scroll li {
   opacity:0;
-  transform: translateY(30px);
-  transition: opacity 0.5s ease-out var(--delay), transform 0.5s ease-out var(--delay);
+  transition: opacity 0.35s ease;
 }
 .animate-on-scroll.is-visible li {
   opacity:1;
-  transform: translateY(0);
 }
 
 /* 资源标题 */
-.resource-section h2 { font-size: 2rem; font-weight: 510; border-bottom:1px solid var(--border-standard); padding-bottom:10px; margin-bottom:30px; color: var(--color-text); letter-spacing: -0.704px; }
+.resource-section h2 { font-size: 2rem; font-weight: 510; border-bottom:1px solid var(--border-standard); padding-bottom:10px; margin-bottom:30px; color: var(--color-text); letter-spacing: 0; }
 
 /* Grid 布局 */
 .resource-grid { list-style:none; padding:0; display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:25px; }
@@ -86,12 +84,12 @@ useRevealOnScroll()
 .resource-grid li {
   background:var(--color-card);
   border:1px solid var(--border-standard);
-  border-radius:8px;
-  box-shadow:var(--shadow-card);
+  border-radius:6px;
+  box-shadow:none;
   display:flex;
   transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
-.resource-grid li:hover { transform:translateY(-4px); border-color:var(--border-strong); background:var(--color-card-hover); }
+.resource-grid li:hover { border-color:var(--border-strong); background:var(--color-card-hover); }
 
 .card-content { padding:25px; display:flex; flex-direction:column; width:100%; }
 .card-content a { font-weight:510; font-size:1.2rem; color:var(--color-accent-hover); text-decoration:none; margin-bottom:10px; overflow-wrap:anywhere; }

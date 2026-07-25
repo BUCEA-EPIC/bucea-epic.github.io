@@ -92,13 +92,11 @@ useRevealOnScroll()
 
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.35s ease;
 }
 
 .animate-on-scroll.is-visible {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .history-section {
@@ -114,7 +112,7 @@ useRevealOnScroll()
   color: var(--color-text);
   font-size: 2rem;
   font-weight: 510;
-  letter-spacing: -0.704px;
+  letter-spacing: 0;
 }
 
 .section-heading p {
@@ -137,9 +135,9 @@ useRevealOnScroll()
   min-height: 220px;
   padding: 20px;
   border: 1px solid var(--border-standard);
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--color-card);
-  box-shadow: var(--shadow-card);
+  box-shadow: none;
 }
 
 .edition-status {
@@ -148,7 +146,7 @@ useRevealOnScroll()
   min-height: 26px;
   padding: 0 9px;
   border: 1px solid var(--border-standard);
-  border-radius: 9999px;
+  border-radius: var(--radius-control);
   color: var(--color-text-muted);
   font-size: 0.78rem;
   font-weight: 510;

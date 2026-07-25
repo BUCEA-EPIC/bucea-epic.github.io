@@ -58,39 +58,31 @@ useRevealOnScroll()
 .animate-on-scroll .animate-text,
 .animate-on-scroll .animate-image {
   opacity: 0;
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transition: opacity 0.35s ease;
 }
-.animate-on-scroll .animate-text { transform: translateX(-50px); }
-.animate-on-scroll .animate-image { transform: translateX(50px); }
-
-.content-section.reverse .animate-text { transform: translateX(50px); }
-.content-section.reverse .animate-image { transform: translateX(-50px); }
 
 .animate-on-scroll.is-visible .animate-text,
 .animate-on-scroll.is-visible .animate-image {
   opacity: 1;
-  transform: translateX(0);
 }
-.animate-on-scroll.is-visible .animate-image { transition-delay: 0.2s; }
 
 /* 核心内容布局 */
 .content-section { display: flex; align-items: center; gap: 50px; margin-bottom: 100px; }
 .content-section.reverse { flex-direction: row-reverse; }
 
 .text-content { flex: 1; }
-.text-content h2 { font-size: 2rem; font-weight: 510; border-bottom: 1px solid var(--border-standard); padding-bottom: 10px; margin-bottom: 20px; display: inline-block; color: var(--color-text); letter-spacing: -0.704px; }
+.text-content h2 { font-size: 2rem; font-weight: 510; border-bottom: 1px solid var(--border-standard); padding-bottom: 10px; margin-bottom: 20px; display: inline-block; color: var(--color-text); letter-spacing: 0; }
 .text-content p { line-height: 1.8; color: var(--color-text-secondary); }
 
 .image-content { flex: 1; }
 .image-content img {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid var(--border-standard);
   box-shadow: var(--shadow-soft);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 .image-content img:hover {
-  transform: translateY(-4px);
   border-color: var(--border-strong);
 }
 
@@ -108,11 +100,5 @@ useRevealOnScroll()
   .text-content p {
     line-height: 1.7;
   }
-  .animate-on-scroll .animate-text,
-  .animate-on-scroll .animate-image,
-  .content-section.reverse .animate-text,
-  .content-section.reverse .animate-image { transform: translateY(24px); }
-  .animate-on-scroll.is-visible .animate-text,
-  .animate-on-scroll.is-visible .animate-image { transform: translateY(0); }
 }
 </style>

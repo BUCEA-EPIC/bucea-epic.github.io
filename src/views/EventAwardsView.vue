@@ -117,13 +117,11 @@ useRevealOnScroll()
 
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.35s ease;
 }
 
 .animate-on-scroll.is-visible {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .notice-summary {
@@ -141,7 +139,7 @@ useRevealOnScroll()
   color: var(--color-text);
   font-size: 2rem;
   font-weight: 510;
-  letter-spacing: -0.704px;
+  letter-spacing: 0;
 }
 
 .summary-copy p {
@@ -182,9 +180,9 @@ useRevealOnScroll()
   min-height: 84px;
   padding: 16px;
   border: 1px solid var(--border-standard);
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--color-card);
-  box-shadow: var(--shadow-card);
+  box-shadow: none;
 }
 
 .summary-item strong {
@@ -227,7 +225,7 @@ useRevealOnScroll()
   color: var(--color-text);
   font-size: 1.65rem;
   font-weight: 510;
-  letter-spacing: -0.288px;
+  letter-spacing: 0;
 }
 
 .track-total {
@@ -236,7 +234,7 @@ useRevealOnScroll()
   min-height: 28px;
   padding: 0 10px;
   border: 1px solid var(--border-standard);
-  border-radius: 9999px;
+  border-radius: var(--radius-control);
   color: var(--color-text-muted);
   font-size: 0.82rem;
 }
@@ -251,9 +249,9 @@ useRevealOnScroll()
 .level-card {
   overflow: hidden;
   border: 1px solid var(--border-standard);
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--color-card);
-  box-shadow: var(--shadow-card);
+  box-shadow: none;
 }
 
 .level-heading {

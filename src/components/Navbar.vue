@@ -150,33 +150,16 @@ onBeforeUnmount(() => {
   z-index: 1000;
   width: 100%;
   padding: 0;
-  background: rgba(8, 9, 10, 0.86);
+  background: var(--color-bg);
   border-bottom: 1px solid var(--border-subtle);
-  backdrop-filter: blur(18px);
-  transition: background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
-}
-
-.navbar::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(130, 143, 255, 0.7), transparent);
-  opacity: 0;
-  transform: scaleX(0.4);
-  transform-origin: center;
-  transition: opacity 0.28s ease, transform 0.28s ease;
+  backdrop-filter: none;
+  transition: border-color 0.2s ease;
 }
 
 .navbar.is-scrolled {
-  background: rgba(8, 9, 10, 0.93);
+  background: var(--color-bg);
   border-bottom-color: var(--border-standard);
-  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.22);
-}
-
-.navbar.is-scrolled::after {
-  opacity: 0.78;
-  transform: scaleX(1);
+  box-shadow: none;
 }
 
 .container {
@@ -187,26 +170,25 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   align-items: center;
   gap: 18px;
-  min-height: 76px;
+  min-height: 68px;
   position: relative;
 }
 
 .logo {
   position: relative;
   color: var(--color-text);
-  font-size: 1.22rem;
+  font-size: 1.08rem;
   font-weight: 510;
-  letter-spacing: -0.182px;
+  letter-spacing: 0;
   line-height: 1.15;
   text-decoration: none;
   flex: 0 0 auto;
   white-space: nowrap;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .logo:hover {
   color: var(--color-text);
-  transform: translateY(-1px);
 }
 
 /* PC 显示时不换行 */
@@ -228,9 +210,10 @@ onBeforeUnmount(() => {
 .nav-links-desktop a {
   position: relative;
   margin: 0;
-  padding: 8px 9px;
-  border: 1px solid transparent;
-  border-radius: var(--radius-control);
+  padding: 23px 9px 21px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
   color: var(--color-text-secondary);
   font-size: 0.9rem;
   font-weight: 510;
@@ -239,31 +222,11 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 }
 
-.nav-links-desktop a::after {
-  content: '';
-  position: absolute;
-  left: 9px;
-  right: 9px;
-  bottom: 4px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(130, 143, 255, 0.92), transparent);
-  opacity: 0;
-  transform: scaleX(0.35);
-  transform-origin: center;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
 .nav-links-desktop a:hover,
 .nav-links-desktop a.router-link-exact-active {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--border-standard);
+  background: transparent;
+  border-bottom-color: var(--color-accent);
   color: var(--color-text);
-}
-
-.nav-links-desktop a:hover::after,
-.nav-links-desktop a.router-link-exact-active::after {
-  opacity: 1;
-  transform: scaleX(1);
 }
 
 .github-link {
@@ -272,9 +235,9 @@ onBeforeUnmount(() => {
   gap: 6px;
   margin-left: 4px;
   padding: 8px 11px;
-  border-color: rgba(130, 143, 255, 0.28);
-  background: rgba(113, 112, 255, 0.12);
-  color: var(--color-text);
+  border-color: var(--border-standard);
+  background: transparent;
+  color: var(--color-text-secondary);
 }
 
 .github-link-desktop {
@@ -286,10 +249,10 @@ onBeforeUnmount(() => {
 }
 
 .github-link:hover {
-  background: rgba(113, 112, 255, 0.2);
-  border-color: rgba(130, 143, 255, 0.45);
+  background: transparent;
+  border-color: var(--border-strong);
   color: var(--color-text);
-  box-shadow: 0 8px 24px rgba(94, 106, 210, 0.22);
+  box-shadow: none;
 }
 
 .link-icon {
@@ -347,11 +310,11 @@ onBeforeUnmount(() => {
   position: absolute;
   top: calc(100% + 10px);
   right: 20px;
-  background: rgba(15, 16, 17, 0.98);
+  background: var(--color-panel);
   border: 1px solid var(--border-standard);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  backdrop-filter: blur(18px);
+  backdrop-filter: none;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -383,13 +346,13 @@ onBeforeUnmount(() => {
 
 .nav-links-mobile .github-link {
   margin-top: 4px;
-  background: rgba(113, 112, 255, 0.12);
-  border-color: rgba(130, 143, 255, 0.28);
+  background: transparent;
+  border-color: var(--border-standard);
 }
 
 .nav-links-mobile .github-link:hover {
-  background: rgba(113, 112, 255, 0.2);
-  border-color: rgba(130, 143, 255, 0.45);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-strong);
 }
 
 /* ---------- 动画定义 ---------- */
@@ -446,7 +409,7 @@ onBeforeUnmount(() => {
 
   .container {
     gap: 12px;
-    min-height: 68px;
+    min-height: 64px;
   }
 
   /* 手机端 LOGO 换行 */
