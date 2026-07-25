@@ -43,7 +43,7 @@ useRevealOnScroll()
 </template>
 
 <style scoped>
-.page-container { max-width: 1100px; margin:0 auto; padding:0 20px 40px; }
+.page-container { max-width: 1100px; margin:0 auto; padding:0 var(--page-gutter) 40px; }
 .resource-section { margin-bottom: 60px; }
 .section-description { font-size:1rem; color:var(--color-text-secondary); margin-bottom:20px; }
 
@@ -64,10 +64,10 @@ useRevealOnScroll()
 .resource-section h2 { font-size: 2rem; font-weight: 510; border-bottom:1px solid var(--border-standard); padding-bottom:10px; margin-bottom:30px; color: var(--color-text); letter-spacing: -0.704px; }
 
 /* Grid 布局 */
-.resource-grid { list-style:none; padding:0; display:grid; grid-template-columns: repeat(3, 1fr); gap:25px; }
+.resource-grid { list-style:none; padding:0; display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:25px; }
 
 /* 响应式 */
-@media (max-width:992px) { .resource-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width:992px) { .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width:768px) {
   .resource-section { margin-bottom: 42px; }
   .resource-section h2 { margin-bottom: 18px; }
@@ -94,7 +94,7 @@ useRevealOnScroll()
 .resource-grid li:hover { transform:translateY(-4px); border-color:var(--border-strong); background:var(--color-card-hover); }
 
 .card-content { padding:25px; display:flex; flex-direction:column; width:100%; }
-.card-content a { font-weight:510; font-size:1.2rem; color:var(--color-accent-hover); text-decoration:none; margin-bottom:10px; }
+.card-content a { font-weight:510; font-size:1.2rem; color:var(--color-accent-hover); text-decoration:none; margin-bottom:10px; overflow-wrap:anywhere; }
 .card-content a:hover { color: var(--color-text); text-decoration:none; }
 .card-content .subtitle { font-weight:510; font-size:1rem; color:var(--color-text-secondary); margin-bottom:10px; }
 .card-content p { margin:0; color:var(--color-text-muted); line-height:1.6; font-size:0.9rem; flex-grow:1; }

@@ -94,7 +94,7 @@ useRevealOnScroll('.team-reveal')
 .page-container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 20px 56px;
+  padding: 0 var(--page-gutter) 56px;
 }
 
 .team-reveal {
@@ -257,14 +257,14 @@ useRevealOnScroll('.team-reveal')
 .leader-card h3 {
   margin: 0 0 14px;
   color: var(--color-text);
-  font-size: clamp(2.5rem, 5vw, 4.3rem);
+  font-size: 4rem;
   font-weight: 510;
   letter-spacing: -1.6px;
   line-height: 0.95;
 }
 
 .advisor-card h3 {
-  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-size: 3.75rem;
 }
 
 .advisor-card p,
@@ -381,7 +381,7 @@ useRevealOnScroll('.team-reveal')
 .member-card h3 {
   margin: 0 0 12px;
   color: var(--color-text);
-  font-size: clamp(1.65rem, 2.8vw, 2.2rem);
+  font-size: 2rem;
   font-weight: 510;
   letter-spacing: 0;
   line-height: 1.05;
@@ -415,7 +415,7 @@ useRevealOnScroll('.team-reveal')
 
 @media (max-width: 768px) {
   .page-container {
-    padding: 0 0 40px;
+    padding-bottom: 40px;
   }
 
   .team-layout {
@@ -445,7 +445,7 @@ useRevealOnScroll('.team-reveal')
   }
 
   .member-card h3 {
-    font-size: clamp(1.55rem, 8vw, 2.1rem);
+    font-size: 1.8rem;
   }
 
   .advisor-card,
@@ -458,6 +458,7 @@ useRevealOnScroll('.team-reveal')
   .advisor-portrait,
   .leader-portrait {
     width: min(100%, 320px);
+    margin: 0 auto;
   }
 
   .advisor-info,
@@ -467,7 +468,8 @@ useRevealOnScroll('.team-reveal')
 
   .advisor-card h3,
   .leader-card h3 {
-    font-size: clamp(2.25rem, 14vw, 3.25rem);
+    font-size: 2.6rem;
+    overflow-wrap: anywhere;
   }
 
   .leader-tags {

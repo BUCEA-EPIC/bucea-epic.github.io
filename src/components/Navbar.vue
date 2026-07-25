@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar" :class="{ 'is-scrolled': isScrolled }">
+  <nav ref="navbarElement" class="navbar" :class="{ 'is-scrolled': isScrolled }">
     <div class="container">
 
       <!-- LOGO：PC 正常显示；手机端自动换行成两行 -->
@@ -7,16 +7,22 @@
         工程实践创新中心<span class="mobile-break"><br/></span>317工作室
       </router-link>
 
-      <!-- 手机端 更多按钮 -->
+      <!-- 移动端菜单按钮 -->
       <button
+        ref="menuButton"
         class="more-btn"
         type="button"
         :aria-expanded="menuOpen"
         aria-controls="mobile-navigation"
-        aria-label="打开导航菜单"
+        :aria-label="menuOpen ? '关闭导航菜单' : '打开导航菜单'"
+        title="导航菜单"
         @click="toggleMenu"
       >
-        更多 ▾
+        <span class="menu-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
       </button>
 
       <!-- 导航链接 + 下拉动画 -->
@@ -81,11 +87,17 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const menuOpen = ref(false);
 const isScrolled = ref(false);
+const navbarElement = ref(null);
+const menuButton = ref(null);
 const githubUrl = "https://github.com/BUCEA-EPIC";
+const desktopBreakpoint = 1180;
+let desktopMediaQuery;
 const toggleMenu = () => (menuOpen.value = !menuOpen.value);
 const closeMenu = () => (menuOpen.value = false);
 
@@ -93,13 +105,41 @@ const updateNavbarState = () => {
   isScrolled.value = window.scrollY > 12;
 };
 
+const handleBreakpointChange = (event) => {
+  if (event.matches) {
+    closeMenu();
+  }
+};
+
+const handleDocumentPointerDown = (event) => {
+  if (menuOpen.value && !navbarElement.value?.contains(event.target)) {
+    closeMenu();
+  }
+};
+
+const handleKeydown = (event) => {
+  if (event.key === "Escape" && menuOpen.value) {
+    closeMenu();
+    menuButton.value?.focus();
+  }
+};
+
+watch(() => route.fullPath, closeMenu);
+
 onMounted(() => {
   updateNavbarState();
+  desktopMediaQuery = window.matchMedia(`(min-width: ${desktopBreakpoint + 1}px)`);
   window.addEventListener("scroll", updateNavbarState, { passive: true });
+  document.addEventListener("pointerdown", handleDocumentPointerDown);
+  document.addEventListener("keydown", handleKeydown);
+  desktopMediaQuery.addEventListener("change", handleBreakpointChange);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", updateNavbarState);
+  document.removeEventListener("pointerdown", handleDocumentPointerDown);
+  document.removeEventListener("keydown", handleKeydown);
+  desktopMediaQuery?.removeEventListener("change", handleBreakpointChange);
 });
 </script>
 
@@ -142,7 +182,7 @@ onBeforeUnmount(() => {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--page-gutter);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -261,8 +301,12 @@ onBeforeUnmount(() => {
 /* 手机端导航 */
 .more-btn {
   display: none;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
-  padding: 9px 13px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--border-standard);
   border-radius: var(--radius-control);
@@ -271,6 +315,31 @@ onBeforeUnmount(() => {
   font-weight: 510;
   line-height: 1;
   cursor: pointer;
+}
+
+.menu-icon {
+  display: grid;
+  gap: 4px;
+}
+
+.menu-icon span {
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.more-btn[aria-expanded="true"] .menu-icon span:first-child {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.more-btn[aria-expanded="true"] .menu-icon span:nth-child(2) {
+  opacity: 0;
+}
+
+.more-btn[aria-expanded="true"] .menu-icon span:last-child {
+  transform: translateY(-5px) rotate(-45deg);
 }
 
 /* 手机端下拉菜单 */
@@ -288,7 +357,9 @@ onBeforeUnmount(() => {
   flex-direction: column;
   width: 200px;
   max-height: calc(100vh - 90px);
+  max-height: calc(100dvh - 90px);
   overflow-y: auto;
+  overscroll-behavior: contain;
   z-index: 2000;
 }
 
@@ -328,7 +399,7 @@ onBeforeUnmount(() => {
   max-height: 0;
 }
 .dropdown-enter-active {
-  transition: all 0.25s ease-out;
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out, max-height 0.25s ease-out;
 }
 .dropdown-enter-to {
   opacity: 1;
@@ -342,7 +413,7 @@ onBeforeUnmount(() => {
   max-height: 500px;
 }
 .dropdown-leave-active {
-  transition: all 0.25s ease-in;
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in, max-height 0.2s ease-in;
 }
 .dropdown-leave-to {
   opacity: 0;
@@ -357,8 +428,14 @@ onBeforeUnmount(() => {
   }
 
   .more-btn {
-    display: block;
+    display: inline-flex;
     flex: 0 0 auto;
+  }
+}
+
+@media (min-width: 1181px) {
+  .nav-links-mobile {
+    display: none;
   }
 }
 
@@ -368,7 +445,6 @@ onBeforeUnmount(() => {
   }
 
   .container {
-    padding: 0 12px;
     gap: 12px;
     min-height: 68px;
   }
@@ -388,13 +464,11 @@ onBeforeUnmount(() => {
 
   .more-btn {
     flex: 0 0 auto;
-    padding: 8px 12px;
-    font-size: 0.9rem;
   }
 
   .nav-links-mobile {
-    left: 12px;
-    right: 12px;
+    left: max(var(--page-gutter), env(safe-area-inset-left));
+    right: max(var(--page-gutter), env(safe-area-inset-right));
     width: auto;
   }
 }
@@ -404,8 +478,5 @@ onBeforeUnmount(() => {
     font-size: 1rem;
   }
 
-  .more-btn {
-    padding: 8px 10px;
-  }
 }
 </style>

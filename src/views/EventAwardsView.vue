@@ -112,7 +112,7 @@ useRevealOnScroll()
 .page-container {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 0 20px 48px;
+  padding: 0 var(--page-gutter) 48px;
 }
 
 .animate-on-scroll {
@@ -330,7 +330,7 @@ useRevealOnScroll()
 
 @media (max-width: 768px) {
   .page-container {
-    padding: 0 0 40px;
+    padding-bottom: 40px;
   }
 
   .notice-summary {

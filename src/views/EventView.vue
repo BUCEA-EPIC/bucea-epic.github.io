@@ -217,7 +217,7 @@ useRevealOnScroll()
 </template>
 
 <style scoped>
-.page-container { max-width: 1000px; margin: 0 auto; padding: 0 15px 30px; }
+.page-container { max-width: 1000px; margin: 0 auto; padding: 0 var(--page-gutter) 30px; }
 
 .animate-on-scroll .animate-text, .animate-on-scroll .animate-image { opacity: 0; transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
 .animate-on-scroll .animate-text { transform: translateX(-30px); }
@@ -536,8 +536,19 @@ useRevealOnScroll()
 
   .edition-link,
   .history-link {
+    min-height: 44px;
     padding: 0 8px;
     white-space: normal;
+  }
+
+  .animate-on-scroll .animate-text,
+  .animate-on-scroll .animate-image {
+    transform: translateY(24px);
+  }
+
+  .animate-on-scroll.is-visible .animate-text,
+  .animate-on-scroll.is-visible .animate-image {
+    transform: translateY(0);
   }
 
   .awards-card {

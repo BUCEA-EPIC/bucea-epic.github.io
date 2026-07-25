@@ -35,7 +35,7 @@ useRevealOnScroll()
 .page-container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 20px 40px;
+  padding: 0 var(--page-gutter) 40px;
 }
 
 /* 滚动入场动画 */
@@ -72,6 +72,7 @@ useRevealOnScroll()
 .contact-info p {
   line-height: 1.8;
   color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
 }
 
 .contact-info .icon {

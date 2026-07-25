@@ -10,7 +10,7 @@ import Footer from './components/Footer.vue'
     <main class="main-content">
       <router-view v-slot="{ Component, route }">
         <transition name="page-shell" mode="out-in">
-          <component :is="Component" :key="route.fullPath" />
+          <component :is="Component" :key="route.path" />
         </transition>
       </router-view>
     </main>
@@ -20,51 +20,10 @@ import Footer from './components/Footer.vue'
 </template>
 
 <style>
-/* 全局样式重置 */
-html {
-  overflow-x: hidden;
-  -webkit-text-size-adjust: 100%;
-}
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: "Inter Variable", Inter, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: #08090a;
-  color: #f7f8f8;
-  line-height: 1.5;
-  overflow-x: hidden;
-  font-feature-settings: "cv01", "ss03";
-}
-
-img,
-video,
-canvas {
-  max-width: 100%;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background: #08090a;
-}
-
-.main-content {
-  flex: 1;
-  padding: 0 20px 72px;
 }
 
 .page-shell-enter-active,
@@ -87,32 +46,10 @@ textarea {
 }
 
 @media (max-width: 768px) {
-  .main-content {
-    padding: 12px;
-  }
-
-  #app .page-container {
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-    padding-bottom: 32px;
-  }
-
-  #app .header {
-    padding: 42px 8px 32px;
-    margin-bottom: 32px;
-  }
-
   #app .header-bg-text {
     max-width: 100%;
     overflow: hidden;
-    font-size: clamp(3.5rem, 18vw, 5.2rem);
-  }
-
-  #app .header h1 {
-    font-size: 2.15rem;
-    line-height: 1.15;
-    margin-bottom: 14px;
+    font-size: 4.8rem;
   }
 
   #app .header h1::after {
@@ -149,17 +86,20 @@ textarea {
   #app .team-grid {
     grid-template-columns: minmax(0, 1fr);
   }
+
+  .page-shell-enter-active,
+  .page-shell-leave-active {
+    transition-duration: 0.24s;
+  }
+
+  .page-shell-enter-from,
+  .page-shell-leave-to {
+    transform: translateY(8px);
+    filter: none;
+  }
 }
 
 @media (max-width: 420px) {
-  .main-content {
-    padding: 10px;
-  }
-
-  #app .header h1 {
-    font-size: 1.9rem;
-  }
-
   #app .header-bg-text {
     font-size: 3.35rem;
   }

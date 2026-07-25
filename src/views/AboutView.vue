@@ -52,7 +52,7 @@ useRevealOnScroll()
 
 <style scoped>
 /* 页面容器 */
-.page-container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
+.page-container { max-width: 1100px; margin: 0 auto; padding: 0 var(--page-gutter) 40px; }
 
 /* 滚动动画 */
 .animate-on-scroll .animate-text,
@@ -111,7 +111,7 @@ useRevealOnScroll()
   .animate-on-scroll .animate-text,
   .animate-on-scroll .animate-image,
   .content-section.reverse .animate-text,
-  .content-section.reverse .animate-image { transform: translateY(50px); }
+  .content-section.reverse .animate-image { transform: translateY(24px); }
   .animate-on-scroll.is-visible .animate-text,
   .animate-on-scroll.is-visible .animate-image { transform: translateY(0); }
 }

@@ -47,7 +47,7 @@ function handleCardClick(url) {
 </template>
 
 <style scoped>
-.page-container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
+.page-container { max-width: 1100px; margin: 0 auto; padding: 0 var(--page-gutter) 40px; }
 
 .projects-list { display: flex; flex-direction: column; gap: 50px; opacity: 0; transform: translateY(50px); filter: blur(5px); transition: opacity 0.8s ease-out, transform 0.8s ease-out, filter 0.8s ease-out; }
 .projects-list.is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
@@ -68,7 +68,7 @@ function handleCardClick(url) {
 
 @media (max-width: 768px) {
   .project-card, .project-card.reverse-layout { flex-direction: column; }
-  .card-image { flex-basis: auto; width: 100%; height: 220px; }
+  .card-image { flex-basis: auto; width: 100%; height: auto; aspect-ratio: 16 / 10; }
   .projects-list { gap: 24px; }
   .card-content { padding: 22px; }
   .card-content h3 {
@@ -81,7 +81,6 @@ function handleCardClick(url) {
 }
 
 @media (max-width: 420px) {
-  .card-image { height: 190px; }
   .card-content { padding: 18px; }
 }
 </style>

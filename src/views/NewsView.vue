@@ -42,7 +42,7 @@ useRevealOnScroll('.news-item-wrapper')
 </template>
 
 <style scoped>
-.page-container { max-width: 900px; margin: 0 auto; padding: 0 20px 40px; }
+.page-container { max-width: 900px; margin: 0 auto; padding: 0 var(--page-gutter) 40px; }
 
 .news-item-wrapper { opacity: 0; transform: translateY(40px); transition: opacity 0.6s ease-out var(--delay), transform 0.6s ease-out var(--delay); margin-bottom: 40px; }
 .news-item-wrapper.is-visible { opacity: 1; transform: translateY(0); }
@@ -64,7 +64,7 @@ useRevealOnScroll('.news-item-wrapper')
   .news-item-wrapper { margin-bottom: 24px; }
   .news-image {
     flex: 0 0 auto;
-    height: 190px;
+    aspect-ratio: 16 / 10;
   }
   .news-content { padding: 22px; }
   .news-content h2 {

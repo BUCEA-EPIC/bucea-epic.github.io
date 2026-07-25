@@ -27,6 +27,7 @@
   --radius-card: 8px;
   --radius-panel: 12px;
   --container: 1120px;
+  --page-gutter: 20px;
   font-family: "Inter Variable", Inter, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-feature-settings: "cv01", "ss03";
   font-synthesis: none;
@@ -38,7 +39,10 @@
 html {
   min-width: 320px;
   background: var(--color-bg);
+  overflow-x: hidden;
+  scroll-padding-top: 96px;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -49,6 +53,7 @@ body {
   color: var(--color-text);
   font-family: inherit;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -69,7 +74,13 @@ a:hover {
 img,
 video,
 canvas {
+  display: block;
   max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
 }
 
 button,
@@ -82,7 +93,10 @@ textarea {
 
 #app {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  min-width: 0;
   min-height: 100vh;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0) 280px),
@@ -123,17 +137,25 @@ textarea {
   z-index: 1;
   flex: 1;
   width: 100%;
-  padding: 0 20px 72px;
+  min-width: 0;
+  padding: 0 0 72px;
   background: transparent;
 }
 
-#app .container,
-#app .page-container {
+:where(#app .container, #app .page-container) {
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: max(var(--page-gutter), env(safe-area-inset-left));
+  padding-right: max(var(--page-gutter), env(safe-area-inset-right));
+}
+
+#app .page-container > *,
+#app .content-section > *,
+#app .card-content,
+#app .news-content,
+#app .member-content {
+  min-width: 0;
 }
 
 #app .section {
@@ -183,7 +205,7 @@ textarea {
   top: 50%;
   left: 50%;
   color: rgba(255, 255, 255, 0.032);
-  font-size: clamp(4.5rem, 15vw, 10rem);
+  font-size: 10rem;
   font-weight: 590;
   letter-spacing: -0.08em;
   line-height: 0.8;
@@ -195,7 +217,7 @@ textarea {
 #app .header h1 {
   margin: 0 0 18px;
   color: var(--color-text);
-  font-size: clamp(2.65rem, 7vw, 4.5rem);
+  font-size: 4.5rem;
   font-weight: 510;
   letter-spacing: -1.584px;
   line-height: 1;
@@ -233,7 +255,7 @@ textarea {
 
 #app .section-title {
   margin-bottom: 36px;
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: 3rem;
   line-height: 1;
 }
 
@@ -246,7 +268,7 @@ textarea {
 }
 
 #app .text-content h2 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: 2rem;
 }
 
 #app .text-content p,
@@ -404,8 +426,8 @@ textarea {
 
 #app .navbar .container {
   min-height: 76px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: max(var(--page-gutter), env(safe-area-inset-left));
+  padding-right: max(var(--page-gutter), env(safe-area-inset-right));
 }
 
 #app .logo {
@@ -524,24 +546,28 @@ textarea {
 }
 
 @media (max-width: 768px) {
-  #app .main-content {
-    padding: 0 12px 48px;
+  :root {
+    --page-gutter: 16px;
   }
 
-  #app .container,
-  #app .page-container {
-    padding-left: 0;
-    padding-right: 0;
+  #app .main-content {
+    padding: 0 0 48px;
+  }
+
+  :where(#app .container, #app .page-container) {
+    padding-left: max(var(--page-gutter), env(safe-area-inset-left));
+    padding-right: max(var(--page-gutter), env(safe-area-inset-right));
   }
 
   #app .header {
-    padding: 64px 8px 44px;
+    padding: 52px 0 38px;
     margin-bottom: 32px;
   }
 
   #app .header h1 {
-    font-size: clamp(2.2rem, 12vw, 3.25rem);
+    font-size: 2.15rem;
     letter-spacing: -1.056px;
+    line-height: 1.15;
   }
 
   #app .header p {
@@ -554,8 +580,8 @@ textarea {
 
   #app .navbar .container {
     min-height: 68px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: max(var(--page-gutter), env(safe-area-inset-left));
+    padding-right: max(var(--page-gutter), env(safe-area-inset-right));
   }
 
   #app .logo {
@@ -564,5 +590,38 @@ textarea {
 
   #app .contact-content {
     padding: 22px;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --page-gutter: 12px;
+  }
+
+  #app .header h1 {
+    font-size: 1.9rem;
+  }
+}
+
+@media (hover: none) {
+  #app .news-card:hover,
+  #app .team-card:hover,
+  #app .project-card:hover,
+  #app .award-card:hover,
+  #app .resource-grid li:hover,
+  #app .news-item-inner:hover,
+  #app .awards-card:hover,
+  #app .advisor-card:hover,
+  #app .leader-card:hover,
+  #app .member-card:hover,
+  #app .section-link:hover,
+  #app .image-content img:hover {
+    transform: none;
+  }
+
+  #app .news-card:hover img,
+  #app .project-card:hover img,
+  #app .about-image:hover img {
+    transform: none;
   }
 }

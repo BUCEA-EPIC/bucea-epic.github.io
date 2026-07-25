@@ -133,7 +133,7 @@ useRevealOnScroll()
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--page-gutter);
 }
 
 .section {
@@ -158,7 +158,7 @@ useRevealOnScroll()
 .about-text h2 {
   margin: 18px 0 0;
   color: var(--color-text);
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: 3rem;
   font-weight: 510;
   line-height: 1;
 }
@@ -186,9 +186,10 @@ useRevealOnScroll()
 
 .home-hero {
   position: relative;
+  display: flex;
   min-height: calc(100svh - 156px);
-  margin: 0 -20px;
-  padding: 88px 20px 104px;
+  margin: 0;
+  padding: 88px 0 104px;
   overflow: hidden;
 }
 
@@ -220,8 +221,9 @@ useRevealOnScroll()
   position: relative;
   z-index: 1;
   display: flex;
+  flex: 1;
   align-items: flex-end;
-  min-height: calc(100svh - 260px);
+  min-height: 0;
 }
 
 .hero-copy {
@@ -258,7 +260,7 @@ useRevealOnScroll()
 .hero-copy h1 {
   margin: 26px 0 0;
   color: var(--color-text);
-  font-size: clamp(3.25rem, 7vw, 5.8rem);
+  font-size: 5.25rem;
   font-weight: 510;
   letter-spacing: -1.6px;
   line-height: 0.97;
@@ -453,7 +455,7 @@ useRevealOnScroll()
 .card-image-wrapper {
   overflow: hidden;
   width: 100%;
-  height: 200px;
+  aspect-ratio: 16 / 10;
   background: var(--color-panel);
 }
 
@@ -537,22 +539,16 @@ useRevealOnScroll()
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: 0 12px;
-  }
-
   .section {
     padding: 56px 0;
   }
 
   .home-hero {
     min-height: calc(100svh - 132px);
-    margin: 0 -12px;
-    padding: 56px 12px 72px;
+    padding: 56px 0 72px;
   }
 
   .hero-layout {
-    min-height: calc(100svh - 240px);
     align-items: center;
   }
 
@@ -607,13 +603,20 @@ useRevealOnScroll()
   .news-card-content {
     padding: 20px;
   }
+
+  .section-title,
+  .about-text h2 {
+    font-size: 2.1rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-copy h1 {
+    font-size: 2.35rem;
+  }
 }
 
 @media (max-width: 420px) {
-  .hero-copy h1 {
-    font-size: 2.58rem;
-  }
-
   .hero-brand {
     width: 100%;
     justify-content: center;
@@ -625,6 +628,14 @@ useRevealOnScroll()
 
   .hero-focus span {
     font-size: 0.86rem;
+  }
+}
+
+@media (max-height: 600px) and (max-width: 768px) {
+  .home-hero {
+    min-height: auto;
+    padding-top: 42px;
+    padding-bottom: 52px;
   }
 }
 </style>
