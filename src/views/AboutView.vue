@@ -56,7 +56,7 @@ useRevealOnScroll()
 /* 页面容器 */
 .page-container { max-width: var(--container); margin: 0 auto; padding: 0 var(--page-gutter) 56px; }
 
-/* 滚动动画 */
+/* 滚动动画：基础显隐规则在全局 style.css，此处控制子元素随外层入场 */
 .animate-on-scroll .animate-text,
 .animate-on-scroll .animate-image {
   opacity: 0;

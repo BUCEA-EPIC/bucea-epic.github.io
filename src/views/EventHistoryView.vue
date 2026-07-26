@@ -90,15 +90,6 @@ useRevealOnScroll()
   padding: 0 var(--page-gutter) 48px;
 }
 
-.animate-on-scroll {
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.animate-on-scroll.is-visible {
-  opacity: 1;
-}
-
 .history-section {
   margin-bottom: 72px;
 }

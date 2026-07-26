@@ -98,15 +98,6 @@ useRevealOnScroll('.team-reveal')
   padding: 0 var(--page-gutter) 56px;
 }
 
-.team-reveal {
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.team-reveal.is-visible {
-  opacity: 1;
-}
-
 .advisor-section { margin-bottom: 68px; }
 
 .advisor-list {

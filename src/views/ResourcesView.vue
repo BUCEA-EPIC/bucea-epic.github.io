@@ -54,9 +54,7 @@ useRevealOnScroll()
 .resource-heading > span { padding-top: 7px; color: var(--color-accent); font-size: 0.76rem; font-weight: 590; }
 .section-description { max-width: 720px; font-size:1rem; color:var(--color-text-secondary); margin:12px 0 0; }
 
-/* 滚动动画 */
-.animate-on-scroll { opacity:0; }
-.animate-on-scroll.is-visible { opacity:1; }
+/* 滚动动画：基础显隐规则在全局 style.css，此处仅保留列表项差异 */
 .animate-on-scroll li {
   opacity:0;
   transition: opacity 0.35s ease;

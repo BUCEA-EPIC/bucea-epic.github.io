@@ -567,15 +567,6 @@ useRevealOnScroll()
   line-height: 1.68;
 }
 
-.animate-on-scroll {
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.animate-on-scroll.is-visible {
-  opacity: 1;
-}
-
 @media (max-width: 980px) {
   .news-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

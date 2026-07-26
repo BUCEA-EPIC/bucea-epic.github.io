@@ -53,15 +53,6 @@ useRevealOnScroll()
   padding: 0 var(--page-gutter) 64px;
 }
 
-.contact-content.animate-on-scroll {
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.contact-content.animate-on-scroll.is-visible {
-  opacity: 1;
-}
-
 .contact-content {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);

@@ -50,8 +50,7 @@ const hasLink = (project) => Boolean(project.url && project.url !== '#')
 <style scoped>
 .page-container { max-width: var(--container); margin: 0 auto; padding: 0 var(--page-gutter) 64px; }
 
-.projects-list { display: flex; flex-direction: column; gap: 28px; opacity: 0; transition: opacity 0.35s ease; }
-.projects-list.is-visible { opacity: 1; }
+.projects-list { display: flex; flex-direction: column; gap: 28px; }
 
 .project-card { min-height: 390px; background: var(--color-card); border: 1px solid var(--border-standard); border-radius: var(--radius-card); overflow: hidden; box-shadow: none; display: flex; align-items: stretch; color: inherit; text-decoration: none; transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
 .project-card.reverse-layout { flex-direction: row-reverse; }

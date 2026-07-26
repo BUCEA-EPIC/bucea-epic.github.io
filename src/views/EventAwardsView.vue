@@ -119,15 +119,6 @@ useRevealOnScroll()
   padding: 0 var(--page-gutter) 48px;
 }
 
-.animate-on-scroll {
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.animate-on-scroll.is-visible {
-  opacity: 1;
-}
-
 .notice-summary {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr);
