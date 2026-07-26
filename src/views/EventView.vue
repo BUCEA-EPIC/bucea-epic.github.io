@@ -1,12 +1,15 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+import { useAutoplayVideoInView } from '../composables/useAutoplayVideoInView.js'
 import { currentEventEdition, eventEditions, getEventEditionById } from '../data/eventEditionsData.js'
 import { QQ_GROUP } from '../data/siteInfo.js'
 
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
-import track1Img from '../assets/event/视觉循迹仿真.gif'
+import track1Video from '../assets/event/视觉循迹仿真.webm'
+import track1VideoMp4 from '../assets/event/视觉循迹仿真.mp4'
+import track1Poster from '../assets/event/视觉循迹仿真-首帧.webp'
 import track2Img from '../assets/event/开关电源设计.webp'
 import track3Img from '../assets/event/三维建模设计.png'
 import qqImg from '../assets/contact/qq群.jpg'
@@ -27,7 +30,10 @@ const edition = computed(() => {
 
 const isFifthEdition = computed(() => edition.value?.id === '5')
 
+const track1VideoEl = ref(null)
+
 useRevealOnScroll()
+useAutoplayVideoInView(track1VideoEl)
 </script>
 
 <template>
@@ -132,7 +138,21 @@ useRevealOnScroll()
               </p>
             </div>
             <div class="image-content animate-image">
-              <img :src="track1Img" alt="视觉循迹仿真" loading="lazy" decoding="async">
+              <video
+                ref="track1VideoEl"
+                class="track-video"
+                :poster="track1Poster"
+                muted
+                loop
+                playsinline
+                controls
+                preload="none"
+                aria-label="视觉循迹仿真运行演示：小车在 Webots 仿真环境中沿赛道自主循迹"
+              >
+                <source :src="track1Video" type="video/webm">
+                <source :src="track1VideoMp4" type="video/mp4">
+                当前浏览器不支持视频播放，详情请参阅《视觉循迹仿真命题文档》。
+              </video>
             </div>
           </div>
 
@@ -256,6 +276,7 @@ useRevealOnScroll()
 .image-content { flex: 1 1 0; min-width: 0; display: flex; justify-content: center; align-items: center; }
 .image-content img { width: 100%; max-width: 600px; aspect-ratio: 4 / 3; border-radius: var(--radius-panel); box-shadow: var(--shadow-soft); object-fit: cover; }
 .image-content img:hover { transform: none; }
+.image-content .track-video { display: block; width: 100%; max-width: 600px; aspect-ratio: 640 / 342; border-radius: var(--radius-panel); box-shadow: var(--shadow-soft); background: var(--color-bg-deep); }
 .image-content img.qq-group-img { width: 250px; aspect-ratio: 1; }
 
 .edition-overview {
@@ -549,7 +570,8 @@ useRevealOnScroll()
   .text-content p {
     line-height: 1.7;
   }
-  .image-content img {
+  .image-content img,
+  .image-content .track-video {
     max-width: 100%;
   }
 
