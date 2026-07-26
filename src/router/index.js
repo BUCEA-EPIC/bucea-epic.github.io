@@ -54,6 +54,15 @@ const router = createRouter({
 
 router.afterEach((to) => {
   document.title = to.meta.title ? `${to.meta.title} | 317工作室` : SITE_TITLE
+
+  // canonical 随路由更新，双部署（GitHub Pages / 自有域名）下各自指向本域地址
+  let canonical = document.querySelector('link[rel="canonical"]')
+  if (!canonical) {
+    canonical = document.createElement('link')
+    canonical.setAttribute('rel', 'canonical')
+    document.head.appendChild(canonical)
+  }
+  canonical.setAttribute('href', `${window.location.origin}${to.fullPath}`)
 })
 
 export default router
