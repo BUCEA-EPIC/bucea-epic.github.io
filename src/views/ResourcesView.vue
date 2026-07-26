@@ -8,11 +8,11 @@ useRevealOnScroll()
 <template>
   <div class="page-container">
     <!-- 页面头部 -->
-    <div class="header">
+    <header class="header">
       <span class="header-bg-text">LEARN</span>
       <h1>教程与资源</h1>
       <p>我们整理的学习宝库，助你从入门到精通</p>
-    </div>
+    </header>
 
     <!-- 核心内容 -->
     <div

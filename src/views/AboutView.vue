@@ -11,11 +11,11 @@ useRevealOnScroll()
 <template>
   <div class="page-container">
     <!-- 页面头部 -->
-    <div class="header">
+    <header class="header">
       <span class="header-bg-text">ABOUT</span>
       <h1>关于我们</h1>
       <p>探索、创造、协作、成长</p>
-    </div>
+    </header>
 
     <!-- 核心内容 -->
     <section class="content-section animate-on-scroll">

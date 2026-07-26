@@ -11,11 +11,11 @@ useRevealOnScroll('.team-reveal')
 
 <template>
   <div class="page-container">
-    <div class="header">
+    <header class="header">
       <span class="header-bg-text">TEAM</span>
       <h1>团队成员</h1>
       <p>汇聚不同专业背景，在长期协作中共同完成工程实践</p>
-    </div>
+    </header>
 
     <section class="team-block advisor-section team-reveal">
       <div class="block-heading">

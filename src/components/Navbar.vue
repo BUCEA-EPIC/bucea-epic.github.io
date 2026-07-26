@@ -1,5 +1,5 @@
 <template>
-  <nav ref="navbarElement" class="navbar" :class="{ 'is-scrolled': isScrolled }" aria-label="主导航">
+  <nav ref="navbarElement" class="navbar" :class="{ 'is-scrolled': isScrolled }" aria-label="主导航" @focusout="handleFocusOut">
     <div class="container">
 
       <router-link to="/" class="logo">
@@ -131,6 +131,14 @@ const handleKeydown = (event) => {
   if (event.key === "Escape" && menuOpen.value) {
     closeMenu();
     menuButton.value?.focus();
+  }
+};
+
+// 键盘 Tab 移出导航区域时关闭移动端菜单，避免「焦点已离开、菜单仍展开」的错位。
+// 与既有「点击外部关闭」逻辑对称；focusout 会冒泡，relatedTarget 为新焦点元素。
+const handleFocusOut = (event) => {
+  if (menuOpen.value && !navbarElement.value?.contains(event.relatedTarget)) {
+    closeMenu();
   }
 };
 

@@ -72,11 +72,11 @@ useRevealOnScroll()
       </div>
     </section>
 
-    <section class="section animate-on-scroll" id="about-preview">
+    <section class="section animate-on-scroll" id="about-preview" aria-labelledby="about-preview-title">
       <div class="container about-section">
         <div class="about-text">
           <span class="section-kicker">ABOUT</span>
-          <h2>关于我们</h2>
+          <h2 id="about-preview-title">关于我们</h2>
           <p>
             我们围绕真实工程问题展开协作，持续把机械结构、电控系统、嵌入式与感知算法整合成完整作品。
           </p>
@@ -120,12 +120,12 @@ useRevealOnScroll()
       </div>
     </section>
 
-    <section class="section news-section animate-on-scroll" id="news">
+    <section class="section news-section animate-on-scroll" id="news" aria-labelledby="news-title">
       <div class="container">
         <div class="section-heading">
           <div>
             <span class="section-kicker">NEWS</span>
-            <h2 class="section-title">最新动态</h2>
+            <h2 id="news-title" class="section-title">最新动态</h2>
           </div>
           <router-link to="/news" class="section-link">查看全部动态</router-link>
         </div>

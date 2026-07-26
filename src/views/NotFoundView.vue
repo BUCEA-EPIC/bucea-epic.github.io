@@ -3,11 +3,11 @@
 
 <template>
   <div class="page-container">
-    <div class="header">
+    <header class="header">
       <span class="header-bg-text">404</span>
       <h1>页面未找到</h1>
       <p>你访问的地址不存在，可能已被移动或删除。</p>
-    </div>
+    </header>
 
     <div class="not-found-actions">
       <router-link to="/" class="back-home-link">返回首页</router-link>

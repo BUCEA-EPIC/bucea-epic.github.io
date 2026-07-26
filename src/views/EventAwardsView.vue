@@ -32,11 +32,11 @@ useRevealOnScroll()
 
 <template>
   <div class="page-container">
-    <div class="header">
+    <header class="header">
       <span class="header-bg-text">AWARDS</span>
       <h1>第五届获奖公示</h1>
       <p>第五届“萌新种子杯”最终获奖名单</p>
-    </div>
+    </header>
 
     <section class="notice-summary animate-on-scroll">
       <div class="summary-copy">
@@ -89,7 +89,7 @@ useRevealOnScroll()
             <span>{{ group.entries.length }} 人</span>
           </div>
 
-          <table class="award-table">
+          <table class="award-table" :aria-label="`${track.name} · ${group.level} 获奖名单`">
             <thead>
               <tr>
                 <th scope="col">队伍编号</th>

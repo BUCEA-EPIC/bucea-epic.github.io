@@ -16,11 +16,11 @@ useRevealOnScroll()
 
 <template>
   <div class="page-container">
-    <div class="header">
+    <header class="header">
       <span class="header-bg-text">EVENTS</span>
       <h1>往年赛事</h1>
       <p>查看历届“萌新种子杯”的赛事信息、赛道内容与公示结果</p>
-    </div>
+    </header>
 
     <section class="history-section animate-on-scroll">
       <div class="section-heading">

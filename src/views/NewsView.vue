@@ -8,11 +8,11 @@ useRevealOnScroll('.news-item-wrapper')
 <template>
   <div class="page-container">
     <!-- 页面头部 -->
-    <div class="header">
+    <header class="header">
       <span class="header-bg-text">NEWS</span>
       <h1>新闻与动态</h1>
       <p>记录成长的足迹，分享每一次突破</p>
-    </div>
+    </header>
 
     <!-- 新闻列表 -->
     <div class="news-list">

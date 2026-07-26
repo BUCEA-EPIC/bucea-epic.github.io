@@ -39,11 +39,11 @@ useAutoplayVideoInView(track1VideoEl)
 <template>
   <div class="page-container">
     <template v-if="edition">
-      <div class="header">
+      <header class="header">
         <span class="header-bg-text">EVENT</span>
         <h1>{{ edition.title }}</h1>
         <p>{{ edition.edition }} · {{ edition.status }} · 实践、创新、工程、成长</p>
-      </div>
+      </header>
 
       <div class="edition-overview animate-on-scroll">
         <div class="edition-current">
@@ -227,11 +227,11 @@ useAutoplayVideoInView(track1VideoEl)
     </template>
 
     <template v-else>
-      <div class="header">
+      <header class="header">
         <span class="header-bg-text">EVENT</span>
         <h1>页面未开放</h1>
         <p>该届“萌新种子杯”页面暂未开放。</p>
-      </div>
+      </header>
       <router-link to="/event/history" class="history-link standalone-link">查看往年赛事</router-link>
     </template>
   </div>

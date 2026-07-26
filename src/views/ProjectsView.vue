@@ -10,11 +10,11 @@ const hasLink = (project) => Boolean(project.url && project.url !== '#')
 <template>
   <div class="page-container">
     <!-- 页面头部 -->
-    <div class="header">
+    <header class="header">
       <span class="header-bg-text">WORKS</span>
       <h1>项目与机器人</h1>
       <p>我们的智慧结晶与得意之作</p>
-    </div>
+    </header>
 
     <div class="projects-list animate-on-scroll">
       <component
@@ -32,7 +32,7 @@ const hasLink = (project) => Boolean(project.url && project.url !== '#')
         </div>
         <div class="card-content">
           <span class="project-index">PROJECT 0{{ index + 1 }}</span>
-          <h3>{{ project.title }}</h3>
+          <h2>{{ project.title }}</h2>
           <p>{{ project.description }}</p>
           <div class="tags">
             <span v-for="tag in project.tags" :key="tag" class="tag">{{ tag }}</span>
@@ -64,7 +64,7 @@ const hasLink = (project) => Boolean(project.url && project.url !== '#')
 
 .card-content { flex: 1; padding: 44px; display: flex; flex-direction: column; justify-content: center; }
 .project-index { margin-bottom: 16px; color: var(--color-accent); font-size: 0.74rem; font-weight: 590; letter-spacing: 0.1em; }
-.card-content h3 { margin: 0; color: var(--color-text); font-size: 1.85rem; font-weight: 510; letter-spacing: 0; line-height: 1.25; }
+.card-content h2 { margin: 0; color: var(--color-text); font-size: 1.85rem; font-weight: 510; letter-spacing: 0; line-height: 1.25; }
 .card-content p { color: var(--color-text-secondary); flex-grow: 1; line-height: 1.7; }
 .tags { margin-top: 20px; }
 .tag { display: inline-block; background: rgba(255, 255, 255, 0.04); color: var(--color-text-secondary); padding: 5px 10px; border: 1px solid var(--border-standard); border-radius: var(--radius-control); font-size: 0.8rem; font-weight: 510; margin-right: 8px; margin-bottom: 8px; }
@@ -77,7 +77,7 @@ a.project-card:hover .project-action { color: var(--color-text); }
   .card-image { flex-basis: auto; width: 100%; min-height: 0; height: auto; aspect-ratio: 16 / 10; }
   .projects-list { gap: 24px; }
   .card-content { padding: 26px 22px; }
-  .card-content h3 {
+  .card-content h2 {
     font-size: 1.35rem;
     line-height: 1.3;
   }

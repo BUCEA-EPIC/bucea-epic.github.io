@@ -52,7 +52,7 @@ const router = createRouter({
   }
 })
 
-router.afterEach((to) => {
+router.afterEach((to, from) => {
   document.title = to.meta.title ? `${to.meta.title} | 317工作室` : SITE_TITLE
 
   // canonical 随路由更新，双部署（GitHub Pages / 自有域名）下各自指向本域地址
@@ -63,6 +63,14 @@ router.afterEach((to) => {
     document.head.appendChild(canonical)
   }
   canonical.setAttribute('href', `${window.location.origin}${to.fullPath}`)
+
+  // 路由切换后把焦点复位到主内容区，让键盘/读屏用户获知已进入新页面。
+  // 跳过站点首次加载（from.name 为空）与锚点跳转（交给 scrollBehavior 的锚点目标）。
+  if (from.name && !to.hash) {
+    requestAnimationFrame(() => {
+      document.getElementById('main-content')?.focus({ preventScroll: true })
+    })
+  }
 })
 
 export default router

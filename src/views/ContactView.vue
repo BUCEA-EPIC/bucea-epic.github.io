@@ -9,11 +9,11 @@ useRevealOnScroll()
 <template>
   <div class="page-container">
     <!-- 页面头部 -->
-    <div class="header">
+    <header class="header">
       <span class="header-bg-text">CONTACT</span>
       <h1>联系我们</h1>
       <p>期待与你交流，无论是技术探讨还是合作意向</p>
-    </div>
+    </header>
 
     <!-- 核心内容 -->
     <div class="contact-content animate-on-scroll">
