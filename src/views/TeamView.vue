@@ -69,14 +69,21 @@ useRevealOnScroll('.team-reveal')
           <h2>成员</h2>
         </div>
 
-        <div class="member-grid">
+        <div class="member-waterfall">
           <div
             class="member-card"
             v-for="member in members"
             :key="member.name"
           >
             <div class="member-avatar">
-              <img :src="member.avatar" :alt="member.name" loading="lazy" decoding="async">
+              <img
+                :src="member.avatar"
+                :alt="member.name"
+                :width="member.avatarWidth"
+                :height="member.avatarHeight"
+                loading="lazy"
+                decoding="async"
+              >
             </div>
             <div class="member-content">
               <span class="member-label">Member</span>
@@ -284,7 +291,7 @@ useRevealOnScroll('.team-reveal')
   font-size: 0.85rem;
 }
 
-.member-grid {
+.member-waterfall {
   column-count: 3;
   column-gap: 18px;
 }
@@ -323,8 +330,6 @@ useRevealOnScroll('.team-reveal')
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: var(--member-photo-aspect);
-  object-fit: cover;
 }
 
 .member-content {
@@ -374,7 +379,7 @@ useRevealOnScroll('.team-reveal')
 }
 
 @media (max-width: 980px) {
-  .member-grid {
+  .member-waterfall {
     column-count: 2;
   }
 }
@@ -398,7 +403,7 @@ useRevealOnScroll('.team-reveal')
     gap: 6px;
   }
 
-  .member-grid {
+  .member-waterfall {
     column-count: 1;
   }
 
