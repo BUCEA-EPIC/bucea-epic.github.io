@@ -1,10 +1,6 @@
 <script setup>
-import { computed } from 'vue'
 import { newsData } from '../data/newsData.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
-
-// 正序显示新闻（从最早到最新）
-const reversedNews = computed(() => [...newsData]) // 不再 reverse()
 
 useRevealOnScroll('.news-item-wrapper')
 </script>
@@ -22,21 +18,20 @@ useRevealOnScroll('.news-item-wrapper')
     <div class="news-list">
       <div
         class="news-item-wrapper"
-        v-for="(item, index) in reversedNews"
+        v-for="(item, index) in newsData"
         :key="item.title"
         :class="{ featured: index === 0 }"
-        :style="{ '--delay': `${index * 0.1}s` }"
       >
-        <div class="news-item-inner">
+        <article class="news-item-inner">
           <div v-if="item.image" class="news-image">
-            <img :src="item.image" :alt="item.title" loading="lazy" decoding="async" />
+            <img :src="item.image" alt="" loading="lazy" decoding="async" />
           </div>
           <div class="news-content">
             <h2>{{ item.title }}</h2>
             <div class="meta">发布于 {{ item.date }}</div>
             <p>{{ item.excerpt }}</p>
           </div>
-        </div>
+        </article>
       </div>
     </div>
   </div>
@@ -50,8 +45,7 @@ useRevealOnScroll('.news-item-wrapper')
 .news-item-wrapper.is-visible { opacity: 1; }
 .news-item-wrapper.featured { grid-column: 1 / -1; }
 
-.news-item-inner { display: flex; flex-direction: column; height: 100%; overflow: hidden; background: var(--color-card); border: 1px solid var(--border-standard); border-radius: var(--radius-card); box-shadow: none; transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
-.news-item-inner:hover { border-color: var(--border-strong); background: var(--color-card-hover); }
+.news-item-inner { display: flex; flex-direction: column; height: 100%; overflow: hidden; background: var(--color-card); border: 1px solid var(--border-standard); border-radius: var(--radius-card); box-shadow: none; }
 .featured .news-item-inner { display: grid; grid-template-columns: minmax(360px, 1.2fr) minmax(0, 0.8fr); }
 
 .news-image { overflow: hidden; aspect-ratio: 16 / 10; }

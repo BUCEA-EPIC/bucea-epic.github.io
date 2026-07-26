@@ -116,6 +116,9 @@ const showBeianLinks =
 }
 
 .footer-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--color-text-secondary);
   font-size: 0.88rem;
   font-weight: 510;
@@ -141,6 +144,7 @@ const showBeianLinks =
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 32px;
   color: var(--color-text-muted);
   text-decoration: none;
   transition: color 0.2s ease;

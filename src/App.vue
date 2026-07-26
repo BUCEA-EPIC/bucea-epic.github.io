@@ -5,16 +5,17 @@ import Footer from './components/Footer.vue'
 
 <template>
   <div id="app">
+    <a href="#main-content" class="skip-link">跳到主内容</a>
     <Navbar />
-    
-    <main class="main-content">
+
+    <main id="main-content" class="main-content" tabindex="-1">
       <router-view v-slot="{ Component, route }">
         <transition name="page-shell" mode="out-in">
           <component :is="Component" :key="route.path" />
         </transition>
       </router-view>
     </main>
-    
+
     <Footer />
   </div>
 </template>
@@ -42,41 +43,9 @@ import Footer from './components/Footer.vue'
 }
 
 @media (max-width: 768px) {
-  #app .header p {
-    max-width: 30rem;
-    margin-left: 0;
-    margin-right: 0;
-    font-size: 1rem;
-    line-height: 1.55;
-  }
-
-  #app .section {
-    padding: 48px 0;
-  }
-
-  #app .content-section {
-    margin-bottom: 44px;
-  }
-
-  #app .text-content h2,
-  #app .team-section h2,
-  #app .award-section h2,
-  #app .resource-section h2 {
-    font-size: 1.55rem;
-    line-height: 1.25;
-  }
-
-  #app .awards-grid,
-  #app .news-grid,
-  #app .resource-grid,
-  #app .team-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   .page-shell-enter-active,
   .page-shell-leave-active {
     transition-duration: 0.24s;
   }
-
 }
 </style>

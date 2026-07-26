@@ -3,10 +3,11 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 import { currentEventEdition, eventEditions, getEventEditionById } from '../data/eventEditionsData.js'
+import { QQ_GROUP } from '../data/siteInfo.js'
 
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
 import track1Img from '../assets/event/视觉循迹仿真.gif'
-import track2Img from '../assets/event/开关电源设计.jpg'
+import track2Img from '../assets/event/开关电源设计.webp'
 import track3Img from '../assets/event/三维建模设计.png'
 import qqImg from '../assets/contact/qq群.jpg'
 
@@ -47,7 +48,7 @@ useRevealOnScroll()
           <strong>{{ edition.title }}</strong>
           <p>{{ edition.description }}</p>
         </div>
-        <div class="edition-actions" aria-label="萌新种子杯赛事入口">
+        <nav class="edition-actions" aria-label="萌新种子杯赛事入口">
           <router-link
             v-for="item in eventEditions"
             :key="item.id"
@@ -60,7 +61,7 @@ useRevealOnScroll()
           <router-link to="/event/history" class="history-link">
             <span>往年赛事</span>
           </router-link>
-        </div>
+        </nav>
       </div>
 
       <template v-if="isFifthEdition">
@@ -104,7 +105,7 @@ useRevealOnScroll()
                 <p>第五届“萌新种子杯”各项赛程已圆满结束，感谢各位同学的积极参与。</p>
                 <p class="highlight-notice">
                   <strong>证书通知</strong>
-                  荣誉证书敬请期待后续发放安排，见QQ群（455362758）通知。
+                  荣誉证书敬请期待后续发放安排，见QQ群（{{ QQ_GROUP }}）通知。
                 </p>
                 <p>第五届最终获奖名单已整理为独立公示页面，请点击下方按钮查看：</p>
               </div>
@@ -176,7 +177,7 @@ useRevealOnScroll()
           <div class="brief-main">
             <h2>赛事筹备中</h2>
             <p>
-              第六届“萌新种子杯”正在筹备中，报名时间、赛道设置、培训安排和命题文档将陆续公布。
+              {{ edition.edition }}“萌新种子杯”正在筹备中，报名时间、赛道设置、培训安排和命题文档将陆续公布。
             </p>
           </div>
           <dl class="brief-details">
@@ -190,7 +191,7 @@ useRevealOnScroll()
             </div>
             <div>
               <dt>咨询方式</dt>
-              <dd>QQ群：455362758</dd>
+              <dd>QQ群：{{ QQ_GROUP }}</dd>
             </div>
           </dl>
         </section>
@@ -199,7 +200,7 @@ useRevealOnScroll()
       <div v-if="isFifthEdition" id="contact" class="content-section single-column animate-on-scroll">
         <div class="text-content animate-text">
           <h2>咨询我们</h2>
-          <p>QQ群：455362758</p>
+          <p>QQ群：{{ QQ_GROUP }}</p>
         </div>
         <div class="image-content animate-image"><img :src="qqImg" class="qq-group-img" alt="萌新种子杯咨询群二维码" loading="lazy" decoding="async"></div>
       </div>
@@ -232,7 +233,6 @@ useRevealOnScroll()
 }
 
 .content-section { display: flex; align-items: center; gap: 64px; margin-bottom: 72px; }
-.content-section[id] { scroll-margin-top: 96px; }
 .text-content { flex: 1 1 0; min-width: 0; }
 .text-content h2 { margin: 0 0 20px; border: 0; padding: 0; font-size: 2rem; font-weight: 510; color: var(--color-text); letter-spacing: 0; line-height: 1.25; }
 .text-content p { margin: 0 0 16px; line-height: 1.75; color: var(--color-text-secondary); font-size: 1rem; }
@@ -240,7 +240,6 @@ useRevealOnScroll()
 .text-content a { text-decoration: none; color: var(--color-accent-hover); }
 .single-column { flex-direction: column; align-items: flex-start; gap: 18px; padding: 30px 0; border-top: 1px solid var(--border-standard); }
 .single-column .text-content { width: 100%; }
-.full-width { width: 100%; flex: none; }
 .event-status {
   display: inline-flex;
   align-items: center;
@@ -257,7 +256,7 @@ useRevealOnScroll()
 .image-content { flex: 1 1 0; min-width: 0; display: flex; justify-content: center; align-items: center; }
 .image-content img { width: 100%; max-width: 600px; aspect-ratio: 4 / 3; border-radius: var(--radius-panel); box-shadow: var(--shadow-soft); object-fit: cover; }
 .image-content img:hover { transform: none; }
-.qq-group-img { width: 250px !important; aspect-ratio: 1 !important; }
+.image-content img.qq-group-img { width: 250px; aspect-ratio: 1; }
 
 .edition-overview {
   display: grid;
@@ -332,7 +331,7 @@ useRevealOnScroll()
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 34px;
+  min-height: 44px;
   padding: 0 12px;
   border: 1px solid var(--border-standard);
   border-radius: var(--radius-control);
@@ -619,8 +618,8 @@ useRevealOnScroll()
     align-items: flex-start;
   }
 
-  .qq-group-img {
-    width: min(250px, 75vw) !important;
+  .image-content img.qq-group-img {
+    width: min(250px, 75vw);
   }
 }
 

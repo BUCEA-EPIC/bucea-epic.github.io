@@ -1,7 +1,6 @@
 export const awardTracks = [
   {
     name: '视觉循迹仿真赛道',
-    shortName: '视觉循迹',
     groups: [
       {
         level: '一等奖',
@@ -79,7 +78,6 @@ export const awardTracks = [
   },
   {
     name: '开关电源设计赛道',
-    shortName: '开关电源',
     groups: [
       {
         level: '一等奖',
@@ -182,7 +180,6 @@ export const awardTracks = [
   },
   {
     name: '三维建模设计赛道',
-    shortName: '三维建模',
     groups: [
       {
         level: '一等奖',

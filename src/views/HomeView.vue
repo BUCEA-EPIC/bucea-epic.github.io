@@ -1,13 +1,15 @@
 <script setup>
-import { ref } from 'vue'
 import { newsData } from '../data/newsData.js'
-import competitionImg from '../assets/news/2025工训-大连.jpg'
 import studioImg from '../assets/about/studio-1.webp'
+import IconGithub from '../components/IconGithub.vue'
+import { GITHUB_URL, SITE_LOGO } from '../data/siteInfo.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
-const epicLogoImg = `${import.meta.env.BASE_URL}logo.jpg`
-const githubUrl = 'https://github.com/BUCEA-EPIC'
-const latestNews = ref(newsData.slice(0, 3))
+// hero 图放在 public/ 并在 index.html 中 preload，避免等主 JS 执行后才被发现（LCP）
+const competitionImg = `${import.meta.env.BASE_URL}hero.webp`
+const epicLogoImg = SITE_LOGO
+const githubUrl = GITHUB_URL
+const latestNews = newsData.slice(0, 3)
 
 const focusAreas = ['机器人系统', '机械结构', '电控与驱动', '计算机视觉']
 const exploreLinks = [
@@ -59,18 +61,13 @@ useRevealOnScroll()
               title="BUCEA-EPIC 开源仓库"
             >
               <span>查看开源仓库</span>
-              <svg aria-hidden="true" viewBox="0 0 16 16" class="link-icon">
-                <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.23.49-2.71-1.07-2.71-1.07-.36-.91-.88-1.15-.88-1.15-.72-.49.06-.48.06-.48.8.06 1.22.82 1.22.82.71 1.21 1.87.86 2.33.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.58.82-2.14-.08-.2-.36-1.01.08-2.1 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.09.16 1.9.08 2.1.51.56.82 1.27.82 2.14 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
-                  fill="currentColor"
-                />
-              </svg>
+              <IconGithub />
             </a>
           </div>
 
-          <div class="hero-focus" aria-label="工作室技术方向">
-            <span v-for="area in focusAreas" :key="area">{{ area }}</span>
-          </div>
+          <ul class="hero-focus" aria-label="工作室技术方向">
+            <li v-for="area in focusAreas" :key="area">{{ area }}</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -138,10 +135,9 @@ useRevealOnScroll()
             v-for="(item, index) in latestNews"
             :key="item.title"
             class="news-card"
-            :style="{ '--index': index }"
           >
             <div class="card-image-wrapper">
-              <img v-if="item.image" :src="item.image" :alt="item.title" loading="lazy" decoding="async" />
+              <img v-if="item.image" :src="item.image" alt="" loading="lazy" decoding="async" />
               <div v-else class="image-placeholder"></div>
             </div>
 
@@ -196,21 +192,23 @@ useRevealOnScroll()
 .section-link {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
+  min-height: 44px;
   padding: 0;
   border: 0;
-  border-bottom: 1px solid var(--border-standard);
   border-radius: 0;
   background: transparent;
   color: var(--color-text-secondary);
   font-size: 0.94rem;
   font-weight: 510;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  text-decoration: underline;
+  text-decoration-color: var(--border-standard);
+  text-underline-offset: 5px;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease;
 }
 
 .section-link:hover {
   color: var(--color-text);
-  border-color: var(--color-text-secondary);
+  text-decoration-color: var(--color-text-secondary);
   background: transparent;
 }
 
@@ -312,7 +310,7 @@ useRevealOnScroll()
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 16px;
   border-radius: 6px;
   font-size: 0.94rem;
@@ -328,8 +326,8 @@ useRevealOnScroll()
 }
 
 .primary-link:hover {
-  background: #6674b7;
-  border-color: #6674b7;
+  background: var(--color-brand-strong);
+  border-color: var(--color-brand-strong);
   color: var(--color-text);
 }
 
@@ -355,25 +353,22 @@ useRevealOnScroll()
   gap: 6px;
 }
 
-.link-icon {
-  width: 13px;
-  height: 13px;
-}
-
 .hero-focus {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 18px;
-  margin-top: 34px;
+  margin: 34px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.hero-focus span {
+.hero-focus li {
   color: rgba(208, 214, 224, 0.84);
   font-size: 0.9rem;
   font-weight: 510;
 }
 
-.hero-focus span::before {
+.hero-focus li::before {
   content: '';
   display: inline-block;
   width: 5px;
@@ -504,29 +499,19 @@ useRevealOnScroll()
 }
 
 .news-card {
-  opacity: 1;
   border: 1px solid var(--border-standard);
   border-radius: 8px;
   background: var(--color-card);
   box-shadow: var(--shadow-card);
   overflow: hidden;
   transition:
-    opacity 0.35s ease,
     border-color 0.2s ease,
     background-color 0.2s ease,
     box-shadow 0.2s ease;
-  transition-delay: 0s;
-}
-
-#news.is-visible .news-card {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .news-card:hover {
-  transform: translateY(-2px);
   border-color: var(--border-strong);
-  background: var(--color-card-hover);
   box-shadow: var(--shadow-card);
 }
 
@@ -598,10 +583,6 @@ useRevealOnScroll()
 }
 
 @media (max-width: 768px) {
-  .section {
-    padding: 64px 0;
-  }
-
   .home-hero {
     min-height: calc(100svh - 118px);
     padding: 52px 0 72px;
@@ -692,7 +673,7 @@ useRevealOnScroll()
     gap: 10px 14px;
   }
 
-  .hero-focus span {
+  .hero-focus li {
     font-size: 0.86rem;
   }
 }

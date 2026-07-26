@@ -1,5 +1,6 @@
 <script setup>
-import qqImage from '../assets/contact/qq群.jpg' // Vite 推荐导入图片
+import qqImage from '../assets/contact/qq群.jpg'
+import { QQ_GROUP } from '../data/siteInfo.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 useRevealOnScroll()
@@ -28,7 +29,7 @@ useRevealOnScroll()
           </div>
           <div>
             <dt>QQ群</dt>
-            <dd>455362758</dd>
+            <dd>{{ QQ_GROUP }}</dd>
           </div>
         </dl>
       </div>
@@ -39,7 +40,7 @@ useRevealOnScroll()
           <h3>加入交流群</h3>
           <p>使用 QQ 扫码，获取活动通知并与成员交流。</p>
         </div>
-        <img :src="qqImage" alt="QQ群455362758二维码" class="qq-image" loading="lazy" decoding="async">
+        <img :src="qqImage" :alt="`QQ群${QQ_GROUP}二维码`" class="qq-image" loading="lazy" decoding="async">
       </div>
     </div>
   </div>

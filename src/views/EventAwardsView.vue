@@ -1,8 +1,12 @@
 <script setup>
 import { computed } from 'vue'
 import { awardTracks } from '../data/awardsData.js'
-import { currentEventEdition } from '../data/eventEditionsData.js'
+import { getEventEditionById } from '../data/eventEditionsData.js'
+import { QQ_GROUP } from '../data/siteInfo.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+
+// 本页面路由固定为 /event/5/awards，届次信息按 id 取，避免「当前届次」变更后串届
+const edition = getEventEditionById('5')
 
 const trackTotal = (track) =>
   track.groups.reduce((sum, group) => sum + group.entries.length, 0)
@@ -37,11 +41,11 @@ useRevealOnScroll()
     <section class="notice-summary animate-on-scroll">
       <div class="summary-copy">
         <router-link to="/event/5" class="back-link">返回第五届</router-link>
-        <h2>{{ currentEventEdition.title }}公示名单</h2>
-        <p>第五届各项赛程已圆满结束，以下名单按赛道与奖项分组展示。荣誉证书发放安排请关注 QQ 群（455362758）通知。</p>
+        <h2>{{ edition?.title || '第五届萌新种子杯' }}公示名单</h2>
+        <p>第五届各项赛程已圆满结束，以下名单按赛道与奖项分组展示。荣誉证书发放安排请关注 QQ 群（{{ QQ_GROUP }}）通知。</p>
       </div>
 
-      <div class="summary-grid" aria-label="获奖统计">
+      <div class="summary-grid" role="group" aria-label="获奖统计">
         <div class="summary-item">
           <strong>{{ awardTracks.length }}</strong>
           <span>赛道</span>
@@ -153,8 +157,8 @@ useRevealOnScroll()
 .back-link {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
-  padding: 0 10px;
+  min-height: 44px;
+  padding: 0 14px;
   border: 1px solid var(--border-standard);
   border-radius: var(--radius-control);
   background: rgba(255, 255, 255, 0.025);

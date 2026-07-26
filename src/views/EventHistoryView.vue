@@ -194,8 +194,8 @@ useRevealOnScroll()
 .card-actions a {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
-  padding: 0 12px;
+  min-height: 44px;
+  padding: 0 14px;
   border: 1px solid var(--border-standard);
   border-radius: var(--radius-control);
   background: rgba(255, 255, 255, 0.025);

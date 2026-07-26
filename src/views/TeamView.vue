@@ -2,8 +2,9 @@
 import { advisors, coreTeam } from '../data/teamData.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
-const leader = coreTeam.find((member) => member.name === '蔡思瑶')
-const members = coreTeam.filter((member) => member.name !== leader?.name)
+const LEADER_ROLE = '主要负责人'
+const leader = coreTeam.find((member) => member.role === LEADER_ROLE)
+const members = coreTeam.filter((member) => member.role !== LEADER_ROLE)
 
 useRevealOnScroll('.team-reveal')
 </script>
@@ -38,13 +39,13 @@ useRevealOnScroll('.team-reveal')
     </section>
 
     <div class="team-layout team-reveal">
-      <section class="team-block leader-block">
+      <section v-if="leader" class="team-block leader-block">
         <div class="block-heading">
           <span class="eyebrow">Lead</span>
           <h2>主要负责人</h2>
         </div>
 
-        <div class="leader-card" v-if="leader">
+        <div class="leader-card">
           <div class="leader-portrait">
             <img :src="leader.avatar" :alt="leader.name" loading="lazy" decoding="async">
           </div>
@@ -53,11 +54,11 @@ useRevealOnScroll('.team-reveal')
             <h3>{{ leader.name }}</h3>
             <p class="leader-role">{{ leader.role }}</p>
             <p class="leader-bio">{{ leader.bio }}</p>
-            <div class="leader-tags" aria-label="负责人信息">
-              <span>团队统筹</span>
-              <span>赛事组织</span>
-              <span>项目协作</span>
-            </div>
+            <ul class="leader-tags">
+              <li>团队统筹</li>
+              <li>赛事组织</li>
+              <li>项目协作</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -278,10 +279,12 @@ useRevealOnScroll('.team-reveal')
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 26px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.leader-tags span {
+.leader-tags li {
   border: 1px solid var(--border-standard);
   border-radius: var(--radius-control);
   padding: 7px 12px;
@@ -329,6 +332,8 @@ useRevealOnScroll('.team-reveal')
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: var(--member-photo-aspect);
+  object-fit: cover;
 }
 
 .member-content {

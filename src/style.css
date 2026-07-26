@@ -3,22 +3,16 @@
   --color-bg: #0b0c0d;
   --color-bg-deep: #08090a;
   --color-panel: #121415;
-  --color-surface: #181a1c;
-  --color-surface-hover: #1e2123;
-  --color-elevated: #161819;
   --color-card: #111314;
   --color-card-hover: #17191b;
   --color-text: #f4f5f6;
   --color-text-secondary: #c7cbcf;
   --color-text-muted: #92989e;
   --color-text-subtle: #696f75;
-  --color-brand: #6f7bc1;
-  --color-brand-strong: #7f8bd0;
+  --color-brand: #5a66ad;
+  --color-brand-strong: #4f5a9e;
   --color-accent: #8d98d8;
   --color-accent-hover: #b2b9e4;
-  --color-success: #10b981;
-  --color-warning: #f6c453;
-  --color-danger: #ff6b6b;
   --border-subtle: rgba(255, 255, 255, 0.075);
   --border-standard: rgba(255, 255, 255, 0.12);
   --border-strong: rgba(255, 255, 255, 0.22);
@@ -28,7 +22,6 @@
   --radius-card: 8px;
   --radius-panel: 8px;
   --container: 1180px;
-  --content-width: 760px;
   --page-gutter: 28px;
   font-family: "Inter Variable", Inter, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-feature-settings: "cv01", "ss03";
@@ -55,7 +48,6 @@ body {
   color: var(--color-text);
   font-family: inherit;
   line-height: 1.5;
-  overflow-x: hidden;
 }
 
 ::selection {
@@ -76,6 +68,25 @@ a:hover {
 :where(a, button, [tabindex="0"]):focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 16px;
+  z-index: 3000;
+  padding: 10px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-panel);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 510;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 img,
@@ -201,10 +212,7 @@ textarea {
 
 #app .section-title,
 #app .text-content h2,
-#app .team-section h2,
-#app .award-section h2,
-#app .resource-section h2,
-#app .contact-info h3 {
+#app .resource-section h2 {
   color: var(--color-text);
   font-weight: 510;
   letter-spacing: 0;
@@ -223,8 +231,6 @@ textarea {
 #app .card-content p,
 #app .news-card p,
 #app .news-content p,
-#app .competition,
-#app .bio,
 #app .qq-group p {
   color: var(--color-text-secondary);
   line-height: 1.7;
@@ -243,22 +249,23 @@ textarea {
   font-weight: 510;
 }
 
+/* 正文链接需要颜色之外的视觉标识（WCAG 1.4.1），且链接内的 strong 不应被全局 strong 变白 */
+#app .text-content a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+#app .text-content a strong {
+  color: inherit;
+}
+
 #app .text-content a:hover,
 #app .card-content a:hover {
   color: var(--color-text);
-  text-decoration: none;
-}
-
-#app [style*="color: #ff0000"],
-#app [style*="color:#ff0000"],
-#app [style*="color: red"] {
-  color: var(--color-danger) !important;
 }
 
 #app .news-card,
-#app .team-card,
 #app .project-card,
-#app .award-card,
 #app .resource-grid li,
 #app .news-item-inner,
 #app .contact-content,
@@ -272,17 +279,16 @@ textarea {
   transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-#app .news-card:hover,
-#app .team-card:hover,
-#app .project-card:hover,
-#app .award-card:hover,
-#app .resource-grid li:hover,
-#app .news-item-inner:hover,
-#app .awards-card:hover {
-  transform: translateY(-2px);
-  background: var(--color-card-hover);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-card);
+/* 仅在支持 hover 的设备启用悬停态，避免触屏点按后样式粘滞 */
+@media (hover: hover) {
+  #app .project-card:hover,
+  #app .resource-grid li:hover,
+  #app .awards-card:hover {
+    transform: translateY(-2px);
+    background: var(--color-card-hover);
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-card);
+  }
 }
 
 #app .about-image img,
@@ -311,16 +317,12 @@ textarea {
 
 #app .card-image,
 #app .card-image-wrapper,
-#app .news-image,
-#app .image-wrapper-advisor,
-#app .image-wrapper-member {
+#app .news-image {
   background: var(--color-panel);
   border-bottom: 1px solid var(--border-subtle);
 }
 
 #app .card-content h3,
-#app .card-info h3,
-#app .award-name,
 #app .news-card h3,
 #app .news-content h2,
 #app .about-text h2 {
@@ -329,7 +331,6 @@ textarea {
   letter-spacing: 0;
 }
 
-#app .card-info .role,
 #app .news-content .meta,
 #app .news-card small,
 #app .card-content .subtitle {
@@ -360,71 +361,6 @@ textarea {
   text-decoration: none;
 }
 
-#app .navbar {
-  width: 100%;
-  padding: 0;
-  background: rgba(11, 12, 13, 0.94);
-  border-bottom: 1px solid var(--border-subtle);
-  box-shadow: none;
-  backdrop-filter: blur(16px);
-}
-
-#app .navbar .container {
-  min-height: 68px;
-  padding-left: max(var(--page-gutter), env(safe-area-inset-left));
-  padding-right: max(var(--page-gutter), env(safe-area-inset-right));
-}
-
-#app .logo {
-  flex: 0 0 auto;
-  color: var(--color-text);
-  font-size: 1.08rem;
-  font-weight: 510;
-  letter-spacing: 0;
-  white-space: nowrap;
-}
-
-#app .nav-links-desktop {
-  display: flex;
-  flex: 0 1 auto;
-  flex-wrap: nowrap;
-  justify-content: flex-end;
-  min-width: 0;
-  gap: 4px;
-}
-
-#app .nav-links-desktop a,
-#app .nav-links-mobile a {
-  margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 0.9rem;
-  font-weight: 510;
-  white-space: nowrap;
-}
-
-#app .nav-links-desktop a {
-  flex: 0 0 auto;
-  padding: 25px 9px 23px;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-}
-
-#app .nav-links-desktop a:hover,
-#app .nav-links-desktop a.router-link-exact-active {
-  background: transparent;
-  border-bottom-color: var(--color-accent);
-  color: var(--color-text);
-}
-
-#app .nav-links-mobile a:hover,
-#app .nav-links-mobile a.router-link-exact-active {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--border-standard);
-  color: var(--color-text);
-}
-
-#app .more-btn,
 #app button {
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--border-standard);
@@ -435,8 +371,7 @@ textarea {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-#app button:hover,
-#app .more-btn:hover {
+#app button:hover {
   background: rgba(255, 255, 255, 0.055);
   border-color: var(--border-strong);
   color: var(--color-text);
@@ -451,13 +386,6 @@ textarea {
 #app .awards-link-btn:hover {
   background: var(--color-brand-strong);
   color: var(--color-text);
-}
-
-#app .nav-links-mobile {
-  background: var(--color-panel);
-  border: 1px solid var(--border-standard);
-  box-shadow: var(--shadow-card);
-  backdrop-filter: none;
 }
 
 #app .footer {
@@ -481,6 +409,18 @@ textarea {
   border-left: 1px solid var(--border-standard);
 }
 
+/* 滚动入场动效的全站基础规则，配合 useRevealOnScroll 使用 */
+#app .animate-on-scroll,
+#app .team-reveal {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#app .animate-on-scroll.is-visible,
+#app .team-reveal.is-visible {
+  opacity: 1;
+}
+
 #app .animate-on-scroll,
 #app .team-reveal,
 #app .projects-list,
@@ -493,9 +433,7 @@ textarea {
   transition-delay: 0s;
 }
 
-#app .news-card:hover img,
 #app .project-card:hover img,
-#app .news-item-inner:hover img,
 #app .about-image:hover img,
 #app .image-content img:hover,
 #app .qq-image:hover {
@@ -514,18 +452,6 @@ textarea {
 #app .awards-link-btn {
   border-radius: var(--radius-control);
   max-width: 460px;
-}
-
-@media (max-width: 1180px) {
-  #app .nav-links-desktop {
-    display: none;
-  }
-
-  #app .more-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 900px) {
@@ -582,24 +508,25 @@ textarea {
   }
 
   #app .header p {
+    max-width: 30rem;
     margin-top: 14px;
     font-size: 1rem;
+    line-height: 1.55;
   }
 
   #app .section {
-    padding: 64px 0;
+    padding: 48px 0;
   }
 
-  #app .navbar .container {
-    min-height: 64px;
-    padding-left: max(var(--page-gutter), env(safe-area-inset-left));
-    padding-right: max(var(--page-gutter), env(safe-area-inset-right));
+  #app .content-section {
+    margin-bottom: 44px;
   }
 
-  #app .logo {
-    font-size: 1.08rem;
+  #app .text-content h2,
+  #app .resource-section h2 {
+    font-size: 1.55rem;
+    line-height: 1.25;
   }
-
 }
 
 @media (max-width: 420px) {
@@ -613,12 +540,8 @@ textarea {
 }
 
 @media (hover: none) {
-  #app .news-card:hover,
-  #app .team-card:hover,
   #app .project-card:hover,
-  #app .award-card:hover,
   #app .resource-grid li:hover,
-  #app .news-item-inner:hover,
   #app .awards-card:hover,
   #app .advisor-card:hover,
   #app .leader-card:hover,
@@ -628,7 +551,6 @@ textarea {
     transform: none;
   }
 
-  #app .news-card:hover img,
   #app .project-card:hover img,
   #app .about-image:hover img {
     transform: none;

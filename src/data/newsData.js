@@ -1,9 +1,11 @@
 // src/data/newsData.js
+// 注意：数组按最新在前排序，新条目必须加在最前面（首页「最新动态」取前 3 条）
 
-import tuijieDay from '@/assets/news/2025社团推介日.jpg'
-import zhaoxinMeeting from '@/assets/news/2025招新见面会.jpg'
-import dalianCompetition from '@/assets/news/2025工训-大连.jpg'
+import tuijieDay from '@/assets/news/2025社团推介日.webp'
+import zhaoxinMeeting from '@/assets/news/2025招新见面会.webp'
 import zhongzibei2025 from '@/assets/event/第四届萌新种子杯.jpg'
+
+const dalianCompetition = `${import.meta.env.BASE_URL}hero.webp`
 
 export const newsData = [
   {

@@ -1,15 +1,15 @@
 // src/data/teamData.js
 import huaFengFang from '@/assets/team/advisor-hua.webp'
 import pengCanWen from '@/assets/team/彭粲文.jpg'
-import caiSiYao from '@/assets/team/蔡思瑶.jpg'
-import wangYaJie from '@/assets/team/王雅洁.jpg'
+import caiSiYao from '@/assets/team/蔡思瑶.webp'
+import wangYaJie from '@/assets/team/王雅洁.webp'
 import zhaoTianYe from '@/assets/team/赵天野.jpg'
 import liGuiFan from '@/assets/team/李珪璠.jpg'
 import wangYuXuan from '@/assets/team/王宇轩.jpg'
-import baiXuan from '@/assets/team/白暄.png'
+import baiXuan from '@/assets/team/白暄.webp'
 import zhangYiChuan from '@/assets/team/张易川.jpg'
-import wangBoYao from '@/assets/team/王博垚.png'
-import liZeJun from '@/assets/team/李泽钧.jpg'
+import wangBoYao from '@/assets/team/王博垚.webp'
+import liZeJun from '@/assets/team/李泽钧.webp'
 
 export const advisors = [
   {

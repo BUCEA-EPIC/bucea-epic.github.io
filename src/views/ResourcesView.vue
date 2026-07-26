@@ -1,9 +1,6 @@
 <script setup>
-import { ref } from 'vue'
 import { resources } from '../data/resourcesData.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
-
-const resourceList = ref(resources)
 
 useRevealOnScroll()
 </script>
@@ -20,7 +17,7 @@ useRevealOnScroll()
     <!-- 核心内容 -->
     <div
       class="resource-section animate-on-scroll"
-      v-for="(section, sectionIndex) in resourceList"
+      v-for="(section, sectionIndex) in resources"
       :key="section.category"
     >
       <div class="resource-heading">
@@ -34,7 +31,6 @@ useRevealOnScroll()
         <li
           v-for="(item, index) in section.items"
           :key="item.title"
-          :style="{ '--delay': `${index * 0.05}s` }"
         >
           <div class="card-content">
             <span class="resource-index">{{ String(index + 1).padStart(2, '0') }}</span>
@@ -104,7 +100,7 @@ useRevealOnScroll()
 .resource-grid li:hover { border-color:var(--border-strong); background:var(--color-card-hover); }
 
 .card-content { min-height: 290px; padding:24px; display:flex; flex-direction:column; width:100%; }
-.resource-index { margin-bottom: 22px; color: var(--color-text-subtle); font-size: 0.74rem; font-weight: 590; }
+.resource-index { margin-bottom: 22px; color: var(--color-text-muted); font-size: 0.74rem; font-weight: 590; }
 .card-content a { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; font-weight:510; font-size:1.15rem; line-height: 1.35; color:var(--color-text); text-decoration:none; margin-bottom:10px; overflow-wrap:anywhere; }
 .card-content a > span:last-child { flex: 0 0 auto; color: var(--color-text-muted); font-size: 0.9rem; }
 .card-content a:hover { color: var(--color-text); text-decoration:none; }

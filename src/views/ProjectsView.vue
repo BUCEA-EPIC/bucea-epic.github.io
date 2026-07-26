@@ -4,14 +4,7 @@ import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 useRevealOnScroll()
 
-// 点击卡片打开链接
-function handleCardClick(url) {
-  if (url && url !== '#') {
-    window.open(url, '_blank', 'noopener noreferrer')
-  } else {
-    alert('该项目资料正在整理中，敬请期待。')
-  }
-}
+const hasLink = (project) => Boolean(project.url && project.url !== '#')
 </script>
 
 <template>
@@ -24,17 +17,15 @@ function handleCardClick(url) {
     </div>
 
     <div class="projects-list animate-on-scroll">
-      <div
-        class="project-card"
+      <component
         v-for="(project, index) in projects"
         :key="project.title"
-        @click="handleCardClick(project.url)"
-        @keydown.enter="handleCardClick(project.url)"
-        @keydown.space.prevent="handleCardClick(project.url)"
-        :class="{ 'reverse-layout': index % 2 !== 0 }"
-        role="link"
-        tabindex="0"
-        :aria-label="`${project.title}，${project.url === '#' ? '资料整理中' : '打开项目资料'}`"
+        :is="hasLink(project) ? 'a' : 'article'"
+        class="project-card"
+        :class="{ 'reverse-layout': index % 2 !== 0, 'is-static': !hasLink(project) }"
+        v-bind="hasLink(project)
+          ? { href: project.url, target: '_blank', rel: 'noopener noreferrer', 'aria-label': `${project.title}（新标签页打开项目资料）` }
+          : {}"
       >
         <div class="card-image">
           <img :src="project.image" :alt="project.title" loading="lazy" decoding="async" />
@@ -47,11 +38,11 @@ function handleCardClick(url) {
             <span v-for="tag in project.tags" :key="tag" class="tag">{{ tag }}</span>
           </div>
           <span class="project-action">
-            {{ project.url === '#' ? '资料整理中' : '查看开源项目' }}
-            <span v-if="project.url !== '#'" aria-hidden="true">↗</span>
+            {{ hasLink(project) ? '查看开源项目' : '资料整理中' }}
+            <span v-if="hasLink(project)" aria-hidden="true">↗</span>
           </span>
         </div>
-      </div>
+      </component>
     </div>
   </div>
 </template>
@@ -62,9 +53,12 @@ function handleCardClick(url) {
 .projects-list { display: flex; flex-direction: column; gap: 28px; opacity: 0; transition: opacity 0.35s ease; }
 .projects-list.is-visible { opacity: 1; }
 
-.project-card { min-height: 390px; background: var(--color-card); border: 1px solid var(--border-standard); border-radius: var(--radius-card); overflow: hidden; box-shadow: none; display: flex; align-items: stretch; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
-.project-card:hover { transform: translateY(-2px); border-color: var(--border-strong); background: var(--color-card-hover); box-shadow: var(--shadow-card); }
+.project-card { min-height: 390px; background: var(--color-card); border: 1px solid var(--border-standard); border-radius: var(--radius-card); overflow: hidden; box-shadow: none; display: flex; align-items: stretch; color: inherit; text-decoration: none; transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
 .project-card.reverse-layout { flex-direction: row-reverse; }
+
+@media (hover: hover) {
+  a.project-card:hover { transform: translateY(-2px); border-color: var(--border-strong); background: var(--color-card-hover); box-shadow: var(--shadow-card); }
+}
 
 .card-image { flex-basis: 52%; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 390px; }
 .card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -76,7 +70,7 @@ function handleCardClick(url) {
 .tags { margin-top: 20px; }
 .tag { display: inline-block; background: rgba(255, 255, 255, 0.04); color: var(--color-text-secondary); padding: 5px 10px; border: 1px solid var(--border-standard); border-radius: var(--radius-control); font-size: 0.8rem; font-weight: 510; margin-right: 8px; margin-bottom: 8px; }
 .project-action { display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; color: var(--color-text-muted); font-size: 0.88rem; font-weight: 510; }
-.project-card:hover .project-action { color: var(--color-text); }
+a.project-card:hover .project-action { color: var(--color-text); }
 
 @media (max-width: 900px) {
   .project-card, .project-card.reverse-layout { flex-direction: column; }

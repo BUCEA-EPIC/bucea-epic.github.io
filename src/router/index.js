@@ -1,24 +1,28 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
+
+const SITE_TITLE = '317工作室 | 北京建筑大学工程实践创新中心'
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
-  { path: '/about', name: 'About', component: AboutView },
-  { path: '/team', name: 'Team', component: () => import('../views/TeamView.vue') },
-  { path: '/projects', name: 'Projects', component: () => import('../views/ProjectsView.vue') },
-  { path: '/resources', name: 'Resources', component: () => import('../views/ResourcesView.vue') },
-  { path: '/news', name: 'News', component: () => import('../views/NewsView.vue') },
-  { path: '/contact', name: 'Contact', component: () => import('../views/ContactView.vue') },
-  { path: '/event', name: 'Event', component: () => import('../views/EventView.vue') },
-  { path: '/event/history', name: 'EventHistory', component: () => import('../views/EventHistoryView.vue') },
+  { path: '/about', name: 'About', component: () => import('../views/AboutView.vue'), meta: { title: '关于我们' } },
+  { path: '/team', name: 'Team', component: () => import('../views/TeamView.vue'), meta: { title: '团队成员' } },
+  { path: '/projects', name: 'Projects', component: () => import('../views/ProjectsView.vue'), meta: { title: '项目与机器人' } },
+  { path: '/resources', name: 'Resources', component: () => import('../views/ResourcesView.vue'), meta: { title: '教程与资源' } },
+  { path: '/news', name: 'News', component: () => import('../views/NewsView.vue'), meta: { title: '新闻与动态' } },
+  { path: '/contact', name: 'Contact', component: () => import('../views/ContactView.vue'), meta: { title: '联系我们' } },
+  { path: '/event', name: 'Event', component: () => import('../views/EventView.vue'), meta: { title: '萌新种子杯' } },
+  { path: '/event/history', name: 'EventHistory', component: () => import('../views/EventHistoryView.vue'), meta: { title: '往年赛事' } },
   { path: '/event/awards', redirect: '/event/5/awards' },
-  { path: '/event/5/awards', name: 'EventAwards5', component: () => import('../views/EventAwardsView.vue') },
-  { path: '/event/:editionId(\\d+)', name: 'EventEdition', component: () => import('../views/EventView.vue') },
+  { path: '/event/5/awards', name: 'EventAwards5', component: () => import('../views/EventAwardsView.vue'), meta: { title: '第五届获奖公示' } },
+  { path: '/event/:editionId(\\d+)', name: 'EventEdition', component: () => import('../views/EventView.vue'), meta: { title: '萌新种子杯' } },
 
-  { path: '/:pathMatch(.*)*', redirect: '/' }
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../views/NotFoundView.vue'), meta: { title: '页面未找到' } }
 ]
+
+const prefersReducedMotion = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,7 +36,7 @@ const router = createRouter({
       const target = {
         el: to.hash,
         top: 96,
-        behavior: 'smooth'
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth'
       }
 
       if (to.path === from.path) {
@@ -46,6 +50,10 @@ const router = createRouter({
 
     return { top: 0 }
   }
+})
+
+router.afterEach((to) => {
+  document.title = to.meta.title ? `${to.meta.title} | 317工作室` : SITE_TITLE
 })
 
 export default router
