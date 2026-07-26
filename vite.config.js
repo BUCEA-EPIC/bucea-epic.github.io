@@ -19,6 +19,17 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, 'src')
       }
     },
+    build: {
+      rollupOptions: {
+        output: {
+          // 框架代码（几乎不变）拆入独立 vendor chunk，业务/文案改动后
+          // 其 hash 保持稳定，提升回访缓存命中率
+          manualChunks: {
+            vue: ['vue', 'vue-router']
+          }
+        }
+      }
+    },
     server: {
       host: '0.0.0.0',
       port: 5173

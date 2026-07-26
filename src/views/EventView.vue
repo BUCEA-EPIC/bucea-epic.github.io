@@ -11,7 +11,7 @@ import track1Video from '../assets/event/视觉循迹仿真.webm'
 import track1VideoMp4 from '../assets/event/视觉循迹仿真.mp4'
 import track1Poster from '../assets/event/视觉循迹仿真-首帧.webp'
 import track2Img from '../assets/event/开关电源设计.webp'
-import track3Img from '../assets/event/三维建模设计.png'
+import track3Img from '../assets/event/三维建模设计.webp'
 import qqImg from '../assets/contact/qq群.jpg'
 
 const route = useRoute()
