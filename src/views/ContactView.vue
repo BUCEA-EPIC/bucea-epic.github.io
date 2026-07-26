@@ -151,7 +151,7 @@ useRevealOnScroll()
   box-shadow: var(--shadow-soft);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .contact-content {
     grid-template-columns: minmax(0, 1fr);
   }

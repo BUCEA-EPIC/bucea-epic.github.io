@@ -313,13 +313,15 @@ useRevealOnScroll()
   background: rgba(255, 255, 255, 0.035);
 }
 
-@media (max-width: 920px) {
-  .notice-summary {
-    grid-template-columns: 1fr;
-  }
-
+@media (max-width: 980px) {
   .level-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .notice-summary {
+    grid-template-columns: 1fr;
   }
 }
 

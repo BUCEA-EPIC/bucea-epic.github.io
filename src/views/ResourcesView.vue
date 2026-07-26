@@ -70,7 +70,7 @@ useRevealOnScroll()
 .resource-grid { list-style:none; padding:0; display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:18px; }
 
 /* 响应式 */
-@media (max-width:992px) { .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width:980px) { .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width:768px) {
   .resource-section { margin-bottom: 56px; }
   .resource-heading { grid-template-columns: 32px minmax(0, 1fr); gap: 10px; margin-bottom: 20px; padding-bottom: 20px; }
