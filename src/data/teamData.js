@@ -38,7 +38,7 @@ export const coreTeam = [
 如果你看到的是略有过冲的方波，那你完了`,
     avatar: liGuiFan
   },
-  { name: '王宇轩', role: '', bio: '想进一步了解加入的学妹请联系电话：17813219830 qq：2179736610 微信：Daniel_wxy 邮箱：2179736610@qq.com  抖音：ke83000  住址：北建大大兴校区3号楼606 3床（学弟别来）', avatar: wangYuXuan },
+  { name: '王宇轩', role: '', bio: '想进一步了解工作室的同学，欢迎通过官方 QQ 群与我们交流。', avatar: wangYuXuan },
   { name: '白暄', role: '', bio: 'ཞུམ་མེད་མདུན་སྐྱོད་', avatar: baiXuan },
   { name: '张易川', role: '', bio: 'SGWCMAID260405150132B67545D2123F8104FB9C53F97AD6DDC1053FB53F9CD9660277C3E2D32901DC04', avatar: zhangYiChuan },
   { name: '王雅洁', role: '', bio: '电气工程及其自动化专业（实验班），共青团员，负责工作室财务报销', avatar: wangYaJie },
