@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://buceaepic.github.io/sitemap.xml
