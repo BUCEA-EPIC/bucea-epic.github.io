@@ -29,23 +29,38 @@ import Footer from './components/Footer.vue'
 
 .page-shell-enter-active,
 .page-shell-leave-active {
-  transition: opacity 0.18s ease;
+  transition: opacity 0.22s ease, transform 0.26s var(--ease-out);
 }
 
-.page-shell-enter-from,
+.page-shell-enter-from {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
 .page-shell-leave-to {
   opacity: 0;
+  transform: translateY(-3px);
 }
 
 .page-shell-enter-to,
 .page-shell-leave-from {
   opacity: 1;
+  transform: none;
 }
 
 @media (max-width: 768px) {
   .page-shell-enter-active,
   .page-shell-leave-active {
     transition-duration: 0.24s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-shell-enter-from,
+  .page-shell-leave-to,
+  .page-shell-enter-to,
+  .page-shell-leave-from {
+    transform: none;
   }
 }
 </style>

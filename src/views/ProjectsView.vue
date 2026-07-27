@@ -23,6 +23,7 @@ const hasLink = (project) => Boolean(project.url && project.url !== '#')
         :is="hasLink(project) ? 'a' : 'article'"
         class="project-card"
         :class="{ 'reverse-layout': index % 2 !== 0, 'is-static': !hasLink(project) }"
+        :style="{ '--item-index': index }"
         v-bind="hasLink(project)
           ? { href: project.url, target: '_blank', rel: 'noopener noreferrer', 'aria-label': `${project.title}（新标签页打开项目资料）` }
           : {}"
@@ -52,8 +53,9 @@ const hasLink = (project) => Boolean(project.url && project.url !== '#')
 
 .projects-list { display: flex; flex-direction: column; gap: 28px; }
 
-.project-card { min-height: 390px; background: var(--color-card); border: 1px solid var(--border-standard); border-radius: var(--radius-card); overflow: hidden; box-shadow: none; display: flex; align-items: stretch; color: inherit; text-decoration: none; transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
+.project-card { min-height: 390px; background: var(--color-card); border: 1px solid var(--border-standard); border-radius: var(--radius-card); overflow: hidden; box-shadow: none; display: flex; align-items: stretch; color: inherit; text-decoration: none; opacity: 0; transform: translateY(14px); transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
 .project-card.reverse-layout { flex-direction: row-reverse; }
+.projects-list.is-visible .project-card { opacity: 1; transform: none; transition-delay: calc(var(--item-index) * 90ms), calc(var(--item-index) * 90ms), 0ms, 0ms, 0ms; }
 
 @media (hover: hover) {
   a.project-card:hover { transform: translateY(-2px); border-color: var(--border-strong); background: var(--color-card-hover); box-shadow: var(--shadow-card); }
@@ -88,5 +90,12 @@ a.project-card:hover .project-action { color: var(--color-text); }
 
 @media (max-width: 420px) {
   .card-content { padding: 24px 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card {
+    opacity: 1;
+    transform: none;
+  }
 }
 </style>

@@ -18,6 +18,9 @@
   --border-strong: rgba(255, 255, 255, 0.22);
   --shadow-card: 0 18px 50px rgba(0, 0, 0, 0.18);
   --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.22);
+  --shadow-hover: 0 18px 44px rgba(0, 0, 0, 0.22);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1.12);
   --radius-control: 6px;
   --radius-card: 8px;
   --radius-panel: 8px;
@@ -168,6 +171,20 @@ textarea {
 
 #app .header::before,
 #app .header::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+#app .header::before {
+  right: 0;
+  bottom: -1px;
+  width: clamp(90px, 14vw, 180px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(141, 152, 216, 0.72));
+}
+
+#app .header::after {
   content: none;
 }
 
@@ -177,7 +194,9 @@ textarea {
 }
 
 #app .header-bg-text {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 9px;
   grid-column: 1 / -1;
   margin-bottom: 18px;
   color: var(--color-accent);
@@ -185,6 +204,13 @@ textarea {
   font-weight: 590;
   letter-spacing: 0.12em;
   line-height: 1;
+}
+
+#app .header-bg-text::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: currentColor;
 }
 
 #app .header h1 {
@@ -413,40 +439,26 @@ textarea {
 #app .animate-on-scroll,
 #app .team-reveal {
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transform: translateY(12px);
+  transition:
+    opacity 0.5s var(--ease-out),
+    transform 0.5s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
 }
 
 #app .animate-on-scroll.is-visible,
 #app .team-reveal.is-visible {
   opacity: 1;
+  transform: none;
+  will-change: auto;
 }
 
-#app .animate-on-scroll,
-#app .team-reveal,
 #app .projects-list,
 #app .news-item-wrapper,
 #app .animate-on-scroll .animate-text,
 #app .animate-on-scroll .animate-image {
-  filter: none;
-  transform: none;
-  transition-duration: 0.35s;
-  transition-delay: 0s;
-}
-
-#app .project-card:hover img,
-#app .about-image:hover img,
-#app .image-content img:hover,
-#app .qq-image:hover {
-  transform: none;
-}
-
-#app .advisor-card:hover,
-#app .leader-card:hover,
-#app .member-card:hover,
-#app .section-link:hover,
-#app .image-content img:hover,
-#app .qq-image:hover {
-  transform: none;
+  transition-timing-function: var(--ease-out);
 }
 
 #app .awards-link-btn {
@@ -553,6 +565,165 @@ textarea {
 
   #app .project-card:hover img,
   #app .about-image:hover img {
+    transform: none;
+  }
+}
+
+/* 统一的微交互层：为卡片、图片与操作控件提供一致的反馈 */
+#app :is(
+  .news-card,
+  .project-card,
+  .resource-grid li,
+  .news-item-inner,
+  .contact-content,
+  .awards-card,
+  .advisor-card,
+  .leader-card,
+  .member-card,
+  .edition-card,
+  .summary-item,
+  .level-card,
+  .brief-notice,
+  .edition-overview,
+  .explore-link
+) {
+  position: relative;
+  transition:
+    transform 0.35s var(--ease-out),
+    opacity 0.55s var(--ease-out),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.35s var(--ease-out);
+}
+
+#app :is(
+  .project-card,
+  .news-card,
+  .news-item-inner,
+  .advisor-card,
+  .leader-card,
+  .member-card,
+  .about-image
+) img {
+  transition: transform 0.45s var(--ease-out), filter 0.3s ease;
+}
+
+#app :is(.image-content img, .qq-image) {
+  transition: transform 0.4s var(--ease-out), border-color 0.25s ease;
+}
+
+#app :is(.tag, .leader-tags li, .hero-focus li) {
+  transition: transform 0.25s var(--ease-spring), background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+#app :is(
+  .primary-link,
+  .secondary-link,
+  .hero-github-link,
+  .awards-link-btn,
+  .back-link,
+  .back-home-link,
+  .back-event-link,
+  .card-actions a,
+  .edition-link,
+  .history-link
+) {
+  transition:
+    transform 0.25s var(--ease-spring),
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+#app .section-link::after {
+  content: '→';
+  display: inline-block;
+  margin-left: 7px;
+  text-decoration: none;
+  transition: transform 0.25s var(--ease-spring);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #app :is(
+    .news-card,
+    .project-card:not(.is-static),
+    .resource-grid li,
+    .news-item-inner,
+    .awards-card,
+    .advisor-card,
+    .leader-card,
+    .member-card,
+    .edition-card,
+    .summary-item,
+    .level-card,
+    .brief-notice,
+    .edition-overview,
+    .explore-link
+  ):hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+    background-color: var(--color-card-hover);
+    box-shadow: var(--shadow-hover);
+  }
+
+  #app :is(
+    .project-card,
+    .news-card,
+    .news-item-inner,
+    .advisor-card,
+    .leader-card,
+    .member-card,
+    .about-image
+  ):hover img {
+    transform: scale(1.02);
+    filter: saturate(1.02);
+  }
+
+  #app .image-content img:hover,
+  #app .qq-image:hover {
+    transform: scale(1.015);
+    border-color: var(--border-strong);
+  }
+
+  #app :is(.primary-link, .secondary-link, .hero-github-link, .awards-link-btn, .back-link, .back-home-link, .back-event-link, .card-actions a, .edition-link, .history-link):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.18);
+  }
+
+  #app :is(.tag, .leader-tags li):hover {
+    transform: translateY(-1px);
+    border-color: var(--border-strong);
+    background: rgba(255, 255, 255, 0.055);
+    color: var(--color-text);
+  }
+
+  #app .section-link:hover::after {
+    transform: translateX(4px);
+  }
+
+  #app .project-card:hover .project-action span,
+  #app .resource-grid li:hover .card-content a > span:last-child,
+  #app .awards-link-btn:hover .link-icon {
+    transform: translate(3px, -3px);
+  }
+}
+
+#app .project-action span,
+#app .resource-grid .card-content a > span:last-child,
+#app .awards-link-btn .link-icon {
+  display: inline-block;
+  transition: transform 0.25s var(--ease-spring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app .animate-on-scroll,
+  #app .team-reveal,
+  #app .news-item-wrapper,
+  #app .animate-on-scroll .animate-text,
+  #app .animate-on-scroll .animate-image {
+    opacity: 1;
+    filter: none;
     transform: none;
   }
 }

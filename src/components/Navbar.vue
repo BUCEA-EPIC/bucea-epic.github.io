@@ -177,7 +177,7 @@ onBeforeUnmount(() => {
 .navbar.is-scrolled {
   background: rgba(8, 9, 10, 0.97);
   border-bottom-color: var(--border-standard);
-  box-shadow: none;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
 }
 
 .container {
@@ -219,6 +219,7 @@ onBeforeUnmount(() => {
   border-radius: var(--radius-control);
   background: #fff;
   object-fit: cover;
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .logo-copy {
@@ -227,6 +228,14 @@ onBeforeUnmount(() => {
 
 .logo:hover {
   color: var(--color-text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .logo:hover .logo-mark {
+    transform: translateY(-1px) scale(1.03);
+    border-color: var(--border-strong);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+  }
 }
 
 /* PC 端导航 */
@@ -255,11 +264,30 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 }
 
+.nav-links-desktop a:not(.github-link)::after {
+  content: '';
+  position: absolute;
+  right: 9px;
+  bottom: 16px;
+  left: 9px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-hover), transparent);
+  opacity: 0;
+  transform: scaleX(0.25);
+  transition: opacity 0.25s ease, transform 0.3s var(--ease-out);
+}
+
 .nav-links-desktop a:hover,
 .nav-links-desktop a.is-active {
   background: transparent;
-  border-bottom-color: var(--color-accent);
+  border-bottom-color: transparent;
   color: var(--color-text);
+}
+
+.nav-links-desktop a:not(.github-link):hover::after,
+.nav-links-desktop a:not(.github-link).is-active::after {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .github-link {
@@ -288,6 +316,16 @@ onBeforeUnmount(() => {
   box-shadow: none;
 }
 
+.github-link :deep(svg) {
+  transition: transform 0.25s var(--ease-spring);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .github-link:hover :deep(svg) {
+    transform: translateY(-1px) scale(1.05);
+  }
+}
+
 /* 手机端导航 */
 .more-btn {
   display: none;
@@ -306,6 +344,13 @@ onBeforeUnmount(() => {
   line-height: 1;
   cursor: pointer;
   appearance: none;
+  transition: transform 0.25s var(--ease-spring), background-color 0.2s ease, border-color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .more-btn:hover {
+    transform: translateY(-1px);
+  }
 }
 
 .menu-icon {
@@ -368,6 +413,7 @@ onBeforeUnmount(() => {
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 510;
+  transition: transform 0.25s var(--ease-spring), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .nav-links-mobile a:hover,
@@ -375,6 +421,12 @@ onBeforeUnmount(() => {
   background: rgba(255, 255, 255, 0.04);
   border-color: var(--border-standard);
   color: var(--color-text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-links-mobile a:not(.github-link):hover {
+    transform: translateX(3px);
+  }
 }
 
 .nav-links-mobile .github-link {

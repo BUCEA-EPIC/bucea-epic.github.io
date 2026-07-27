@@ -5,7 +5,12 @@ export function useRevealOnScroll(selector = '.animate-on-scroll', observerOptio
 
   onMounted(() => {
     nextTick(() => {
-      const elements = document.querySelectorAll(selector)
+      const elements = Array.from(document.querySelectorAll(selector))
+
+      elements.forEach((element, index) => {
+        const delay = Math.min(index * 55, 220)
+        element.style.setProperty('--reveal-delay', `${delay}ms`)
+      })
 
       if (
         !('IntersectionObserver' in window) ||

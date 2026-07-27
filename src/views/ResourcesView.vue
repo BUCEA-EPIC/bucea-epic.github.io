@@ -31,6 +31,7 @@ useRevealOnScroll()
         <li
           v-for="(item, index) in section.items"
           :key="item.title"
+          :style="{ '--item-index': index }"
         >
           <div class="card-content">
             <span class="resource-index">{{ String(index + 1).padStart(2, '0') }}</span>
@@ -57,10 +58,12 @@ useRevealOnScroll()
 /* 滚动动画：基础显隐规则在全局 style.css，此处仅保留列表项差异 */
 .animate-on-scroll li {
   opacity:0;
-  transition: opacity 0.35s ease;
+  transform: translateY(10px);
 }
 .animate-on-scroll.is-visible li {
   opacity:1;
+  transform:none;
+  transition-delay: calc(var(--item-index) * 70ms), calc(var(--item-index) * 70ms), 0ms, 0ms, 0ms;
 }
 
 /* 资源标题 */
@@ -107,5 +110,12 @@ useRevealOnScroll()
 
 @media (max-width: 768px) {
   .card-content { min-height: 0; padding: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll li {
+    opacity: 1;
+    transform: none;
+  }
 }
 </style>
