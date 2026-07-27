@@ -3,7 +3,7 @@
     <div class="container">
       <div class="footer-primary">
         <div class="footer-brand">
-          <strong>317工作室</strong>
+          <strong>光启Ray-space工作室</strong>
           <span>实践、协作与工程创新</span>
         </div>
         <nav class="footer-nav" aria-label="页脚导航">
@@ -16,7 +16,7 @@
 
       <div class="footer-secondary">
         <p class="copyright">
-          Copyright &copy; 2025-2026 北京建筑大学工程实践创新中心 317工作室
+          Copyright &copy; 2025-2026 北京建筑大学 光启Ray-space工作室
         </p>
         <nav v-if="showBeianLinks" class="beian-links" aria-label="备案信息">
           <a

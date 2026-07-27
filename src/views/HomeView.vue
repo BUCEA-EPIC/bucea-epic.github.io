@@ -33,12 +33,12 @@ useRevealOnScroll()
         <div class="hero-copy">
           <div class="hero-brand">
             <img :src="epicLogoImg" alt="工程实践创新中心 EPIC 标志" />
-            <span>EPIC 317 STUDIO</span>
+            <span>RAY-SPACE STUDIO</span>
           </div>
 
           <h1>
             工程实践创新中心
-            <span>317工作室</span>
+            <span>光启Ray-space工作室</span>
           </h1>
 
           <p class="hero-description">
@@ -87,7 +87,7 @@ useRevealOnScroll()
         </div>
 
         <div class="about-image">
-          <img :src="studioImg" alt="工程实践创新中心317工作室环境" loading="lazy" decoding="async" />
+          <img :src="studioImg" alt="光启Ray-space工作室环境" loading="lazy" decoding="async" />
         </div>
       </div>
     </section>
@@ -215,7 +215,7 @@ useRevealOnScroll()
 .home-hero {
   position: relative;
   display: flex;
-  min-height: calc(100svh - 138px);
+  min-height: calc(100svh - 68px);
   margin: 0;
   padding: 74px 0 96px;
   overflow: hidden;
@@ -246,7 +246,7 @@ useRevealOnScroll()
   z-index: 1;
   display: flex;
   flex: 1;
-  align-items: flex-end;
+  align-items: center;
   min-height: 0;
 }
 
@@ -575,12 +575,8 @@ useRevealOnScroll()
 
 @media (max-width: 768px) {
   .home-hero {
-    min-height: calc(100svh - 118px);
+    min-height: calc(100svh - 64px);
     padding: 52px 0 72px;
-  }
-
-  .hero-layout {
-    align-items: flex-end;
   }
 
   .hero-copy h1 {

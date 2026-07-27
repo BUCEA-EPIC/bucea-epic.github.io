@@ -1,6 +1,6 @@
-# EPIC 317 Website
+# 光启Ray-space工作室官网
 
-北京建筑大学工程实践创新中心 317 工作室官网，基于 Vue 3、Vite 和 Vue Router 构建。
+北京建筑大学光启Ray-space工作室官网，基于 Vue 3、Vite 和 Vue Router 构建。
 
 ## 开发
 

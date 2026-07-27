@@ -5,7 +5,7 @@
       <router-link to="/" class="logo">
         <img :src="epicLogoImg" alt="" aria-hidden="true" class="logo-mark">
         <span class="logo-copy">
-          工程实践创新中心<span class="mobile-break"><br/></span>317工作室
+          光启Ray-space工作室
         </span>
       </router-link>
 
@@ -227,11 +227,6 @@ onBeforeUnmount(() => {
 
 .logo:hover {
   color: var(--color-text);
-}
-
-/* PC 显示时不换行 */
-.mobile-break {
-  display: none;
 }
 
 /* PC 端导航 */
@@ -456,12 +451,6 @@ onBeforeUnmount(() => {
     min-height: 64px;
   }
 
-  /* 手机端 LOGO 换行 */
-  .mobile-break {
-    display: inline;
-  }
-
-  /* 更紧密的两行间距 */
   .logo {
     line-height: 1.1;
     font-size: 1.08rem;
