@@ -9,7 +9,9 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "bucea-epic",
   "main": "server/index.ts",
-  "compatibility_date": "2026-08-04",
+  // Must not exceed the date supported by the installed workerd binary
+  // (check with local `npm run dev` if Miniflare fails to start).
+  "compatibility_date": "2026-05-28",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true,
