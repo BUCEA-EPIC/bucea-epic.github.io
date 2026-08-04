@@ -42,6 +42,7 @@ server/
 - `npm run dev` / `build` / `preview` / `deploy`
 - `npm run cf-typegen` — 绑定变更后必跑
 - `npm run check:worker` — Worker TS 检查
+- `npm audit --audit-level=high` — 依赖安全审计
 - `npm run build:static:github` / `build:static:server` — 纯静态旁路
 
 ## 代码风格
@@ -63,6 +64,7 @@ npm run build
 ## 提交
 
 Conventional Commits + 简体中文说明（`feat:` / `fix:` / `refactor:` / `docs:`）。
+生产变更走 Pull Request，等待 CI 与代码审查通过后合并；不要直接向 `main` 推送。
 
 ## 安全
 

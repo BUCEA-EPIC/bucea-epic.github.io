@@ -1,7 +1,15 @@
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
+  X-Permitted-Cross-Domain-Policies: none
+  X-DNS-Prefetch-Control: off
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data: https:; media-src 'self' https: blob:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://www.rayspace.org https://rayspace.org; font-src 'self' data:; object-src 'none'; upgrade-insecure-requests
+
+/admin*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+/api/*
+  X-Robots-Tag: noindex, nofollow, noarchive

@@ -1,3 +1,13 @@
+function applySecurityHeaders(headers: Headers): void {
+  headers.set('X-Content-Type-Options', 'nosniff')
+  headers.set('X-Frame-Options', 'DENY')
+  headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
+  headers.set('Content-Security-Policy', "default-src 'none'; base-uri 'none'; frame-ancestors 'none'")
+  headers.set('Referrer-Policy', 'no-referrer')
+  headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+  headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive')
+}
+
 export function json(data: unknown, init: ResponseInit = {}): Response {
   const headers = new Headers(init.headers)
   if (!headers.has('Content-Type')) {
@@ -5,9 +15,7 @@ export function json(data: unknown, init: ResponseInit = {}): Response {
   }
   headers.set('Cache-Control', 'no-store')
   headers.set('Pragma', 'no-cache')
-  headers.set('X-Content-Type-Options', 'nosniff')
-  headers.set('Referrer-Policy', 'no-referrer')
-  headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+  applySecurityHeaders(headers)
   return new Response(JSON.stringify(data), { ...init, headers })
 }
 
@@ -21,6 +29,7 @@ export function error(
 
 export function publicCors(response: Response): Response {
   const headers = new Headers(response.headers)
+  applySecurityHeaders(headers)
   headers.set('Access-Control-Allow-Origin', '*')
   headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS')
   headers.set('Access-Control-Allow-Headers', 'Accept, Content-Type')

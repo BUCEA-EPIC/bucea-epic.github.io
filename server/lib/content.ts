@@ -112,7 +112,18 @@ function text(value: unknown, field: string, maxLength: number, required = false
 
 function identifier(value: unknown, fallback: string): string {
   const result = text(value, 'id', 120)
+  if (result && !/^[A-Za-z0-9][A-Za-z0-9_-]{0,119}$/.test(result)) {
+    throw new Error('id 只能包含字母、数字、短横线和下划线，且必须以字母或数字开头')
+  }
   return result || fallback
+}
+
+function ensureUniqueIds(items: Array<{ id: string }>, field: string): void {
+  const ids = new Set<string>()
+  for (const item of items) {
+    if (ids.has(item.id)) throw new Error(`${field} 中的 id 必须唯一`)
+    ids.add(item.id)
+  }
 }
 
 function safeUrl(value: unknown, field: string, required = false): string {
@@ -174,10 +185,13 @@ function validateTeam(payload: unknown): TeamContent {
   if (advisors.length > MAX_ITEMS || coreTeam.length > MAX_ITEMS) {
     throw new Error('团队成员数量超出限制')
   }
-  return {
+  const result = {
     advisors: advisors.map((item, index) => validateMember(item, index, 'advisors')),
     coreTeam: coreTeam.map((item, index) => validateMember(item, index, 'coreTeam'))
   }
+  ensureUniqueIds(result.advisors, '指导老师')
+  ensureUniqueIds(result.coreTeam, '核心团队')
+  return result
 }
 
 function validateProject(value: unknown, index: number): Project {
@@ -195,7 +209,9 @@ function validateProject(value: unknown, index: number): Project {
 function validateProjects(payload: unknown): Project[] {
   if (!Array.isArray(payload)) throw new Error('项目配置必须是数组')
   if (payload.length > MAX_ITEMS) throw new Error('项目数量超出限制')
-  return payload.map(validateProject)
+  const result = payload.map(validateProject)
+  ensureUniqueIds(result, '项目')
+  return result
 }
 
 function validateResourceItem(value: unknown, sectionIndex: number, itemIndex: number): ResourceItem {
@@ -213,19 +229,23 @@ function validateResourceItem(value: unknown, sectionIndex: number, itemIndex: n
 function validateResources(payload: unknown): ResourceSection[] {
   if (!Array.isArray(payload)) throw new Error('资源配置必须是数组')
   if (payload.length > MAX_RESOURCE_SECTIONS) throw new Error('资源分类数量超出限制')
-  return payload.map((value, index) => {
+  const result = payload.map((value, index) => {
     if (!isRecord(value)) throw new Error(`resources[${index}] 格式无效`)
     if (!Array.isArray(value.items)) throw new Error(`resources[${index}].items 必须是数组`)
     if (value.items.length > MAX_ITEMS) throw new Error(`resources[${index}].items 条目过多`)
+    const items = value.items.map((item, itemIndex) =>
+      validateResourceItem(item, index, itemIndex)
+    )
+    ensureUniqueIds(items, `resources[${index}].items`)
     return {
       id: identifier(value.id, `resource-section-${index + 1}`),
       category: text(value.category, `resources[${index}].category`, 160, true),
       description: text(value.description, `resources[${index}].description`, 2000),
-      items: value.items.map((item, itemIndex) =>
-        validateResourceItem(item, index, itemIndex)
-      )
+      items
     }
   })
+  ensureUniqueIds(result, '资源分类')
+  return result
 }
 
 function validateNewsItem(value: unknown, index: number): NewsItem {
@@ -242,7 +262,9 @@ function validateNewsItem(value: unknown, index: number): NewsItem {
 function validateNews(payload: unknown): NewsItem[] {
   if (!Array.isArray(payload)) throw new Error('新闻配置必须是数组')
   if (payload.length > MAX_ITEMS) throw new Error('新闻数量超出限制')
-  return payload.map(validateNewsItem)
+  const result = payload.map(validateNewsItem)
+  ensureUniqueIds(result, '新闻')
+  return result
 }
 
 function validateSite(payload: unknown): SiteContent {

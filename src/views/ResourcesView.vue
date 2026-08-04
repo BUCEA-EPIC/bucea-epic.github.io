@@ -23,7 +23,7 @@ const hasLink = (item) => Boolean(item.url && item.url !== '#')
     <div
       class="resource-section animate-on-scroll"
       v-for="(section, sectionIndex) in resources"
-      :key="section.category"
+      :key="section.id"
     >
       <div class="resource-heading">
         <span>0{{ sectionIndex + 1 }}</span>
@@ -35,7 +35,7 @@ const hasLink = (item) => Boolean(item.url && item.url !== '#')
       <ul class="resource-grid">
         <li
           v-for="(item, index) in section.items"
-          :key="item.title"
+          :key="item.id"
           :style="{ '--item-index': index }"
         >
           <div class="card-content">

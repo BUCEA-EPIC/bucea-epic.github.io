@@ -28,7 +28,7 @@ jobs:
           node-version: 22
           cache: npm
       - uses: actions/configure-pages@v5
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       - run: npm run build:static:github
       # _headers is consumed by Cloudflare Workers Assets; GitHub Pages does
       # not interpret it, so keep the static mirror free of deployment metadata.

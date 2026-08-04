@@ -41,7 +41,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Validate deployment configuration
         shell: bash
@@ -67,6 +67,9 @@ jobs:
 
       - name: Check Worker types
         run: npm run check:worker
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
 
       - name: Build application
         run: npm run build

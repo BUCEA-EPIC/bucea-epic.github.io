@@ -579,11 +579,16 @@ export async function handleAuditLogs(request: Request, env: Env): Promise<Respo
 }
 
 export async function handleLogout(request: Request, env: Env): Promise<Response> {
-  await recordAdminAudit(env.CONTENT_DB, request, {
-    action: 'auth.logout',
-    resourceType: 'admin_session',
-    status: 'success'
-  })
+  // Logout remains idempotent for expired sessions, but only an authenticated
+  // session is recorded as a successful administrator operation. This avoids
+  // allowing unauthenticated callers to fill the audit table with fake events.
+  if (await isAuthenticated(request, env)) {
+    await recordAdminAudit(env.CONTENT_DB, request, {
+      action: 'auth.logout',
+      resourceType: 'admin_session',
+      status: 'success'
+    })
+  }
   const secure = new URL(request.url).protocol === 'https:'
   return authJson(
     { ok: true },

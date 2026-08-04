@@ -135,7 +135,7 @@ useRevealOnScroll()
         <div class="news-grid">
           <article
             v-for="(item, index) in latestNews"
-            :key="item.title"
+            :key="item.id"
             class="news-card"
           >
             <div class="card-image-wrapper">

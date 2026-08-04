@@ -110,7 +110,12 @@ function parseExpiresAt(raw: unknown): string | null {
     return new Date(Date.now() + DEFAULT_TTL_DAYS * 24 * 60 * 60 * 1000).toISOString()
   }
 
-  const date = new Date(raw)
+  // The admin form supplies a calendar date, not a timestamp. Treat that date
+  // as valid through the end of the selected day to avoid an unexpected
+  // midnight expiration caused by UTC parsing of YYYY-MM-DD.
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(raw)
+    ? new Date(`${raw}T23:59:59.999Z`)
+    : new Date(raw)
   if (Number.isNaN(date.getTime())) return null
   return date.toISOString()
 }

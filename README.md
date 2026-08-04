@@ -57,6 +57,7 @@ npm run dev
 | `npm run deploy` | 构建并部署到 Cloudflare |
 | `npm run cf-typegen` | 根据 wrangler 生成 `worker-configuration.d.ts` |
 | `npm run check:worker` | TypeScript 检查 `server/` |
+| `npm audit --audit-level=high` | 依赖安全审计 |
 | `npm run d1:migrations:list` | 查看 D1 未应用的迁移 |
 | `npm run d1:migrations:apply` | 应用 D1 迁移 |
 | `npm run build:static:github` | GitHub Pages 纯静态包 |
@@ -99,9 +100,12 @@ npm run deploy
 3. 同步管理员 secrets 到 Worker。
 4. 部署 Worker 与 Assets。
 
+`.github/workflows/ci.yml` 会在 PR 和 `main` 变更上执行依赖审计、Worker 类型检查、
+Cloudflare 构建和两种静态构建；`main` 应配置为仅允许通过 CI 和 PR 审核合并。Dependabot
+会定期提出 npm 与 GitHub Actions 依赖更新。
+
 忘记共享口令时，使用 `.github/workflows/reset-admin-password.yml` 的部署侧恢复工作流。
-该工作流只允许 `production` Environment 的授权维护者手动触发，并且要求输入 `RESET`
-确认；它不会在公网提供恢复接口。
+该工作流只能手动触发，并且要求输入 `RESET` 确认；它不会在公网提供恢复接口。
 
 工作流统一使用 `production` Environment。请在 GitHub 仓库的
 `Settings → Environments → production → Environment secrets` 中配置密钥，在
@@ -137,6 +141,10 @@ npm run deploy
 
 `ADMIN_PASSWORD` 的 Secret 值无法从 GitHub 读取；忘记时应直接替换为新值并保存到团队密码管理器。
 
+管理员口令不存在邮箱找回接口；恢复权限由 GitHub 仓库协作者、`production` Environment
+密钥权限和恢复工作流共同控制。建议为 `production` Environment 配置必需审批人，并将
+口令保存在团队密码管理器中。
+
 生成会话密钥：
 
 ```bash
@@ -146,6 +154,9 @@ openssl rand -base64 48
 Global API Key 权限很大。长期运行建议改用 Cloudflare API Token，并只授予目标
 Account 所需的 Workers、D1、R2 权限；工作流已兼容 `CLOUDFLARE_API_TOKEN`，不需要再
 改代码。
+
+依赖锁文件通过 npm `overrides` 将 Cloudflare 本地工具链间接使用的 `undici` 锁定到
+已修复的 7.x 补丁版本；这是开发/部署工具的供应链约束，不会进入 Worker 运行时依赖。
 
 本地开发首次使用内容后台时，先应用本地迁移：
 
@@ -178,6 +189,13 @@ npm run cf-typegen
 - 前台启动时读取 `/api/content`，D1 未配置、接口异常或某栏目未发布时自动回退到 `src/data/*` 的内置默认内容。
 - 微信二维码等二进制媒体继续使用 R2，不写回 Git；团队、项目和新闻图片可使用站内构建资源或公开 HTTPS 地址。
 - `admin_audit_logs` 记录登录、退出、口令修改、部署侧恢复、内容更新和二维码上传；记录时间、IP、User-Agent、操作和结果，不记录口令或请求正文。
+
+## 多人协作与发布治理
+
+- 生产分支使用 PR 合并，建议启用至少 1 名审核人、过期审核自动撤销、必须通过 CI、分支必须最新、禁止强制推送和删除分支。
+- `.github/CODEOWNERS` 将生产代码、内容结构和部署配置交由仓库维护者审核。
+- PR 模板要求核对文案语境、链接、日期、图片、移动端与键盘操作。
+- 生产部署由受保护的 `main` 合并触发；内容运营通过 `/admin` 和 D1/R2 完成，不直接修改线上数据库。
 
 内容接口：
 

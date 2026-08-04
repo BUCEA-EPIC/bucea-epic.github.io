@@ -23,7 +23,7 @@ const hasLink = (project) => Boolean(project.url && project.url !== '#')
     <div class="projects-list animate-on-scroll">
       <component
         v-for="(project, index) in projects"
-        :key="project.title"
+        :key="project.id"
         :is="hasLink(project) ? 'a' : 'article'"
         class="project-card"
         :class="{ 'reverse-layout': index % 2 !== 0, 'is-static': !hasLink(project) }"

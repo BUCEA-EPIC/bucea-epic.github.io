@@ -31,7 +31,7 @@ useRevealOnScroll('.team-reveal')
       </div>
 
       <div class="advisor-list">
-        <div class="advisor-card" v-for="advisor in advisors" :key="advisor.name">
+        <div class="advisor-card" v-for="advisor in advisors" :key="advisor.id">
           <div class="advisor-portrait">
             <img :src="advisor.avatar" :alt="advisor.name" loading="lazy" decoding="async">
           </div>
@@ -80,7 +80,7 @@ useRevealOnScroll('.team-reveal')
           <div
             class="member-card"
             v-for="member in members"
-            :key="member.name"
+            :key="member.id"
           >
             <div class="member-avatar">
               <img
