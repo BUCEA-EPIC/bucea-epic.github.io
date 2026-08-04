@@ -419,6 +419,14 @@ export async function handleLogin(request: Request, env: Env): Promise<Response>
         passwordVersion = credential?.passwordVersion || 0
       } catch (cause) {
         console.error('Failed to bootstrap admin credential', cause)
+        await recordAdminAudit(env.CONTENT_DB, request, {
+          action: 'auth.login.bootstrap.failure',
+          resourceType: 'admin_credential',
+          status: 'failure',
+          details: {
+            error: (cause instanceof Error ? cause.message : String(cause)).slice(0, 240)
+          }
+        })
         return authError(503, '管理员口令初始化失败，请稍后重试。')
       }
     }

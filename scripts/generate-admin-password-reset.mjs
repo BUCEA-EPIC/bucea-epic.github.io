@@ -45,27 +45,25 @@ const details = JSON.stringify({
 })
 
 const sql = `-- Generated at deployment time. Do not commit this file.
-BEGIN TRANSACTION;
-UPDATE admin_credentials
-SET password_hash = ${sqlString(base64Url(hash))},
-    password_salt = ${sqlString(base64Url(salt))},
-    password_algorithm = 'pbkdf2-sha256',
-    password_iterations = ${PASSWORD_HASH_ITERATIONS},
-    password_version = password_version + 1,
-    password_updated_at = ${sqlString(updatedAt)}
-WHERE credential_id = 1;
+-- D1 remote SQL does not allow explicit BEGIN/COMMIT statements.
 INSERT INTO admin_credentials
   (credential_id, password_hash, password_salt, password_algorithm,
    password_iterations, password_version, password_updated_at)
-SELECT 1, ${sqlString(base64Url(hash))}, ${sqlString(base64Url(salt))},
-       'pbkdf2-sha256', ${PASSWORD_HASH_ITERATIONS}, 1, ${sqlString(updatedAt)}
-WHERE changes() = 0;
+VALUES
+  (1, ${sqlString(base64Url(hash))}, ${sqlString(base64Url(salt))},
+   'pbkdf2-sha256', ${PASSWORD_HASH_ITERATIONS}, 1, ${sqlString(updatedAt)})
+ON CONFLICT(credential_id) DO UPDATE SET
+  password_hash = excluded.password_hash,
+  password_salt = excluded.password_salt,
+  password_algorithm = excluded.password_algorithm,
+  password_iterations = excluded.password_iterations,
+  password_version = admin_credentials.password_version + 1,
+  password_updated_at = excluded.password_updated_at;
 INSERT INTO admin_audit_logs
   (action, resource_type, resource_id, status, ip_address, user_agent, details_json, created_at)
 VALUES
   ('auth.password.recovery.deployment', 'admin_credential', '1', 'success',
    NULL, 'GitHub Actions', ${sqlString(details)}, ${sqlString(updatedAt)});
-COMMIT;
 `
 
 process.stdout.write(sql)

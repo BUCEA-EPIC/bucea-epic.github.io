@@ -11,6 +11,7 @@ const error = ref('')
 const actionLabels = {
   'auth.login': '管理员登录',
   'auth.login.rate_limited': '登录限流',
+  'auth.login.bootstrap.failure': '管理员口令初始化失败',
   'auth.logout': '管理员退出',
   'auth.password.change': '修改共享口令',
   'auth.password.recovery.deployment': '部署侧恢复共享口令',
