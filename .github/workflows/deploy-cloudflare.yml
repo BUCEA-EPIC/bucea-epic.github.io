@@ -1,0 +1,99 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Validate and deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: production
+    env:
+      # CLOUDFLARE_API_TOKEN is preferred when present. The API key pair below
+      # keeps this workflow compatible with a Cloudflare Global API Key.
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+      CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate deployment configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]]; then
+            echo "::error::Missing CLOUDFLARE_ACCOUNT_ID secret or variable."
+            exit 1
+          fi
+
+          if [[ -z "${CLOUDFLARE_API_TOKEN:-}" ]] && {
+            [[ -z "${CLOUDFLARE_API_KEY:-}" ]] || [[ -z "${CLOUDFLARE_EMAIL:-}" ]]
+          }; then
+            echo "::error::Configure CLOUDFLARE_API_TOKEN, or both CLOUDFLARE_API_KEY and CLOUDFLARE_EMAIL."
+            exit 1
+          fi
+
+          if ! grep -Eq '"database_id"[[:space:]]*:' wrangler.jsonc; then
+            echo "::error::wrangler.jsonc is missing the D1 database_id. Create the database and commit its non-secret ID before deploying."
+            exit 1
+          fi
+
+      - name: Check Worker types
+        run: npm run check:worker
+
+      - name: Build application
+        run: npm run build
+
+      - name: Apply remote D1 migrations
+        run: npx --no-install wrangler d1 migrations apply bucea-epic-content --remote
+
+      - name: Sync Worker secrets
+        shell: bash
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${ADMIN_PASSWORD:-}" ]]; then
+            echo "::error::Missing ADMIN_PASSWORD secret."
+            exit 1
+          fi
+
+          if [[ -z "${ADMIN_SESSION_SECRET:-}" ]]; then
+            echo "::error::Missing ADMIN_SESSION_SECRET secret."
+            exit 1
+          fi
+
+          printf '%s' "$ADMIN_PASSWORD" | npx --no-install wrangler secret put ADMIN_PASSWORD
+          printf '%s' "$ADMIN_SESSION_SECRET" | npx --no-install wrangler secret put ADMIN_SESSION_SECRET
+
+      - name: Deploy Worker and Assets
+        run: npx --no-install wrangler deploy --keep-vars --message "GitHub Actions ${GITHUB_SHA::7}"

@@ -64,21 +64,71 @@ npm run dev
 
 ## Cloudflare 部署
 
+### 首次初始化资源
+
 ```bash
 npx wrangler r2 bucket create bucea-epic-wechat-qr
 npx wrangler d1 create bucea-epic-content
+```
+
+创建 D1 后，将命令输出的 `database_id` 写入 `wrangler.jsonc` 对应的
+`CONTENT_DB` 配置。`database_id` 不是密钥，可以提交到 Git；R2 bucket 需要在目标
+Cloudflare Account 中存在。
+
+本地手动部署时，再配置 Worker secrets：
+
+```bash
 npx wrangler secret put ADMIN_PASSWORD
 npx wrangler secret put ADMIN_SESSION_SECRET
 ```
 
-创建 D1 后，将命令输出的 `database_id` 写入 `wrangler.jsonc` 对应的
-`CONTENT_DB` 配置，然后执行：
+然后执行：
 
 ```bash
 npm run d1:migrations:apply -- --remote
 npm run cf-typegen
 npm run deploy
 ```
+
+### GitHub Actions 自动部署
+
+`.github/workflows/deploy-cloudflare.yml` 会在 `main` 推送或手动触发时执行：
+
+1. 安装依赖、检查 Worker 类型并构建前端。
+2. 应用远程 D1 migrations。
+3. 同步管理员 secrets 到 Worker。
+4. 部署 Worker 与 Assets。
+
+工作流使用 `production` Environment。可以在 GitHub 仓库的
+`Settings → Environments → production → Environment secrets` 中配置；也可以先放在
+`Settings → Secrets and variables → Actions → Repository secrets`，工作流同样可以读取。
+生产环境建议使用 Environment secrets，并按需开启审批规则。
+
+需要配置的名称如下：
+
+| 名称 | 类型 | 用途 |
+|------|------|------|
+| `CLOUDFLARE_ACCOUNT_ID` | Secret 或 Variable | 目标 Cloudflare Account ID；Wrangler 非交互部署必需 |
+| `CLOUDFLARE_API_KEY` | Secret | Cloudflare Global API Key；与 `CLOUDFLARE_EMAIL` 配套使用 |
+| `CLOUDFLARE_EMAIL` | Secret | Global API Key 对应的 Cloudflare 登录邮箱 |
+| `CLOUDFLARE_API_TOKEN` | Secret，可选 | 更推荐的细粒度 API Token；配置后优先于 Global API Key |
+| `ADMIN_PASSWORD` | Secret | `/admin` 后台登录密码 |
+| `ADMIN_SESSION_SECRET` | Secret | 管理员会话签名密钥 |
+
+你当前计划提供 Global API Key，因此最少需要填写：
+`CLOUDFLARE_ACCOUNT_ID`、`CLOUDFLARE_API_KEY`、`CLOUDFLARE_EMAIL`、
+`ADMIN_PASSWORD`、`ADMIN_SESSION_SECRET`。不要把这些值提交到 Git、发到聊天或写入
+`.env` 文件。
+
+生成会话密钥：
+
+```bash
+openssl rand -base64 48
+```
+
+Global API Key 权限很大。长期运行建议改用 Cloudflare API Token，并只授予目标
+Account 所需的 Workers、D1、R2 权限；工作流已兼容 `CLOUDFLARE_API_TOKEN`，不需要再
+改代码。
 
 本地开发首次使用内容后台时，先应用本地迁移：
 
