@@ -15,7 +15,7 @@
 ├── tsconfig.json              # 工程 references
 ├── tsconfig.worker.json       # 仅校验 server/**
 ├── .dev.vars.example          # 本地 Worker secrets 示例
-├── public/                    # 原样发布静态文件
+├── public/                    # 原样发布静态文件（含安全头与主域跳转规则）
 ├── migrations/                # D1 数据库迁移
 ├── src/                       # Vue 前端（client）
 │   ├── main.js
@@ -166,6 +166,7 @@ npm run cf-typegen
 
 动态能力（内容 API、管理员后台与二维码管理）以 Cloudflare 主站
 [`www.rayspace.org`](https://www.rayspace.org/) 为准；GitHub Pages 仅作为静态镜像。
+`rayspace.org` 作为 apex 别名永久跳转到 `www.rayspace.org`，避免产生重复入口。
 
 ## 内容管理设计
 
@@ -173,6 +174,7 @@ npm run cf-typegen
 - D1 `content_revisions` 保存每次发布的完整修订记录，便于审计和后续回滚能力扩展。
 - 每个栏目独立版本号，管理员提交时携带 `expectedVersion`，并发编辑会返回 `409`，避免覆盖他人修改。
 - Worker 对文本长度、数组数量、URL 协议、邮箱和图片地址进行服务端校验；前台只渲染纯文本，不接受 HTML 注入。
+- 内容中的 `#` 占位链接会被服务端拒绝；未准备好公开地址的项目或资源应留空，并在前台显示相应的待整理状态。
 - 前台启动时读取 `/api/content`，D1 未配置、接口异常或某栏目未发布时自动回退到 `src/data/*` 的内置默认内容。
 - 微信二维码等二进制媒体继续使用 R2，不写回 Git；团队、项目和新闻图片可使用站内构建资源或公开 HTTPS 地址。
 - `admin_audit_logs` 记录登录、退出、口令修改、部署侧恢复、内容更新和二维码上传；记录时间、IP、User-Agent、操作和结果，不记录口令或请求正文。

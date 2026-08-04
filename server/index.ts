@@ -25,7 +25,15 @@ import {
  */
 export default {
   async fetch(request, env): Promise<Response> {
-    const { pathname } = new URL(request.url)
+    const requestUrl = new URL(request.url)
+    const { pathname } = requestUrl
+
+    // Keep the public production entry canonical while preserving request
+    // methods for API clients that still use the apex alias.
+    if (requestUrl.hostname === 'rayspace.org' && pathname.startsWith('/api/')) {
+      requestUrl.hostname = 'www.rayspace.org'
+      return Response.redirect(requestUrl.toString(), 308)
+    }
 
     try {
       switch (pathname) {
