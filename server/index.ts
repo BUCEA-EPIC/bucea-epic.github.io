@@ -1,4 +1,10 @@
-import { handleLogin, handleLogout } from './lib/auth'
+import {
+  handleChangePassword,
+  handleAuditLogs,
+  handleLogin,
+  handleLogout,
+  handlePasswordRecovery
+} from './lib/auth'
 import { error } from './lib/http'
 import {
   handleAdminContent,
@@ -33,8 +39,14 @@ export default {
         case '/api/admin/login':
           if (request.method === 'POST') return await handleLogin(request, env)
           break
+        case '/api/admin/password':
+          return await handleChangePassword(request, env)
+        case '/api/admin/password/recover':
+          return await handlePasswordRecovery(request, env)
+        case '/api/admin/audit-logs':
+          return await handleAuditLogs(request, env)
         case '/api/admin/logout':
-          if (request.method === 'POST') return await handleLogout(request)
+          if (request.method === 'POST') return await handleLogout(request, env)
           break
         case '/api/admin/wechat-qr':
           if (request.method === 'GET') return await handleAdminMeta(request, env)

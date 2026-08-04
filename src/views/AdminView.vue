@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
+import AdminAuditLog from '../components/AdminAuditLog.vue'
 import AdminContentEditor from '../components/AdminContentEditor.vue'
 import { useSiteContent } from '../composables/useSiteContent.js'
 import { apiUrl } from '../lib/api.js'
@@ -12,8 +13,22 @@ import {
 const password = ref('')
 const loginError = ref('')
 const loginLoading = ref(false)
+const recoveryVisible = ref(false)
+const recoveryKey = ref('')
+const recoveryPassword = ref('')
+const recoveryPasswordConfirm = ref('')
+const recoveryError = ref('')
+const recoveryNotice = ref('')
+const recoveryLoading = ref(false)
 const authenticated = ref(false)
 const checkingSession = ref(true)
+
+const currentPassword = ref('')
+const newPassword = ref('')
+const newPasswordConfirm = ref('')
+const passwordChangeError = ref('')
+const passwordChangeNotice = ref('')
+const passwordChangeLoading = ref(false)
 
 const meta = ref(null)
 const metaError = ref('')
@@ -89,11 +104,79 @@ async function handleLogin() {
     }
     password.value = ''
     authenticated.value = true
+    recoveryNotice.value = ''
     await refreshMeta()
   } catch (err) {
     loginError.value = err instanceof Error ? err.message : '登录失败'
   } finally {
     loginLoading.value = false
+  }
+}
+
+async function handlePasswordChange() {
+  passwordChangeError.value = ''
+  passwordChangeNotice.value = ''
+  passwordChangeLoading.value = true
+  try {
+    const response = await fetch(apiUrl('/api/admin/password'), {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        currentPassword: currentPassword.value,
+        newPassword: newPassword.value,
+        confirmPassword: newPasswordConfirm.value
+      })
+    })
+    const body = await response.json().catch(() => ({}))
+    if (response.status === 401) {
+      handleContentSessionExpired()
+      throw new Error('会话已过期，请重新登录')
+    }
+    if (!response.ok) throw new Error(body.error || '口令修改失败')
+    currentPassword.value = ''
+    newPassword.value = ''
+    newPasswordConfirm.value = ''
+    passwordChangeNotice.value = '共享管理员口令已更新，其他设备上的旧会话已失效。'
+  } catch (err) {
+    passwordChangeError.value = err instanceof Error ? err.message : '口令修改失败'
+  } finally {
+    passwordChangeLoading.value = false
+  }
+}
+
+async function handlePasswordRecovery() {
+  recoveryError.value = ''
+  recoveryNotice.value = ''
+  recoveryLoading.value = true
+  try {
+    const response = await fetch(apiUrl('/api/admin/password/recover'), {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        recoveryKey: recoveryKey.value,
+        newPassword: recoveryPassword.value,
+        confirmPassword: recoveryPasswordConfirm.value
+      })
+    })
+    const body = await response.json().catch(() => ({}))
+    if (!response.ok) throw new Error(body.error || '口令重置失败')
+    recoveryKey.value = ''
+    recoveryPassword.value = ''
+    recoveryPasswordConfirm.value = ''
+    recoveryVisible.value = false
+    recoveryNotice.value = '口令已重置，请使用新口令登录。'
+  } catch (err) {
+    recoveryError.value = err instanceof Error ? err.message : '口令重置失败'
+  } finally {
+    recoveryLoading.value = false
   }
 }
 
@@ -104,6 +187,9 @@ async function handleLogout() {
   })
   authenticated.value = false
   meta.value = null
+  currentPassword.value = ''
+  newPassword.value = ''
+  newPasswordConfirm.value = ''
   file.value = null
   uploadSuccess.value = ''
   uploadError.value = ''
@@ -112,6 +198,9 @@ async function handleLogout() {
 function handleContentSessionExpired() {
   authenticated.value = false
   meta.value = null
+  currentPassword.value = ''
+  newPassword.value = ''
+  newPasswordConfirm.value = ''
 }
 
 function onFileChange(event) {
@@ -209,7 +298,7 @@ onMounted(refreshMeta)
 
     <section v-else-if="!authenticated" class="panel login-panel">
       <h2>管理员登录</h2>
-      <p class="hint">使用运营共享口令登录。口令由站点维护者通过 Cloudflare Secret 配置。</p>
+      <p class="hint">多人共用管理员口令。登录后可以在后台修改；忘记时使用单独的恢复密钥重置。</p>
       <form class="login-form" @submit.prevent="handleLogin">
         <label class="field">
           <span>口令</span>
@@ -224,6 +313,53 @@ onMounted(refreshMeta)
         <p v-if="loginError" class="message error">{{ loginError }}</p>
         <button type="submit" class="primary-btn" :disabled="loginLoading">
           {{ loginLoading ? '登录中…' : '登录' }}
+        </button>
+      </form>
+      <p v-if="recoveryNotice" class="message success">{{ recoveryNotice }}</p>
+      <button type="button" class="text-btn" @click="recoveryVisible = !recoveryVisible">
+        {{ recoveryVisible ? '返回登录' : '忘记口令？使用恢复密钥重置' }}
+      </button>
+      <form
+        v-if="recoveryVisible"
+        class="login-form recovery-form"
+        @submit.prevent="handlePasswordRecovery"
+      >
+        <h3>重置共享口令</h3>
+        <p class="hint">恢复密钥只应保存在负责人密码管理器中，不要与日常口令相同。</p>
+        <label class="field">
+          <span>恢复密钥</span>
+          <input
+            v-model="recoveryKey"
+            type="password"
+            autocomplete="off"
+            required
+            placeholder="输入恢复密钥"
+          >
+        </label>
+        <label class="field">
+          <span>新口令</span>
+          <input
+            v-model="recoveryPassword"
+            type="password"
+            autocomplete="new-password"
+            minlength="12"
+            required
+            placeholder="至少 12 位"
+          >
+        </label>
+        <label class="field">
+          <span>确认新口令</span>
+          <input
+            v-model="recoveryPasswordConfirm"
+            type="password"
+            autocomplete="new-password"
+            minlength="12"
+            required
+          >
+        </label>
+        <p v-if="recoveryError" class="message error">{{ recoveryError }}</p>
+        <button type="submit" class="primary-btn" :disabled="recoveryLoading">
+          {{ recoveryLoading ? '重置中…' : '重置口令' }}
         </button>
       </form>
     </section>
@@ -317,7 +453,55 @@ onMounted(refreshMeta)
         </section>
       </div>
 
+      <section class="panel security-panel">
+        <div class="panel-head">
+          <h2>管理员安全</h2>
+        </div>
+        <p class="hint">
+          这是所有协作者共用的管理员口令。修改后，其他设备上的旧登录会话会立即失效。
+        </p>
+        <form class="security-form" @submit.prevent="handlePasswordChange">
+          <label class="field">
+            <span>当前口令</span>
+            <input
+              v-model="currentPassword"
+              type="password"
+              autocomplete="current-password"
+              required
+            >
+          </label>
+          <label class="field">
+            <span>新口令</span>
+            <input
+              v-model="newPassword"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+              placeholder="至少 12 位"
+            >
+          </label>
+          <label class="field">
+            <span>确认新口令</span>
+            <input
+              v-model="newPasswordConfirm"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+            >
+          </label>
+          <p v-if="passwordChangeError" class="message error">{{ passwordChangeError }}</p>
+          <p v-if="passwordChangeNotice" class="message success">{{ passwordChangeNotice }}</p>
+          <button type="submit" class="primary-btn" :disabled="passwordChangeLoading">
+            {{ passwordChangeLoading ? '保存中…' : '修改共享口令' }}
+          </button>
+        </form>
+      </section>
+
       <AdminContentEditor @session-expired="handleContentSessionExpired" />
+
+      <AdminAuditLog @session-expired="handleContentSessionExpired" />
 
       <section class="panel sop-panel">
         <h2>运营步骤</h2>
@@ -436,6 +620,30 @@ onMounted(refreshMeta)
   gap: 16px;
 }
 
+.security-panel,
+.recovery-form {
+  margin-top: 18px;
+}
+
+.security-form {
+  display: grid;
+  gap: 16px;
+  max-width: 520px;
+  margin-top: 18px;
+}
+
+.recovery-form {
+  padding-top: 22px;
+  border-top: 1px solid var(--border-standard);
+}
+
+.recovery-form h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: 510;
+}
+
 .preview-frame {
   display: flex;
   align-items: center;
@@ -524,6 +732,16 @@ onMounted(refreshMeta)
   border-radius: var(--radius-control);
   font-weight: 510;
   cursor: pointer;
+}
+
+.text-btn {
+  margin-top: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-accent-hover);
+  cursor: pointer;
+  font: inherit;
 }
 
 .primary-btn {

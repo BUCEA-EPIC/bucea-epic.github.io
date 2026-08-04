@@ -1,4 +1,5 @@
 import { requireAdmin } from '../lib/auth'
+import { recordAdminAudit } from '../lib/audit'
 import { error, json, publicCors } from '../lib/http'
 
 const IMAGE_KEY = 'current'
@@ -222,6 +223,18 @@ export async function handleAdminUpload(request: Request, env: Env): Promise<Res
     etag: etagHex
   }
   await writeMeta(env, meta)
+
+  await recordAdminAudit(env.CONTENT_DB, request, {
+    action: 'wechat_qr.upload',
+    resourceType: 'wechat_qr',
+    resourceId: IMAGE_KEY,
+    status: 'success',
+    details: {
+      bytes: meta.bytes,
+      contentType: meta.contentType,
+      expiresAt: meta.expiresAt
+    }
+  })
 
   return json({
     ok: true,

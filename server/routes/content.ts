@@ -1,4 +1,5 @@
 import { requireAdmin } from '../lib/auth'
+import { recordAdminAudit } from '../lib/audit'
 import { error, json, publicCors } from '../lib/http'
 import {
   CONTENT_TYPES,
@@ -83,11 +84,29 @@ export async function handleAdminContentUpdate(
 
   try {
     const result = await saveContent(env.CONTENT_DB, type, body.content, expectedVersion)
+    await recordAdminAudit(env.CONTENT_DB, request, {
+      action: 'content.update',
+      resourceType: 'content',
+      resourceId: type,
+      status: 'success',
+      details: { version: result.meta.version }
+    })
     return json({ ok: true, type, content: result.payload, meta: result.meta })
   } catch (error) {
-    if (error instanceof ContentConflictError) return errorResponse(409, error.message)
-    if (error instanceof ContentStorageError) return errorResponse(503, error.message)
-    return errorResponse(400, error instanceof Error ? error.message : '内容保存失败')
+    const status = error instanceof ContentConflictError
+      ? 409
+      : error instanceof ContentStorageError
+        ? 503
+        : 400
+    const message = error instanceof Error ? error.message : '内容保存失败'
+    await recordAdminAudit(env.CONTENT_DB, request, {
+      action: 'content.update',
+      resourceType: 'content',
+      resourceId: type,
+      status: 'failure',
+      details: { status, message }
+    })
+    return errorResponse(status, message)
   }
 }
 

@@ -79,6 +79,7 @@ Cloudflare Account 中存在。
 
 ```bash
 npx wrangler secret put ADMIN_PASSWORD
+npx wrangler secret put ADMIN_RECOVERY_KEY
 npx wrangler secret put ADMIN_SESSION_SECRET
 ```
 
@@ -112,13 +113,18 @@ npm run deploy
 | `CLOUDFLARE_API_KEY` | Secret | Cloudflare Global API Key；与 `CLOUDFLARE_EMAIL` 配套使用 |
 | `CLOUDFLARE_EMAIL` | Secret | Global API Key 对应的 Cloudflare 登录邮箱 |
 | `CLOUDFLARE_API_TOKEN` | Secret，可选 | 更推荐的细粒度 API Token；配置后优先于 Global API Key |
-| `ADMIN_PASSWORD` | Secret | `/admin` 后台登录密码 |
+| `ADMIN_PASSWORD` | Secret | 首次初始化管理员口令；D1 初始化后不再直接作为登录口令 |
+| `ADMIN_RECOVERY_KEY` | Secret | 忘记共享口令时使用的独立恢复密钥 |
 | `ADMIN_SESSION_SECRET` | Secret | 管理员会话签名密钥 |
 
 你当前计划提供 Global API Key，因此最少需要填写：
 `CLOUDFLARE_ACCOUNT_ID`、`CLOUDFLARE_API_KEY`、`CLOUDFLARE_EMAIL`、
-`ADMIN_PASSWORD`、`ADMIN_SESSION_SECRET`。不要把这些值提交到 Git、发到聊天或写入
+`ADMIN_PASSWORD`、`ADMIN_RECOVERY_KEY`、`ADMIN_SESSION_SECRET`。不要把这些值提交到 Git、发到聊天或写入
 `.env` 文件。
+
+`ADMIN_PASSWORD` 只用于首次登录时初始化 D1 中的口令哈希；初始化后，日常口令应在
+`/admin` 的“管理员安全”中修改。`ADMIN_RECOVERY_KEY` 与日常口令独立，忘记日常口令时
+可在登录页使用它重置。系统不会保存或显示任何明文口令。
 
 生成会话密钥：
 
@@ -157,9 +163,13 @@ npm run cf-typegen
 - Worker 对文本长度、数组数量、URL 协议、邮箱和图片地址进行服务端校验；前台只渲染纯文本，不接受 HTML 注入。
 - 前台启动时读取 `/api/content`，D1 未配置、接口异常或某栏目未发布时自动回退到 `src/data/*` 的内置默认内容。
 - 微信二维码等二进制媒体继续使用 R2，不写回 Git；团队、项目和新闻图片可使用站内构建资源或公开 HTTPS 地址。
+- `admin_audit_logs` 记录登录、退出、口令修改/恢复、内容更新和二维码上传；记录时间、IP、User-Agent、操作和结果，不记录口令、恢复密钥或请求正文。
 
 内容接口：
 
 - `GET /api/content`：公开读取已发布内容，支持静态镜像跨域读取。
 - `GET /api/admin/content`：管理员读取内容与版本元数据。
 - `PUT /api/admin/content/:type`：管理员保存单个栏目，body 为 `{ content, expectedVersion }`。
+- `POST /api/admin/password`：管理员验证当前口令后修改共享口令。
+- `POST /api/admin/password/recover`：使用恢复密钥重置共享口令。
+- `GET /api/admin/audit-logs`：读取最近的管理员操作记录。
