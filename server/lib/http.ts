@@ -3,6 +3,8 @@ export function json(data: unknown, init: ResponseInit = {}): Response {
   if (!headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json; charset=utf-8')
   }
+  headers.set('Cache-Control', 'no-store')
+  headers.set('Pragma', 'no-cache')
   headers.set('X-Content-Type-Options', 'nosniff')
   headers.set('Referrer-Policy', 'no-referrer')
   headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
