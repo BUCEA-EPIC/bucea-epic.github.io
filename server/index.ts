@@ -2,8 +2,7 @@ import {
   handleChangePassword,
   handleAuditLogs,
   handleLogin,
-  handleLogout,
-  handlePasswordRecovery
+  handleLogout
 } from './lib/auth'
 import { error } from './lib/http'
 import {
@@ -41,8 +40,6 @@ export default {
           break
         case '/api/admin/password':
           return await handleChangePassword(request, env)
-        case '/api/admin/password/recover':
-          return await handlePasswordRecovery(request, env)
         case '/api/admin/audit-logs':
           return await handleAuditLogs(request, env)
         case '/api/admin/logout':

@@ -78,7 +78,6 @@ jobs:
         shell: bash
         env:
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-          ADMIN_RECOVERY_KEY: ${{ secrets.ADMIN_RECOVERY_KEY }}
           ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
         run: |
           set -euo pipefail
@@ -88,18 +87,12 @@ jobs:
             exit 1
           fi
 
-          if [[ -z "${ADMIN_RECOVERY_KEY:-}" ]]; then
-            echo "::error::Missing ADMIN_RECOVERY_KEY secret."
-            exit 1
-          fi
-
           if [[ -z "${ADMIN_SESSION_SECRET:-}" ]]; then
             echo "::error::Missing ADMIN_SESSION_SECRET secret."
             exit 1
           fi
 
           printf '%s' "$ADMIN_PASSWORD" | npx --no-install wrangler secret put ADMIN_PASSWORD
-          printf '%s' "$ADMIN_RECOVERY_KEY" | npx --no-install wrangler secret put ADMIN_RECOVERY_KEY
           printf '%s' "$ADMIN_SESSION_SECRET" | npx --no-install wrangler secret put ADMIN_SESSION_SECRET
 
       - name: Deploy Worker and Assets

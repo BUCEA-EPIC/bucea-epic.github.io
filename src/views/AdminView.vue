@@ -13,15 +13,9 @@ import {
 const password = ref('')
 const loginError = ref('')
 const loginLoading = ref(false)
-const recoveryVisible = ref(false)
-const recoveryKey = ref('')
-const recoveryPassword = ref('')
-const recoveryPasswordConfirm = ref('')
-const recoveryError = ref('')
-const recoveryNotice = ref('')
-const recoveryLoading = ref(false)
 const authenticated = ref(false)
 const checkingSession = ref(true)
+const recoveryWorkflowUrl = 'https://github.com/BUCEA-EPIC/bucea-epic.github.io/actions/workflows/reset-admin-password.yml'
 
 const currentPassword = ref('')
 const newPassword = ref('')
@@ -104,7 +98,6 @@ async function handleLogin() {
     }
     password.value = ''
     authenticated.value = true
-    recoveryNotice.value = ''
     await refreshMeta()
   } catch (err) {
     loginError.value = err instanceof Error ? err.message : '登录失败'
@@ -145,38 +138,6 @@ async function handlePasswordChange() {
     passwordChangeError.value = err instanceof Error ? err.message : '口令修改失败'
   } finally {
     passwordChangeLoading.value = false
-  }
-}
-
-async function handlePasswordRecovery() {
-  recoveryError.value = ''
-  recoveryNotice.value = ''
-  recoveryLoading.value = true
-  try {
-    const response = await fetch(apiUrl('/api/admin/password/recover'), {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        recoveryKey: recoveryKey.value,
-        newPassword: recoveryPassword.value,
-        confirmPassword: recoveryPasswordConfirm.value
-      })
-    })
-    const body = await response.json().catch(() => ({}))
-    if (!response.ok) throw new Error(body.error || '口令重置失败')
-    recoveryKey.value = ''
-    recoveryPassword.value = ''
-    recoveryPasswordConfirm.value = ''
-    recoveryVisible.value = false
-    recoveryNotice.value = '口令已重置，请使用新口令登录。'
-  } catch (err) {
-    recoveryError.value = err instanceof Error ? err.message : '口令重置失败'
-  } finally {
-    recoveryLoading.value = false
   }
 }
 
@@ -298,7 +259,7 @@ onMounted(refreshMeta)
 
     <section v-else-if="!authenticated" class="panel login-panel">
       <h2>管理员登录</h2>
-      <p class="hint">多人共用管理员口令。登录后可以在后台修改；忘记时使用单独的恢复密钥重置。</p>
+      <p class="hint">多人共用管理员口令。登录后可以在后台修改；忘记时由具备 GitHub 生产环境权限的维护者执行部署侧恢复。</p>
       <form class="login-form" @submit.prevent="handleLogin">
         <label class="field">
           <span>口令</span>
@@ -315,53 +276,11 @@ onMounted(refreshMeta)
           {{ loginLoading ? '登录中…' : '登录' }}
         </button>
       </form>
-      <p v-if="recoveryNotice" class="message success">{{ recoveryNotice }}</p>
-      <button type="button" class="text-btn" @click="recoveryVisible = !recoveryVisible">
-        {{ recoveryVisible ? '返回登录' : '忘记口令？使用恢复密钥重置' }}
-      </button>
-      <form
-        v-if="recoveryVisible"
-        class="login-form recovery-form"
-        @submit.prevent="handlePasswordRecovery"
-      >
-        <h3>重置共享口令</h3>
-        <p class="hint">恢复密钥只应保存在负责人密码管理器中，不要与日常口令相同。</p>
-        <label class="field">
-          <span>恢复密钥</span>
-          <input
-            v-model="recoveryKey"
-            type="password"
-            autocomplete="off"
-            required
-            placeholder="输入恢复密钥"
-          >
-        </label>
-        <label class="field">
-          <span>新口令</span>
-          <input
-            v-model="recoveryPassword"
-            type="password"
-            autocomplete="new-password"
-            minlength="12"
-            required
-            placeholder="至少 12 位"
-          >
-        </label>
-        <label class="field">
-          <span>确认新口令</span>
-          <input
-            v-model="recoveryPasswordConfirm"
-            type="password"
-            autocomplete="new-password"
-            minlength="12"
-            required
-          >
-        </label>
-        <p v-if="recoveryError" class="message error">{{ recoveryError }}</p>
-        <button type="submit" class="primary-btn" :disabled="recoveryLoading">
-          {{ recoveryLoading ? '重置中…' : '重置口令' }}
-        </button>
-      </form>
+      <p class="recovery-help">
+        忘记口令？请联系项目维护者在 GitHub 中更新生产环境的
+        <code>ADMIN_PASSWORD</code>，然后运行
+        <a :href="recoveryWorkflowUrl" target="_blank" rel="noreferrer">管理员口令恢复工作流</a>。
+      </p>
     </section>
 
     <template v-else>
@@ -620,8 +539,7 @@ onMounted(refreshMeta)
   gap: 16px;
 }
 
-.security-panel,
-.recovery-form {
+.security-panel {
   margin-top: 18px;
 }
 
@@ -630,18 +548,6 @@ onMounted(refreshMeta)
   gap: 16px;
   max-width: 520px;
   margin-top: 18px;
-}
-
-.recovery-form {
-  padding-top: 22px;
-  border-top: 1px solid var(--border-standard);
-}
-
-.recovery-form h3 {
-  margin: 0;
-  color: var(--color-text);
-  font-size: 1rem;
-  font-weight: 510;
 }
 
 .preview-frame {
@@ -734,14 +640,22 @@ onMounted(refreshMeta)
   cursor: pointer;
 }
 
-.text-btn {
-  margin-top: 18px;
-  padding: 0;
-  border: 0;
-  background: transparent;
+.recovery-help {
+  margin: 18px 0 0;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.recovery-help a {
   color: var(--color-accent-hover);
-  cursor: pointer;
-  font: inherit;
+}
+
+.recovery-help code {
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--color-bg-deep);
+  color: var(--color-text);
+  font-size: 0.9em;
 }
 
 .primary-btn {

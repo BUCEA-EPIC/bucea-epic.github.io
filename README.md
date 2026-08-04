@@ -79,7 +79,6 @@ Cloudflare Account 中存在。
 
 ```bash
 npx wrangler secret put ADMIN_PASSWORD
-npx wrangler secret put ADMIN_RECOVERY_KEY
 npx wrangler secret put ADMIN_SESSION_SECRET
 ```
 
@@ -100,31 +99,43 @@ npm run deploy
 3. 同步管理员 secrets 到 Worker。
 4. 部署 Worker 与 Assets。
 
-工作流使用 `production` Environment。可以在 GitHub 仓库的
-`Settings → Environments → production → Environment secrets` 中配置；也可以先放在
-`Settings → Secrets and variables → Actions → Repository secrets`，工作流同样可以读取。
-生产环境建议使用 Environment secrets，并按需开启审批规则。
+忘记共享口令时，使用 `.github/workflows/reset-admin-password.yml` 的部署侧恢复工作流。
+该工作流只允许 `production` Environment 的授权维护者手动触发，并且要求输入 `RESET`
+确认；它不会在公网提供恢复接口。
+
+工作流统一使用 `production` Environment。请在 GitHub 仓库的
+`Settings → Environments → production → Environment secrets` 中配置密钥，在
+`Environment variables` 中配置非敏感变量；不要在仓库级 Secrets 中重复配置同名值。
+生产环境建议为该 Environment 设置必需审批人，并定期轮换 Cloudflare 凭据。
 
 需要配置的名称如下：
 
 | 名称 | 类型 | 用途 |
 |------|------|------|
-| `CLOUDFLARE_ACCOUNT_ID` | Secret 或 Variable | 目标 Cloudflare Account ID；Wrangler 非交互部署必需 |
-| `CLOUDFLARE_API_KEY` | Secret | Cloudflare Global API Key；与 `CLOUDFLARE_EMAIL` 配套使用 |
-| `CLOUDFLARE_EMAIL` | Secret | Global API Key 对应的 Cloudflare 登录邮箱 |
-| `CLOUDFLARE_API_TOKEN` | Secret，可选 | 更推荐的细粒度 API Token；配置后优先于 Global API Key |
-| `ADMIN_PASSWORD` | Secret | 首次初始化管理员口令；D1 初始化后不再直接作为登录口令 |
-| `ADMIN_RECOVERY_KEY` | Secret | 忘记共享口令时使用的独立恢复密钥 |
-| `ADMIN_SESSION_SECRET` | Secret | 管理员会话签名密钥 |
+| `CLOUDFLARE_ACCOUNT_ID` | Environment variable | 目标 Cloudflare Account ID；Wrangler 非交互部署必需 |
+| `CLOUDFLARE_API_KEY` | Environment secret | Cloudflare Global API Key；与 `CLOUDFLARE_EMAIL` 配套使用 |
+| `CLOUDFLARE_EMAIL` | Environment secret | Global API Key 对应的 Cloudflare 登录邮箱 |
+| `CLOUDFLARE_API_TOKEN` | Environment secret，可选 | 更推荐的细粒度 API Token；配置后优先于 Global API Key |
+| `ADMIN_PASSWORD` | Environment secret | 首次初始化及部署侧应急恢复的基准口令；D1 初始化后不作为日常登录口令 |
+| `ADMIN_SESSION_SECRET` | Environment secret | 管理员会话签名密钥 |
 
 你当前计划提供 Global API Key，因此最少需要填写：
 `CLOUDFLARE_ACCOUNT_ID`、`CLOUDFLARE_API_KEY`、`CLOUDFLARE_EMAIL`、
-`ADMIN_PASSWORD`、`ADMIN_RECOVERY_KEY`、`ADMIN_SESSION_SECRET`。不要把这些值提交到 Git、发到聊天或写入
-`.env` 文件。
+`ADMIN_PASSWORD`、`ADMIN_SESSION_SECRET`。不要把这些值提交到 Git、发到聊天或写入 `.env` 文件。
 
-`ADMIN_PASSWORD` 只用于首次登录时初始化 D1 中的口令哈希；初始化后，日常口令应在
-`/admin` 的“管理员安全”中修改。`ADMIN_RECOVERY_KEY` 与日常口令独立，忘记日常口令时
-可在登录页使用它重置。系统不会保存或显示任何明文口令。
+`ADMIN_PASSWORD` 首次用于初始化 D1 中的口令哈希；初始化后，日常口令应在 `/admin` 的
+“管理员安全”中修改。若忘记日常口令，请先在 `production` Environment 中替换
+`ADMIN_PASSWORD`，再从 GitHub Actions 运行 **Recover Cloudflare admin password**，输入
+`RESET` 确认。工作流会更新 D1 哈希、递增口令版本使所有旧会话失效，并记录 GitHub 操作者、
+运行编号和提交号；不会记录明文口令。
+
+管理员口令恢复步骤：
+
+1. 打开 `Settings → Environments → production → Environment secrets`，用新的 12–128 位口令替换 `ADMIN_PASSWORD`。
+2. 打开 `Actions → Recover Cloudflare admin password → Run workflow`，输入 `RESET` 并运行。
+3. 如 `production` Environment 配置了审批规则，等待授权维护者审批；完成后使用新口令登录 `/admin`。
+
+`ADMIN_PASSWORD` 的 Secret 值无法从 GitHub 读取；忘记时应直接替换为新值并保存到团队密码管理器。
 
 生成会话密钥：
 
@@ -163,7 +174,7 @@ npm run cf-typegen
 - Worker 对文本长度、数组数量、URL 协议、邮箱和图片地址进行服务端校验；前台只渲染纯文本，不接受 HTML 注入。
 - 前台启动时读取 `/api/content`，D1 未配置、接口异常或某栏目未发布时自动回退到 `src/data/*` 的内置默认内容。
 - 微信二维码等二进制媒体继续使用 R2，不写回 Git；团队、项目和新闻图片可使用站内构建资源或公开 HTTPS 地址。
-- `admin_audit_logs` 记录登录、退出、口令修改/恢复、内容更新和二维码上传；记录时间、IP、User-Agent、操作和结果，不记录口令、恢复密钥或请求正文。
+- `admin_audit_logs` 记录登录、退出、口令修改、部署侧恢复、内容更新和二维码上传；记录时间、IP、User-Agent、操作和结果，不记录口令或请求正文。
 
 内容接口：
 
@@ -171,5 +182,4 @@ npm run cf-typegen
 - `GET /api/admin/content`：管理员读取内容与版本元数据。
 - `PUT /api/admin/content/:type`：管理员保存单个栏目，body 为 `{ content, expectedVersion }`。
 - `POST /api/admin/password`：管理员验证当前口令后修改共享口令。
-- `POST /api/admin/password/recover`：使用恢复密钥重置共享口令。
 - `GET /api/admin/audit-logs`：读取最近的管理员操作记录。

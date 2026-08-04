@@ -5,10 +5,7 @@ const SESSION_COOKIE = 'admin_session'
 const SESSION_TTL_SECONDS = 12 * 60 * 60
 const LOGIN_WINDOW_MS = 15 * 60 * 1000
 const LOGIN_MAX_FAILURES = 10
-const RECOVERY_WINDOW_MS = 15 * 60 * 1000
-const RECOVERY_MAX_FAILURES = 5
 const LOGIN_RATE_PREFIX = 'rate/login/'
-const RECOVERY_RATE_PREFIX = 'rate/recovery/'
 const PASSWORD_MIN_LENGTH = 12
 const PASSWORD_MAX_LENGTH = 128
 const PASSWORD_SALT_BYTES = 16
@@ -507,85 +504,6 @@ export async function handleChangePassword(request: Request, env: Env): Promise<
     {
       headers: {
         'Set-Cookie': sessionCookie(token, SESSION_TTL_SECONDS, secure)
-      }
-    }
-  )
-}
-
-export async function handlePasswordRecovery(request: Request, env: Env): Promise<Response> {
-  if (request.method !== 'POST') return error(405, 'Method Not Allowed')
-  if (!env.ADMIN_SESSION_SECRET || !env.CONTENT_DB) {
-    return authError(503, '管理端尚未完成 D1 与会话密钥配置。')
-  }
-
-  // Keep ADMIN_PASSWORD as a transition fallback for existing deployments;
-  // new deployments should configure the separate ADMIN_RECOVERY_KEY.
-  const recoveryKey = env.ADMIN_RECOVERY_KEY || env.ADMIN_PASSWORD
-  if (!recoveryKey) return authError(503, '恢复密钥尚未配置，请联系站点维护者。')
-
-  let body: PasswordBody & { recoveryKey?: unknown }
-  try {
-    body = (await readJsonBody(request)) as PasswordBody & { recoveryKey?: unknown }
-  } catch (cause) {
-    return authError(400, cause instanceof Error ? cause.message : '请求格式无效')
-  }
-
-  const suppliedRecoveryKey = typeof body.recoveryKey === 'string' ? body.recoveryKey : ''
-  const newPassword = typeof body.newPassword === 'string' ? body.newPassword : ''
-  const confirmPassword = typeof body.confirmPassword === 'string' ? body.confirmPassword : ''
-  const validationError = passwordValidationError(newPassword)
-  if (validationError) return authError(400, validationError)
-  if (newPassword !== confirmPassword) return authError(400, '两次输入的新口令不一致')
-  if (await timingSafeEqualString(recoveryKey, newPassword)) {
-    return authError(400, '新口令不能与恢复密钥相同')
-  }
-
-  const ip = getClientIp(request)
-  const rateKey = `${RECOVERY_RATE_PREFIX}${encodeURIComponent(ip)}`
-  const rate = await readRateLimit(env, rateKey)
-  const now = Date.now()
-  if (!prepareRateLimit(rate, now, RECOVERY_WINDOW_MS)) {
-    await recordAdminAudit(env.CONTENT_DB, request, {
-      action: 'auth.password.recovery.rate_limited',
-      resourceType: 'admin_credential',
-      status: 'failure'
-    })
-    return authError(429, '恢复尝试次数过多，请稍后再试')
-  }
-
-  if (!(await timingSafeEqualString(suppliedRecoveryKey, recoveryKey))) {
-    recordFailure(rate, now, RECOVERY_WINDOW_MS, RECOVERY_MAX_FAILURES)
-    await writeRateLimit(env, rateKey, rate)
-    await recordAdminAudit(env.CONTENT_DB, request, {
-      action: 'auth.password.recovery',
-      resourceType: 'admin_credential',
-      status: 'failure'
-    })
-    return authError(401, '恢复密钥无效')
-  }
-
-  const credential = await readCredential(env.CONTENT_DB)
-  if (!credential) {
-    const created = await bootstrapCredential(env.CONTENT_DB, newPassword)
-    if (!created) return authError(503, '管理员口令初始化失败，请稍后重试。')
-  } else {
-    const updated = await updateCredential(env.CONTENT_DB, credential, newPassword)
-    if (!updated) return authError(409, '口令已被其他操作更新，请稍后重试')
-  }
-
-  await writeRateLimit(env, rateKey, { failures: 0, windowStartedAt: now })
-  await recordAdminAudit(env.CONTENT_DB, request, {
-    action: 'auth.password.recovery',
-    resourceType: 'admin_credential',
-    status: 'success'
-  })
-
-  const secure = new URL(request.url).protocol === 'https:'
-  return authJson(
-    { ok: true },
-    {
-      headers: {
-        'Set-Cookie': sessionCookie('', 0, secure)
       }
     }
   )

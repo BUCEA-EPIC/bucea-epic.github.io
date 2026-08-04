@@ -31,7 +31,7 @@
     {
       "binding": "CONTENT_DB",
       "database_name": "bucea-epic-content",
-      // Add the account-specific database_id after `wrangler d1 create`.
+      "database_id": "2b8c26b2-b7ef-4d2f-8a27-60ecadd3bd07",
       "migrations_dir": "migrations"
     }
   ]

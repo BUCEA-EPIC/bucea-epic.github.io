@@ -5,7 +5,6 @@ interface __BaseEnv_Env {
 	WECHAT_QR_BUCKET: R2Bucket;
 	CONTENT_DB: D1Database;
 	ADMIN_PASSWORD: string;
-	ADMIN_RECOVERY_KEY?: string;
 	ADMIN_SESSION_SECRET: string;
 }
 declare namespace Cloudflare {
