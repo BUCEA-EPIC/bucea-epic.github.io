@@ -2,11 +2,12 @@
 import { computed } from 'vue'
 import { awardTracks } from '../data/awardsData.js'
 import { getEventEditionById } from '../data/eventEditionsData.js'
-import { CONTACT_EMAIL } from '../data/siteInfo.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+import { useSiteContent } from '../composables/useSiteContent.js'
 
 // 本页面路由固定为 /event/5/awards，届次信息按 id 取，避免「当前届次」变更后串届
 const edition = getEventEditionById('5')
+const { content } = useSiteContent()
 
 const trackTotal = (track) =>
   track.groups.reduce((sum, group) => sum + group.entries.length, 0)
@@ -44,7 +45,7 @@ useRevealOnScroll()
         <h2>{{ edition?.title || '第五届萌新种子杯' }}公示名单</h2>
         <p>
           第五届各项赛程已圆满结束，以下名单按赛道与奖项分组展示。荣誉证书发放安排请关注邮件（
-          <a :href="`mailto:${CONTACT_EMAIL}`">{{ CONTACT_EMAIL }}</a>
+          <a :href="`mailto:${content.site.contactEmail}`">{{ content.site.contactEmail }}</a>
           ）通知。
         </p>
       </div>

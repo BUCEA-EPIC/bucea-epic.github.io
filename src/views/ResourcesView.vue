@@ -1,8 +1,12 @@
 <script setup>
-import { resources } from '../data/resourcesData.js'
+import { computed } from 'vue'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+import { useSiteContent } from '../composables/useSiteContent.js'
 
 useRevealOnScroll()
+
+const { content } = useSiteContent()
+const resources = computed(() => content.resources)
 </script>
 
 <template>

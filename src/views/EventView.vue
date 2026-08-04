@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 import { useAutoplayVideoInView } from '../composables/useAutoplayVideoInView.js'
 import { currentEventEdition, eventEditions, getEventEditionById } from '../data/eventEditionsData.js'
-import { CONTACT_EMAIL } from '../data/siteInfo.js'
+import { useSiteContent } from '../composables/useSiteContent.js'
 
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
 import track1Video from '../assets/event/视觉循迹仿真.webm'
@@ -14,6 +14,7 @@ import track2Img from '../assets/event/开关电源设计.webp'
 import track3Img from '../assets/event/三维建模设计.webp'
 
 const route = useRoute()
+const { content } = useSiteContent()
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 const track1DocUrl = assetPath('docs/event/萌新种子杯-视觉循迹仿真命题文档.pdf')
 const track2DocUrl = assetPath('docs/event/萌新种子杯-开关电源设计命题文档.pdf')
@@ -110,7 +111,7 @@ useAutoplayVideoInView(track1VideoEl)
                 <p>第五届“萌新种子杯”各项赛程已圆满结束，感谢各位同学的积极参与。</p>
                 <p class="highlight-notice">
                   <strong>证书通知</strong>
-                  荣誉证书敬请期待后续发放安排，见邮件（{{ CONTACT_EMAIL }}）通知。
+                  荣誉证书敬请期待后续发放安排，见邮件（{{ content.site.contactEmail }}）通知。
                 </p>
                 <p>第五届最终获奖名单已整理为独立公示页面，请点击下方按钮查看：</p>
               </div>
@@ -212,7 +213,7 @@ useAutoplayVideoInView(track1VideoEl)
               <dt>咨询方式</dt>
               <dd>
                 邮箱：
-                <a :href="`mailto:${CONTACT_EMAIL}`">{{ CONTACT_EMAIL }}</a>
+                <a :href="`mailto:${content.site.contactEmail}`">{{ content.site.contactEmail }}</a>
               </dd>
             </div>
           </dl>
@@ -224,7 +225,7 @@ useAutoplayVideoInView(track1VideoEl)
           <h2>咨询我们</h2>
           <p>
             邮箱：
-            <a :href="`mailto:${CONTACT_EMAIL}`">{{ CONTACT_EMAIL }}</a>
+            <a :href="`mailto:${content.site.contactEmail}`">{{ content.site.contactEmail }}</a>
           </p>
         </div>
       </div>

@@ -10,6 +10,8 @@
     "deploy": "npm run build && wrangler deploy",
     "cf-typegen": "wrangler types",
     "check:worker": "tsc -p tsconfig.worker.json --noEmit",
+    "d1:migrations:list": "wrangler d1 migrations list bucea-epic-content",
+    "d1:migrations:apply": "wrangler d1 migrations apply bucea-epic-content",
     "build:static:github": "vite build --mode github",
     "build:static:server": "vite build --mode server",
     "dev:static:server": "vite --mode server"

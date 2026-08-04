@@ -1,6 +1,11 @@
 import { handleLogin, handleLogout } from './lib/auth'
 import { error } from './lib/http'
 import {
+  handleAdminContent,
+  handleAdminContentUpdate,
+  handlePublicContent
+} from './routes/content'
+import {
   handleAdminMeta,
   handleAdminUpload,
   handlePublicImage,
@@ -19,6 +24,8 @@ export default {
 
     try {
       switch (pathname) {
+        case '/api/content':
+          return await handlePublicContent(request, env)
         case '/api/wechat-qr':
           return await handlePublicMeta(request, env)
         case '/api/wechat-qr/image':
@@ -34,6 +41,13 @@ export default {
           if (request.method === 'PUT') return await handleAdminUpload(request, env)
           break
         default:
+          if (pathname.startsWith('/api/admin/content/')) {
+            const type = pathname.slice('/api/admin/content/'.length)
+            return await handleAdminContentUpdate(request, env, type)
+          }
+          if (pathname === '/api/admin/content') {
+            return await handleAdminContent(request, env)
+          }
           break
       }
 

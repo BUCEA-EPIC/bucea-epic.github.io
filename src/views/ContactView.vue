@@ -1,19 +1,20 @@
 <script setup>
 import { computed } from 'vue'
-import { CONTACT_EMAIL } from '../data/siteInfo.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 import { formatDateTime, useWechatQr } from '../composables/useWechatQr.js'
+import { useSiteContent } from '../composables/useSiteContent.js'
 
 useRevealOnScroll()
 
 const { loading, available, imageSrc, status, updatedAt } = useWechatQr()
+const { content } = useSiteContent()
 
 const wechatIntro = computed(() => {
   if (loading.value) {
     return '正在加载微信招新群二维码…'
   }
   if (available.value && imageSrc.value) {
-    return '使用微信扫码加入招新群，获取活动通知并与成员交流。'
+    return content.site.wechatIntro
   }
   return '微信招新群二维码暂未发布。你也可以通过邮件与我们联系。'
 })
@@ -43,17 +44,17 @@ const statusNotice = computed(() => {
       <div class="contact-info">
         <span class="contact-label">VISIT</span>
         <h2>来工作室聊聊</h2>
-        <p class="contact-intro">技术交流、项目协作或加入团队，都可以通过下面的方式找到我们。</p>
+        <p class="contact-intro">{{ content.site.contactIntro }}</p>
 
         <dl class="contact-list">
           <div>
             <dt>工作室</dt>
-            <dd>北京建筑大学大兴校区<br>工程实践创新中心 322 室</dd>
+            <dd>{{ content.site.address }}</dd>
           </div>
           <div>
             <dt>邮箱</dt>
             <dd>
-              <a :href="`mailto:${CONTACT_EMAIL}`">{{ CONTACT_EMAIL }}</a>
+              <a :href="`mailto:${content.site.contactEmail}`">{{ content.site.contactEmail }}</a>
             </dd>
           </div>
         </dl>
@@ -165,6 +166,7 @@ const statusNotice = computed(() => {
   margin: 0;
   color: var(--color-text);
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .contact-list a {

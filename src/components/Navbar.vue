@@ -79,10 +79,11 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import IconGithub from "./IconGithub.vue";
-import { GITHUB_URL, SITE_LOGO } from "../data/siteInfo.js";
+import { SITE_LOGO } from "../data/siteInfo.js";
+import { useSiteContent } from "../composables/useSiteContent.js";
 
 const navLinks = [
   { to: "/", label: "首页", exact: true },
@@ -101,7 +102,8 @@ const isScrolled = ref(false);
 const navbarElement = ref(null);
 const menuButton = ref(null);
 const epicLogoImg = SITE_LOGO;
-const githubUrl = GITHUB_URL;
+const { content } = useSiteContent();
+const githubUrl = computed(() => content.site.githubUrl);
 const desktopBreakpoint = 1180; // 与下方媒体查询及 styles/main.css 的 1180px 断点保持一致
 let desktopMediaQuery;
 const toggleMenu = () => (menuOpen.value = !menuOpen.value);

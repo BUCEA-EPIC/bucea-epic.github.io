@@ -1,8 +1,12 @@
 <script setup>
-import { newsData } from '../data/newsData.js'
+import { computed } from 'vue'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+import { useSiteContent } from '../composables/useSiteContent.js'
 
 useRevealOnScroll('.news-item-wrapper')
+
+const { content } = useSiteContent()
+const newsData = computed(() => content.news)
 </script>
 
 <template>

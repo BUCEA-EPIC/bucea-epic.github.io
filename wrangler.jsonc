@@ -26,5 +26,13 @@
       "binding": "WECHAT_QR_BUCKET",
       "bucket_name": "bucea-epic-wechat-qr"
     }
+  ],
+  "d1_databases": [
+    {
+      "binding": "CONTENT_DB",
+      "database_name": "bucea-epic-content",
+      // Add the account-specific database_id after `wrangler d1 create`.
+      "migrations_dir": "migrations"
+    }
   ]
 }

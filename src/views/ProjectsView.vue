@@ -1,8 +1,12 @@
 <script setup>
-import { projects } from '../data/projectsData.js'
+import { computed } from 'vue'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+import { useSiteContent } from '../composables/useSiteContent.js'
 
 useRevealOnScroll()
+
+const { content } = useSiteContent()
+const projects = computed(() => content.projects)
 
 const hasLink = (project) => Boolean(project.url && project.url !== '#')
 </script>

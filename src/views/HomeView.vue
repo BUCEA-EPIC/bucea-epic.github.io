@@ -1,15 +1,17 @@
 <script setup>
-import { newsData } from '../data/newsData.js'
 import studioImg from '../assets/about/studio-1.webp'
 import IconGithub from '../components/IconGithub.vue'
-import { GITHUB_URL, SITE_LOGO } from '../data/siteInfo.js'
+import { SITE_LOGO } from '../data/siteInfo.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+import { computed } from 'vue'
+import { useSiteContent } from '../composables/useSiteContent.js'
 
 // hero 图放在 public/ 并在 index.html 中 preload，避免等主 JS 执行后才被发现（LCP）
 const competitionImg = `${import.meta.env.BASE_URL}hero.webp`
 const epicLogoImg = SITE_LOGO
-const githubUrl = GITHUB_URL
-const latestNews = newsData.slice(0, 3)
+const { content } = useSiteContent()
+const githubUrl = computed(() => content.site.githubUrl)
+const latestNews = computed(() => content.news.slice(0, 3))
 
 const focusAreas = ['机器人系统', '机械结构', '电控与驱动', '计算机视觉']
 const exploreLinks = [

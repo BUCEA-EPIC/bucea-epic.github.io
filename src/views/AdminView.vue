@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
-import { CONTACT_EMAIL } from '../data/siteInfo.js'
+import AdminContentEditor from '../components/AdminContentEditor.vue'
+import { useSiteContent } from '../composables/useSiteContent.js'
 import { apiUrl } from '../lib/api.js'
 import {
   defaultExpiresDateInput,
@@ -24,6 +25,7 @@ const expiresDate = ref(defaultExpiresDateInput())
 const uploadError = ref('')
 const uploadSuccess = ref('')
 const uploading = ref(false)
+const { content: siteContent } = useSiteContent()
 
 const status = computed(() => meta.value?.status || 'missing')
 const imageSrc = computed(() => {
@@ -105,6 +107,11 @@ async function handleLogout() {
   file.value = null
   uploadSuccess.value = ''
   uploadError.value = ''
+}
+
+function handleContentSessionExpired() {
+  authenticated.value = false
+  meta.value = null
 }
 
 function onFileChange(event) {
@@ -310,6 +317,8 @@ onMounted(refreshMeta)
         </section>
       </div>
 
+      <AdminContentEditor @session-expired="handleContentSessionExpired" />
+
       <section class="panel sop-panel">
         <h2>运营步骤</h2>
         <ol>
@@ -317,7 +326,7 @@ onMounted(refreshMeta)
           <li>在本页上传图片，确认过期日期约为 +7 天</li>
           <li>打开 <router-link to="/contact">联系我们</router-link>，用手机微信扫码验证</li>
           <li>建议在日历设置第 6 天提醒，避免群码失效无人更换</li>
-          <li>如遇问题，邮件联系 <a :href="`mailto:${CONTACT_EMAIL}`">{{ CONTACT_EMAIL }}</a></li>
+          <li>如遇问题，邮件联系 <a :href="`mailto:${siteContent.site.contactEmail}`">{{ siteContent.site.contactEmail }}</a></li>
         </ol>
       </section>
     </template>

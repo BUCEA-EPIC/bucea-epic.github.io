@@ -1,10 +1,17 @@
 <script setup>
-import { advisors, coreTeam } from '../data/teamData.js'
+import { computed } from 'vue'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+import { useSiteContent } from '../composables/useSiteContent.js'
 
 const LEADER_ROLE = '主要负责人'
-const leader = coreTeam.find((member) => member.role === LEADER_ROLE)
-const members = coreTeam.filter((member) => member.role !== LEADER_ROLE)
+const { content } = useSiteContent()
+const advisors = computed(() => content.team.advisors)
+const leader = computed(() =>
+  content.team.coreTeam.find((member) => member.role === LEADER_ROLE)
+)
+const members = computed(() =>
+  content.team.coreTeam.filter((member) => member.role !== LEADER_ROLE)
+)
 
 useRevealOnScroll('.team-reveal')
 </script>
