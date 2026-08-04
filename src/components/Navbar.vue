@@ -5,7 +5,7 @@
       <router-link to="/" class="logo">
         <img :src="epicLogoImg" alt="" aria-hidden="true" class="logo-mark">
         <span class="logo-copy">
-          光启Ray-space工作室
+          光启 Ray-space 工作室
         </span>
       </router-link>
 

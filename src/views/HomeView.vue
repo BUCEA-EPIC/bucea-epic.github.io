@@ -40,7 +40,7 @@ useRevealOnScroll()
 
           <h1>
             工程实践创新中心
-            <span>光启Ray-space工作室</span>
+            <span>光启 Ray-space 工作室</span>
           </h1>
 
           <p class="hero-description">
@@ -89,7 +89,7 @@ useRevealOnScroll()
         </div>
 
         <div class="about-image">
-          <img :src="studioImg" alt="光启Ray-space工作室环境" loading="lazy" decoding="async" />
+          <img :src="studioImg" alt="光启 Ray-space 工作室环境" loading="lazy" decoding="async" />
         </div>
       </div>
     </section>

@@ -17,7 +17,7 @@ const hasLink = (project) => Boolean(project.url && project.url !== '#')
     <header class="header">
       <span class="header-bg-text">WORKS</span>
       <h1>项目与机器人</h1>
-      <p>我们的智慧结晶与得意之作</p>
+      <p>持续推进的工程实践项目与机器人作品</p>
     </header>
 
     <div class="projects-list animate-on-scroll">

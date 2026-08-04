@@ -1,6 +1,6 @@
 import { requireAdmin } from '../lib/auth'
 import { recordAdminAudit } from '../lib/audit'
-import { error, json, publicCors } from '../lib/http'
+import { error, json, methodNotAllowed, publicCors } from '../lib/http'
 import {
   CONTENT_TYPES,
   ContentConflictError,
@@ -11,10 +11,6 @@ import {
   readContent,
   saveContent
 } from '../lib/content'
-
-function methodNotAllowed(): Response {
-  return error(405, 'Method Not Allowed')
-}
 
 async function readJson(request: Request): Promise<unknown> {
   const raw = await request.text()
@@ -40,7 +36,7 @@ export async function handlePublicContent(request: Request, env: Env): Promise<R
   if (request.method === 'OPTIONS') {
     return publicCors(new Response(null, { status: 204 }))
   }
-  if (request.method !== 'GET') return publicCors(methodNotAllowed())
+  if (request.method !== 'GET') return publicCors(methodNotAllowed('GET, OPTIONS'))
 
   const snapshot = await readContent(env.CONTENT_DB)
   return publicCors(contentResponse(snapshot))
@@ -49,7 +45,7 @@ export async function handlePublicContent(request: Request, env: Env): Promise<R
 export async function handleAdminContent(request: Request, env: Env): Promise<Response> {
   const denied = await requireAdmin(request, env)
   if (denied) return denied
-  if (request.method !== 'GET') return methodNotAllowed()
+  if (request.method !== 'GET') return methodNotAllowed('GET')
 
   return contentResponse(await readContent(env.CONTENT_DB))
 }
@@ -61,7 +57,7 @@ export async function handleAdminContentUpdate(
 ): Promise<Response> {
   const denied = await requireAdmin(request, env)
   if (denied) return denied
-  if (request.method !== 'PUT') return methodNotAllowed()
+  if (request.method !== 'PUT') return methodNotAllowed('PUT')
   if (!isContentType(type)) return error(404, '未知内容类型')
 
   let body: { content?: unknown; expectedVersion?: unknown }

@@ -15,7 +15,7 @@ const resources = computed(() => content.resources)
     <header class="header">
       <span class="header-bg-text">LEARN</span>
       <h1>教程与资源</h1>
-      <p>我们整理的学习宝库，助你从入门到精通</p>
+      <p>从基础概念到工程工具，按方向整理学习入口</p>
     </header>
 
     <!-- 核心内容 -->

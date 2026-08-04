@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS admin_credentials (
   password_hash TEXT NOT NULL,
   password_salt TEXT NOT NULL,
   password_algorithm TEXT NOT NULL DEFAULT 'pbkdf2-sha256',
-  password_iterations INTEGER NOT NULL DEFAULT 120000,
+  password_iterations INTEGER NOT NULL DEFAULT 100000,
   password_version INTEGER NOT NULL DEFAULT 1,
   password_updated_at TEXT NOT NULL
 );

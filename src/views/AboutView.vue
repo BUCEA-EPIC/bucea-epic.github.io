@@ -23,14 +23,14 @@ useRevealOnScroll()
         <span class="section-index">01 / ORIGIN</span>
         <h2>工作室简介</h2>
         <p>
-          <strong>光启Ray-space工作室</strong>的历史最早可以追溯到2013年。作为在<strong>工程实践创新中心</strong>专业指导下建设的多学科交叉学术科技团队，我们充满活力与雄心，致力于成为校园内前沿技术探索与创新项目孵化的先锋力量。
+          <strong>光启 Ray-space 工作室</strong>的历史最早可以追溯到 2013 年。作为在<strong>工程实践创新中心</strong>指导下建设的多学科交叉学术科技团队，我们持续开展前沿技术探索与工程项目实践。
         </p>
         <p>
-          依托工程实践创新中心强大的平台资源与开放的学术氛围，我们专注于将<strong>机械、电子、控制与计算机视觉等多学科知识深度融合</strong>，并应用到机器人系统的设计与开发中。在这里，每一位成员都有机会参与从创意构思到原型实现的全链路项目实践，将课堂理论转化为看得见的、具备应用价值的创新成果。
+          依托工程实践创新中心的平台资源与开放氛围，我们将<strong>机械、电子、控制与计算机视觉等知识融合</strong>到机器人系统设计与开发中。成员可以参与从问题定义、方案设计到原型实现的完整项目流程，把课堂知识转化为可验证、可迭代的工程成果。
         </p>
       </div>
       <div class="image-content animate-image">
-        <img :src="studio1Img" alt="光启Ray-space工作室环境" loading="lazy" decoding="async">
+        <img :src="studio1Img" alt="光启 Ray-space 工作室环境" loading="lazy" decoding="async">
       </div>
     </section>
 
@@ -39,10 +39,10 @@ useRevealOnScroll()
         <span class="section-index">02 / MISSION</span>
         <h2>我们的使命与愿景</h2>
         <p>
-          <strong>使命:</strong> 我们致力于搭建一个开放、协作的技术交流平台，激发成员的创新潜能，培养具备卓越工程实践能力、团队协作精神与解决复杂问题能力的未来工程师。
+          <strong>使命：</strong>搭建开放、协作的技术交流平台，培养成员的工程实践能力、团队协作能力与复杂问题解决能力。
         </p>
         <p>
-          <strong>愿景:</strong> 成为连接校园与前沿机器人领域的桥梁，让每一位成员都能在这里找到自己的热爱，用代码和机械构筑未来，成长为具备核心竞争力的创新型人才。
+          <strong>愿景：</strong>连接校园学习与机器人领域实践，让成员在真实项目中找到兴趣、积累经验并持续成长。
         </p>
       </div>
       <div class="image-content animate-image">

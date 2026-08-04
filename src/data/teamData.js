@@ -28,22 +28,21 @@ export const advisors = [
 export const coreTeam = [
   { name: '彭粲文', role: '', bio: '机电学院，机器人专业', avatar: pengCanWen, avatarWidth: 900, avatarHeight: 674 },
   { name: '蔡思瑶', role: '主要负责人', bio: '测绘学院，遥感科学与技术专业', avatar: caiSiYao, avatarWidth: 800, avatarHeight: 1423 },
-  { name: '赵天野', role: '', bio: '智科计科专业，头像是本人', avatar: zhaoTianYe, avatarWidth: 270, avatarHeight: 270 },
+  { name: '赵天野', role: '', bio: '计算机相关专业，参与机器人项目与工程实践。', avatar: zhaoTianYe, avatarWidth: 270, avatarHeight: 270 },
   {
     name: '李珪璠',
     role: '',
-    bio: `看向这个图片
-如果你看到的是一头被蛇吃掉的大象
-说明你童心未泯
-如果你看到的是略有过冲的方波，那你完了`,
+    bio: `看向这张图片。
+如果你看到的是一头被蛇吃掉的大象，说明你童心未泯；
+如果你看到的是略有过冲的方波，说明你已经开始关注工程细节。`,
     avatar: liGuiFan,
     avatarWidth: 900,
     avatarHeight: 674
   },
   { name: '王宇轩', role: '', bio: '想进一步了解工作室的同学，欢迎通过官方邮箱与我们交流。', avatar: wangYuXuan, avatarWidth: 843, avatarHeight: 900 },
-  { name: '白暄', role: '', bio: 'ཞུམ་མེད་མདུན་སྐྱོད་', avatar: baiXuan, avatarWidth: 800, avatarHeight: 1422 },
-  { name: '张易川', role: '', bio: 'SGWCMAID260405150132B67545D2123F8104FB9C53F97AD6DDC1053FB53F9CD9660277C3E2D32901DC04', avatar: zhangYiChuan, avatarWidth: 506, avatarHeight: 900 },
-  { name: '王雅洁', role: '', bio: '电气工程及其自动化专业（实验班），共青团员，负责工作室财务报销', avatar: wangYaJie, avatarWidth: 800, avatarHeight: 800 },
+  { name: '白暄', role: '', bio: '保持热爱，持续前行。', avatar: baiXuan, avatarWidth: 800, avatarHeight: 1422 },
+  { name: '张易川', role: '', bio: '参与团队项目开发与工程实践。', avatar: zhangYiChuan, avatarWidth: 506, avatarHeight: 900 },
+  { name: '王雅洁', role: '', bio: '电气工程及其自动化专业（实验班），负责工作室财务报销与运营协作。', avatar: wangYaJie, avatarWidth: 800, avatarHeight: 800 },
   {
     name: '王博垚',
     role: '',

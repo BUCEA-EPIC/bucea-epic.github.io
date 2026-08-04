@@ -23,7 +23,8 @@ export const eventEditions = [
   }
 ]
 
-export const currentEventEdition = eventEditions[0]
+export const currentEventEdition =
+  eventEditions.find((edition) => edition.status !== '已结束') || eventEditions[0]
 
 export const getEventEditionById = (id) =>
   eventEditions.find((edition) => edition.id === String(id))

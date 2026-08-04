@@ -2,7 +2,7 @@
 
 ## 项目概览
 
-Vue 3 + Vite + **Cloudflare Workers Assets** 官网，展示北京建筑大学光启Ray-space工作室内容。
+Vue 3 + Vite + **Cloudflare Workers Assets** 官网，展示北京建筑大学光启 Ray-space 工作室内容。
 
 对齐 create-cloudflare Vue (Workers) 约定：
 

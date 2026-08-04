@@ -17,6 +17,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # GitHub Pages is a static mirror; public API requests stay on the
+      # Cloudflare Workers primary site.
+      VITE_API_BASE: https://www.rayspace.org
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

@@ -1,6 +1,6 @@
-# 光启Ray-space工作室官网
+# 光启 Ray-space 工作室官网
 
-北京建筑大学光启Ray-space工作室官网。
+北京建筑大学光启 Ray-space 工作室官网。
 
 技术栈与目录对齐 Cloudflare 官方 **Vue + Workers Assets** 模板  
 （[文档](https://developers.cloudflare.com/workers/framework-guides/web-apps/vue/) / create-cloudflare）。
@@ -161,10 +161,11 @@ npm run cf-typegen
 
 ## 静态旁路部署
 
-- GitHub Pages：`build:static:github`（`VITE_API_BASE=https://rayspace.org`）
+- GitHub Pages：`build:static:github`（`VITE_API_BASE=https://www.rayspace.org`）
 - 自有静态机：`build:static:server`
 
-动态能力（二维码管理）以 Cloudflare 主站 `rayspace.org` 为准。
+动态能力（内容 API、管理员后台与二维码管理）以 Cloudflare 主站
+[`www.rayspace.org`](https://www.rayspace.org/) 为准；GitHub Pages 仅作为静态镜像。
 
 ## 内容管理设计
 

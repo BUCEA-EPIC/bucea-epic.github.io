@@ -1,6 +1,6 @@
 import { requireAdmin } from '../lib/auth'
 import { recordAdminAudit } from '../lib/audit'
-import { error, json, publicCors } from '../lib/http'
+import { error, json, methodNotAllowed, publicCors } from '../lib/http'
 
 const IMAGE_KEY = 'current'
 const META_KEY = 'meta.json'
@@ -119,7 +119,7 @@ export async function handlePublicMeta(request: Request, env: Env): Promise<Resp
   if (request.method === 'OPTIONS') {
     return publicCors(new Response(null, { status: 204 }))
   }
-  if (request.method !== 'GET') return error(405, 'Method Not Allowed')
+  if (request.method !== 'GET') return publicCors(methodNotAllowed('GET, OPTIONS'))
 
   const meta = await readMeta(env)
   return publicCors(json(publicPayload(meta)))
@@ -130,7 +130,7 @@ export async function handlePublicImage(request: Request, env: Env): Promise<Res
     return publicCors(new Response(null, { status: 204 }))
   }
   if (request.method !== 'GET' && request.method !== 'HEAD') {
-    return error(405, 'Method Not Allowed')
+    return publicCors(methodNotAllowed('GET, HEAD, OPTIONS'))
   }
 
   if (!env.WECHAT_QR_BUCKET) {
@@ -160,7 +160,7 @@ export async function handlePublicImage(request: Request, env: Env): Promise<Res
 export async function handleAdminMeta(request: Request, env: Env): Promise<Response> {
   const denied = await requireAdmin(request, env)
   if (denied) return denied
-  if (request.method !== 'GET') return error(405, 'Method Not Allowed')
+  if (request.method !== 'GET') return methodNotAllowed('GET')
 
   const meta = await readMeta(env)
   const payload = publicPayload(meta)
@@ -176,7 +176,7 @@ export async function handleAdminMeta(request: Request, env: Env): Promise<Respo
 export async function handleAdminUpload(request: Request, env: Env): Promise<Response> {
   const denied = await requireAdmin(request, env)
   if (denied) return denied
-  if (request.method !== 'PUT') return error(405, 'Method Not Allowed')
+  if (request.method !== 'PUT') return methodNotAllowed('PUT')
   if (!env.WECHAT_QR_BUCKET) return error(500, '存储尚未配置')
 
   let form: FormData
@@ -204,6 +204,9 @@ export async function handleAdminUpload(request: Request, env: Env): Promise<Res
   const expiresAt = parseExpiresAt(form.get('expiresAt'))
   if (!expiresAt) {
     return error(400, '过期时间格式无效')
+  }
+  if (Date.parse(expiresAt) <= Date.now()) {
+    return error(400, '过期时间必须晚于当前时间')
   }
 
   const updatedAt = new Date().toISOString()

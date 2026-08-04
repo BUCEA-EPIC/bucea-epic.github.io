@@ -1,5 +1,5 @@
 import { recordAdminAudit } from './audit'
-import { error, getClientIp, json } from './http'
+import { error, getClientIp, json, methodNotAllowed } from './http'
 
 const SESSION_COOKIE = 'admin_session'
 const SESSION_TTL_SECONDS = 12 * 60 * 60
@@ -464,7 +464,7 @@ export async function handleLogin(request: Request, env: Env): Promise<Response>
 }
 
 export async function handleChangePassword(request: Request, env: Env): Promise<Response> {
-  if (request.method !== 'POST') return error(405, 'Method Not Allowed')
+  if (request.method !== 'POST') return methodNotAllowed('POST')
   const denied = await requireAdmin(request, env)
   if (denied) return denied
   if (!env.CONTENT_DB) return authError(503, '认证数据库尚未配置，请先配置 CONTENT_DB。')
@@ -519,7 +519,7 @@ export async function handleChangePassword(request: Request, env: Env): Promise<
 }
 
 export async function handleAuditLogs(request: Request, env: Env): Promise<Response> {
-  if (request.method !== 'GET') return error(405, 'Method Not Allowed')
+  if (request.method !== 'GET') return methodNotAllowed('GET')
   const denied = await requireAdmin(request, env)
   if (denied) return denied
   if (!env.CONTENT_DB) return authError(503, '审计数据库尚未配置。')

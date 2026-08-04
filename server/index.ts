@@ -4,7 +4,7 @@ import {
   handleLogin,
   handleLogout
 } from './lib/auth'
-import { error } from './lib/http'
+import { error, methodNotAllowed } from './lib/http'
 import {
   handleAdminContent,
   handleAdminContentUpdate,
@@ -37,18 +37,18 @@ export default {
           return await handlePublicImage(request, env)
         case '/api/admin/login':
           if (request.method === 'POST') return await handleLogin(request, env)
-          break
+          return methodNotAllowed('POST')
         case '/api/admin/password':
           return await handleChangePassword(request, env)
         case '/api/admin/audit-logs':
           return await handleAuditLogs(request, env)
         case '/api/admin/logout':
           if (request.method === 'POST') return await handleLogout(request, env)
-          break
+          return methodNotAllowed('POST')
         case '/api/admin/wechat-qr':
           if (request.method === 'GET') return await handleAdminMeta(request, env)
           if (request.method === 'PUT') return await handleAdminUpload(request, env)
-          break
+          return methodNotAllowed('GET, PUT')
         default:
           if (pathname.startsWith('/api/admin/content/')) {
             const type = pathname.slice('/api/admin/content/'.length)
