@@ -1,22 +1,27 @@
 <script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
+
+const route = useRoute()
+const hideChrome = computed(() => Boolean(route.meta.hideChrome))
 </script>
 
 <template>
   <div id="app">
     <a href="#main-content" class="skip-link">跳到主内容</a>
-    <Navbar />
+    <Navbar v-if="!hideChrome" />
 
     <main id="main-content" class="main-content" tabindex="-1">
-      <router-view v-slot="{ Component, route }">
+      <router-view v-slot="{ Component, route: currentRoute }">
         <transition name="page-shell" mode="out-in">
-          <component :is="Component" :key="route.path" />
+          <component :is="Component" :key="currentRoute.path" />
         </transition>
       </router-view>
     </main>
 
-    <Footer />
+    <Footer v-if="!hideChrome" />
   </div>
 </template>
 

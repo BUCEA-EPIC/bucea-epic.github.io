@@ -15,6 +15,17 @@ const routes = [
   { path: '/resources', name: 'Resources', component: () => import('../views/ResourcesView.vue'), meta: { title: '教程与资源', description: '光启Ray-space工作室整理的学习资源合集，涵盖机械、电路、编程与工具使用，助你从入门到进阶。' } },
   { path: '/news', name: 'News', component: () => import('../views/NewsView.vue'), meta: { title: '新闻与动态', description: '光启Ray-space工作室的最新动态、赛事战报与成长记录，见证每一次突破与实践成果。' } },
   { path: '/contact', name: 'Contact', component: () => import('../views/ContactView.vue'), meta: { title: '联系我们', description: '与光启Ray-space工作室取得联系，无论是技术探讨、加入意向还是合作交流，我们都期待与你对话。' } },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('../views/AdminView.vue'),
+    meta: {
+      title: '内容管理',
+      description: '光启Ray-space工作室内部内容管理入口。',
+      hideChrome: true,
+      noindex: true
+    }
+  },
   { path: '/event', name: 'Event', component: () => import('../views/EventView.vue'), meta: { title: '萌新种子杯', description: '“萌新种子杯”是光启Ray-space工作室面向新成员的工程实践赛事，涵盖视觉循迹、电源设计与三维建模等赛道。' } },
   { path: '/event/history', name: 'EventHistory', component: () => import('../views/EventHistoryView.vue'), meta: { title: '往年赛事', description: '查看历届“萌新种子杯”的赛事信息、赛道内容与获奖公示结果。' } },
   { path: '/event/awards', redirect: '/event/5/awards' },
@@ -73,6 +84,7 @@ router.afterEach((to, from) => {
   const description = to.meta.description || SITE_DESCRIPTION
   upsertMeta('name', 'description', description)
   upsertMeta('property', 'og:description', description)
+  upsertMeta('name', 'robots', to.meta.noindex ? 'noindex, nofollow' : 'index, follow')
 
   // canonical 随路由更新，双部署（GitHub Pages / 自有域名）下各自指向本域地址
   let canonical = document.querySelector('link[rel="canonical"]')

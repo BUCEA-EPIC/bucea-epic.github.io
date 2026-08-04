@@ -14,6 +14,7 @@
 - `/resources` 教程与资源
 - `/news` 新闻与动态
 - `/contact` 联系我们
+- `/admin` 内容管理（隐藏入口，不进导航；用于更新微信招新群二维码）
 
 ## 目录结构
 
@@ -24,11 +25,12 @@
 - `src/data/`: 静态数据模块
 - `src/assets/`: 由 Vite 打包的图片资源
 - `src/composables/`: 可复用逻辑，如滚动入场动效
+- `worker/`: Cloudflare Worker API（微信二维码上传与公开读取）
 - `public/`: 原样拷贝到产物目录的静态文件，含 PDF、favicon、备案图标等
 - `.github/workflows/`: GitHub Pages 部署工作流
 - `DESIGN.md`: 视觉设计规范
 - `vite.config.js`: Vite 配置，包含别名、端口和 Cloudflare 插件
-- `wrangler.jsonc`: Cloudflare 本地预览与部署配置
+- `wrangler.jsonc`: Cloudflare Worker + Assets 部署配置
 
 ## 开发与构建命令
 
@@ -47,7 +49,7 @@
 - 页面组件使用 PascalCase + `View.vue`，共享组件使用 PascalCase。
 - 数据模块使用 camelCase 命名，例如 `teamData.js`、`newsData.js`。
 - 优先复用现有组件、样式变量和 `src/composables/useRevealOnScroll.js` 等已有模式。
-- 这是静态前端项目，除非明确需要，不要引入后端依赖或运行时服务。
+- 主体为静态前端；微信二维码动态更新依赖 Cloudflare Worker + R2，勿把运营上传的二维码写回 git。
 - 修改时保持聚焦，避免无关重构和大规模格式化。
 
 ## 验证要求
@@ -69,6 +71,7 @@ npm run build
 
 ## 配置与安全
 
-- 不要提交任何密钥、令牌或私密配置。
+- 不要提交任何密钥、令牌或私密配置。`ADMIN_PASSWORD` / `ADMIN_SESSION_SECRET` 仅通过 Wrangler secrets 或本地 `.dev.vars` 配置。
 - 页脚备案信息通过环境变量控制，GitHub Pages 与服务器模式可表现不同。
 - 站点基路径由 `VITE_SITE_BASE` 控制，文档和路由需兼容子路径部署。
+- 跨部署读取主站 API 时使用 `VITE_API_BASE`（例如 GitHub Pages 指向 `https://rayspace.org`）。

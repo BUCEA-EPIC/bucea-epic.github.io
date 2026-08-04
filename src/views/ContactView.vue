@@ -1,8 +1,32 @@
 <script setup>
+import { computed } from 'vue'
 import { CONTACT_EMAIL } from '../data/siteInfo.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
+import { formatDateTime, useWechatQr } from '../composables/useWechatQr.js'
 
 useRevealOnScroll()
+
+const { loading, available, imageSrc, status, updatedAt } = useWechatQr()
+
+const wechatIntro = computed(() => {
+  if (loading.value) {
+    return '正在加载微信招新群二维码…'
+  }
+  if (available.value && imageSrc.value) {
+    return '使用微信扫码加入招新群，获取活动通知并与成员交流。'
+  }
+  return '微信招新群二维码暂未发布。你也可以通过邮件与我们联系。'
+})
+
+const statusNotice = computed(() => {
+  if (status.value === 'expiring') {
+    return '二维码即将失效。如无法加入，请邮件联系我们。'
+  }
+  if (status.value === 'expired') {
+    return '二维码可能已失效。如无法加入，请邮件联系我们。'
+  }
+  return ''
+})
 </script>
 
 <template>
@@ -39,15 +63,28 @@ useRevealOnScroll()
         <div>
           <span class="contact-label">WECHAT</span>
           <h3>微信招新群</h3>
-          <p>使用微信扫码加入招新群，获取活动通知并与成员交流。二维码将在后续更新。</p>
+          <p>{{ wechatIntro }}</p>
+          <p v-if="statusNotice" class="qr-notice" :data-status="status">{{ statusNotice }}</p>
+          <p v-if="available && updatedAt" class="qr-meta">更新于 {{ formatDateTime(updatedAt) }}</p>
         </div>
+
+        <img
+          v-if="available && imageSrc"
+          :src="imageSrc"
+          alt="微信招新群二维码"
+          class="qr-image"
+          loading="lazy"
+          decoding="async"
+        >
+
         <div
+          v-else
           class="qr-placeholder"
           role="img"
           aria-label="微信招新群二维码待定"
         >
           <span class="qr-placeholder-mark" aria-hidden="true"></span>
-          <span class="qr-placeholder-title">二维码待定</span>
+          <span class="qr-placeholder-title">{{ loading ? '加载中…' : '二维码待定' }}</span>
           <span class="qr-placeholder-hint">微信招新群</span>
         </div>
       </div>
@@ -162,6 +199,31 @@ useRevealOnScroll()
   line-height: 1.7;
 }
 
+.qr-notice {
+  color: #f59e0b !important;
+  font-size: 0.88rem !important;
+}
+
+.qr-notice[data-status='expired'] {
+  color: #f87171 !important;
+}
+
+.qr-meta {
+  color: var(--color-text-muted) !important;
+  font-size: 0.82rem !important;
+}
+
+.qr-image {
+  width: min(100%, 260px);
+  aspect-ratio: 1;
+  align-self: center;
+  object-fit: contain;
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-control);
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
 .qr-placeholder {
   display: flex;
   flex-direction: column;
@@ -228,7 +290,8 @@ useRevealOnScroll()
     font-size: 1.8rem;
   }
 
-  .qr-placeholder {
+  .qr-placeholder,
+  .qr-image {
     width: min(240px, 74vw);
   }
 }
