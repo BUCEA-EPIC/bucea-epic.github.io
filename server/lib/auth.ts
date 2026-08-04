@@ -10,7 +10,8 @@ const PASSWORD_MIN_LENGTH = 12
 const PASSWORD_MAX_LENGTH = 128
 const PASSWORD_SALT_BYTES = 16
 const PASSWORD_HASH_BYTES = 32
-const PASSWORD_HASH_ITERATIONS = 120_000
+// Cloudflare Workers currently rejects PBKDF2 iteration counts above 100,000.
+const PASSWORD_HASH_ITERATIONS = 100_000
 
 type RateLimitState = {
   failures?: number
