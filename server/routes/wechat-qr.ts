@@ -1,5 +1,5 @@
-import { error, json, publicCors } from './http.js'
-import { requireAdmin } from './auth.js'
+import { requireAdmin } from '../lib/auth'
+import { error, json, publicCors } from '../lib/http'
 
 const IMAGE_KEY = 'current'
 const META_KEY = 'meta.json'
@@ -9,7 +9,25 @@ const DEFAULT_TTL_DAYS = 7
 
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
 
-function detectImageType(bytes) {
+type QrMeta = {
+  updatedAt: string
+  expiresAt: string
+  contentType: string
+  bytes: number
+  etag: string
+}
+
+type PublicQrPayload = {
+  available: boolean
+  updatedAt: string | null
+  expiresAt: string | null
+  imageUrl: string | null
+  status: 'missing' | 'valid' | 'expiring' | 'expired'
+  contentType?: string | null
+  bytes?: number | null
+}
+
+function detectImageType(bytes: Uint8Array): string | null {
   if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) {
     return 'image/jpeg'
   }
@@ -38,7 +56,7 @@ function detectImageType(bytes) {
   return null
 }
 
-function computeStatus(meta, now = Date.now()) {
+function computeStatus(meta: QrMeta | null, now = Date.now()): PublicQrPayload['status'] {
   if (!meta?.updatedAt || !meta?.expiresAt) return 'missing'
   const expiresAt = Date.parse(meta.expiresAt)
   if (Number.isNaN(expiresAt)) return 'missing'
@@ -47,7 +65,7 @@ function computeStatus(meta, now = Date.now()) {
   return 'valid'
 }
 
-function publicPayload(meta) {
+function publicPayload(meta: QrMeta | null): PublicQrPayload {
   if (!meta) {
     return {
       available: false,
@@ -58,37 +76,36 @@ function publicPayload(meta) {
     }
   }
 
-  const status = computeStatus(meta)
   return {
     available: true,
     updatedAt: meta.updatedAt,
     expiresAt: meta.expiresAt,
     imageUrl: '/api/wechat-qr/image',
-    status,
+    status: computeStatus(meta),
     contentType: meta.contentType || null,
     bytes: meta.bytes || null
   }
 }
 
-async function readMeta(env) {
+async function readMeta(env: Env): Promise<QrMeta | null> {
   if (!env.WECHAT_QR_BUCKET) return null
   const object = await env.WECHAT_QR_BUCKET.get(META_KEY)
   if (!object) return null
   try {
-    return await object.json()
+    return await object.json<QrMeta>()
   } catch {
     return null
   }
 }
 
-async function writeMeta(env, meta) {
+async function writeMeta(env: Env, meta: QrMeta): Promise<void> {
   await env.WECHAT_QR_BUCKET.put(META_KEY, JSON.stringify(meta), {
     httpMetadata: { contentType: 'application/json' }
   })
 }
 
-function parseExpiresAt(raw) {
-  if (!raw || typeof raw !== 'string') {
+function parseExpiresAt(raw: unknown): string | null {
+  if (typeof raw !== 'string' || !raw) {
     return new Date(Date.now() + DEFAULT_TTL_DAYS * 24 * 60 * 60 * 1000).toISOString()
   }
 
@@ -97,7 +114,7 @@ function parseExpiresAt(raw) {
   return date.toISOString()
 }
 
-export async function handlePublicMeta(request, env) {
+export async function handlePublicMeta(request: Request, env: Env): Promise<Response> {
   if (request.method === 'OPTIONS') {
     return publicCors(new Response(null, { status: 204 }))
   }
@@ -107,7 +124,7 @@ export async function handlePublicMeta(request, env) {
   return publicCors(json(publicPayload(meta)))
 }
 
-export async function handlePublicImage(request, env) {
+export async function handlePublicImage(request: Request, env: Env): Promise<Response> {
   if (request.method === 'OPTIONS') {
     return publicCors(new Response(null, { status: 204 }))
   }
@@ -139,7 +156,7 @@ export async function handlePublicImage(request, env) {
   return publicCors(new Response(object.body, { status: 200, headers }))
 }
 
-export async function handleAdminMeta(request, env) {
+export async function handleAdminMeta(request: Request, env: Env): Promise<Response> {
   const denied = await requireAdmin(request, env)
   if (denied) return denied
   if (request.method !== 'GET') return error(405, 'Method Not Allowed')
@@ -155,13 +172,13 @@ export async function handleAdminMeta(request, env) {
   })
 }
 
-export async function handleAdminUpload(request, env) {
+export async function handleAdminUpload(request: Request, env: Env): Promise<Response> {
   const denied = await requireAdmin(request, env)
   if (denied) return denied
   if (request.method !== 'PUT') return error(405, 'Method Not Allowed')
   if (!env.WECHAT_QR_BUCKET) return error(500, '存储尚未配置')
 
-  let form
+  let form: FormData
   try {
     form = await request.formData()
   } catch {
@@ -197,7 +214,7 @@ export async function handleAdminUpload(request, env) {
     customMetadata: { updatedAt, expiresAt }
   })
 
-  const meta = {
+  const meta: QrMeta = {
     updatedAt,
     expiresAt,
     contentType: detectedType,

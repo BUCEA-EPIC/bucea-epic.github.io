@@ -1,5 +1,5 @@
 import { computed, onMounted, ref } from 'vue'
-import { apiUrl } from '../data/siteInfo.js'
+import { apiUrl } from '../lib/api.js'
 
 function withCacheBust(imageUrl, updatedAt) {
   if (!imageUrl) return null

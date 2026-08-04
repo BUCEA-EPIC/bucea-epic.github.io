@@ -1,20 +1,23 @@
+/**
+ * Cloudflare Workers + Assets
+ * @see https://developers.cloudflare.com/workers/framework-guides/web-apps/vue/
+ *
+ * `@cloudflare/vite-plugin` injects the client assets directory at build time.
+ * Do not set `assets.directory` in source config.
+ */
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "bucea-epic",
-  "main": "worker/index.js",
-  "compatibility_date": "2026-05-24",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "main": "server/index.ts",
+  "compatibility_date": "2026-08-04",
+  "compatibility_flags": ["nodejs_compat"],
   "observability": {
-    "enabled": true
+    "enabled": true,
+    "head_sampling_rate": 1
   },
   "assets": {
-    "directory": "./dist",
     "not_found_handling": "single-page-application",
-    "run_worker_first": [
-      "/api/*"
-    ]
+    "run_worker_first": ["/api/*"]
   },
   "r2_buckets": [
     {

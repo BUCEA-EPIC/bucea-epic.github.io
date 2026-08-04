@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
-import { apiUrl, CONTACT_EMAIL } from '../data/siteInfo.js'
+import { CONTACT_EMAIL } from '../data/siteInfo.js'
+import { apiUrl } from '../lib/api.js'
 import {
   defaultExpiresDateInput,
   formatDateTime,

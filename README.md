@@ -1,67 +1,81 @@
 # 光启Ray-space工作室官网
 
-北京建筑大学光启Ray-space工作室官网，基于 Vue 3、Vite 和 Vue Router 构建。
+北京建筑大学光启Ray-space工作室官网。
+
+技术栈与目录对齐 Cloudflare 官方 **Vue + Workers Assets** 模板  
+（[文档](https://developers.cloudflare.com/workers/framework-guides/web-apps/vue/) / create-cloudflare）。
+
+```text
+.
+├── index.html                 # SPA HTML 入口
+├── package.json
+├── vite.config.js             # Vite + @cloudflare/vite-plugin
+├── wrangler.jsonc             # Workers + Assets 配置
+├── worker-configuration.d.ts  # wrangler types 生成（绑定类型）
+├── tsconfig.json              # 工程 references
+├── tsconfig.worker.json       # 仅校验 server/**
+├── .dev.vars.example          # 本地 Worker secrets 示例
+├── public/                    # 原样发布静态文件
+├── src/                       # Vue 前端（client）
+│   ├── main.js
+│   ├── App.vue
+│   ├── assets/
+│   ├── components/
+│   ├── composables/
+│   ├── data/                  # 站点展示用静态数据
+│   ├── lib/                   # 前端工具（如 API base）
+│   ├── router/
+│   ├── styles/
+│   └── views/
+└── server/                    # Cloudflare Worker（API）
+    ├── index.ts               # Worker 入口（wrangler main）
+    ├── lib/                   # 鉴权、HTTP 工具
+    └── routes/                # 按资源划分的路由处理
+```
 
 ## 开发
 
 ```bash
 npm install
-cp .dev.vars.example .dev.vars   # 配置本地管理口令
+cp .dev.vars.example .dev.vars
 npm run dev
 ```
 
-默认地址：`http://127.0.0.1:5173`
+- 本地：`http://127.0.0.1:5173`
+- 管理页（隐藏）：`/admin`
+- 开发时 `server/` 在 workerd 中运行，R2 等绑定本地模拟
 
-管理入口（不公开宣传）：`/admin`
+## 脚本
 
-## 构建
+| 命令 | 说明 |
+|------|------|
+| `npm run dev` | 开发（Workers runtime + HMR） |
+| `npm run build` | 生产构建（Worker + client） |
+| `npm run preview` | 构建后预览 |
+| `npm run deploy` | 构建并部署到 Cloudflare |
+| `npm run cf-typegen` | 根据 wrangler 生成 `worker-configuration.d.ts` |
+| `npm run check:worker` | TypeScript 检查 `server/` |
+| `npm run build:static:github` | GitHub Pages 纯静态包 |
+| `npm run build:static:server` | 自有静态机纯静态包（可含备案） |
 
-```bash
-npm run build
-npm run build:github
-npm run build:server
-```
-
-## 目录
-
-```text
-src/                前端源码
-worker/             Cloudflare Worker API（微信二维码管理）
-public/             静态文档与公共资源
-.github/workflows/  GitHub Pages 部署流程
-DESIGN.md           视觉设计规范
-```
-
-## 部署说明
-
-- `npm run build:github`：用于 GitHub Pages
-- `npm run build:server`：用于服务器模式
-- `npm run preview`：通过 Wrangler 本地预览构建结果
-- `npm run deploy`：构建并部署到 Cloudflare（含 Worker API）
-
-### 微信招新群二维码（Cloudflare）
-
-二维码约 7 天失效，运营同学通过主站 `/admin` 上传替换，无需改代码发版。
-
-首次部署前：
-
-1. 创建 R2 存储桶（名称与 `wrangler.jsonc` 中一致）：
+## Cloudflare 部署
 
 ```bash
 npx wrangler r2 bucket create bucea-epic-wechat-qr
-```
-
-2. 配置密钥（勿写入仓库）：
-
-```bash
 npx wrangler secret put ADMIN_PASSWORD
 npx wrangler secret put ADMIN_SESSION_SECRET
-```
-
-3. 部署：
-
-```bash
 npm run deploy
 ```
 
-GitHub Pages 等纯静态部署通过 `VITE_API_BASE=https://rayspace.org` 读取主站公开 API；管理上传请在 `https://rayspace.org/admin` 完成。
+绑定与 secrets 变更后请执行：
+
+```bash
+npm run cf-typegen
+```
+
+## 静态旁路部署
+
+- GitHub Pages：`build:static:github`（`VITE_API_BASE=https://rayspace.org`）
+- 自有静态机：`build:static:server`
+
+动态能力（二维码管理）以 Cloudflare 主站 `rayspace.org` 为准。

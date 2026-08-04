@@ -1,4 +1,4 @@
-import { error, getClientIp, json } from './http.js'
+import { error, getClientIp, json } from './http'
 
 const SESSION_COOKIE = 'admin_session'
 const SESSION_TTL_SECONDS = 12 * 60 * 60
@@ -6,13 +6,19 @@ const LOGIN_WINDOW_MS = 15 * 60 * 1000
 const LOGIN_MAX_FAILURES = 10
 const RATE_PREFIX = 'rate/login/'
 
-function bytesToBase64Url(bytes) {
+type RateLimitState = {
+  failures?: number
+  windowStartedAt?: number
+  lockedUntil?: number
+}
+
+function bytesToBase64Url(bytes: Uint8Array): string {
   let binary = ''
   for (const byte of bytes) binary += String.fromCharCode(byte)
   return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '')
 }
 
-function base64UrlToBytes(value) {
+function base64UrlToBytes(value: string): Uint8Array {
   const padded = value.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((value.length + 3) % 4)
   const binary = atob(padded)
   const bytes = new Uint8Array(binary.length)
@@ -20,33 +26,37 @@ function base64UrlToBytes(value) {
   return bytes
 }
 
-function textToBytes(text) {
+function textToBytes(text: string): Uint8Array {
   return new TextEncoder().encode(text)
 }
 
-async function importHmacKey(secret) {
+async function importHmacKey(secret: string): Promise<CryptoKey> {
   return crypto.subtle.importKey(
     'raw',
     textToBytes(secret),
     { name: 'HMAC', hash: 'SHA-256' },
     false,
-    ['sign', 'verify']
+    ['sign']
   )
 }
 
-async function signPayload(secret, payload) {
+async function signPayload(secret: string, payload: string): Promise<string> {
   const key = await importHmacKey(secret)
   const signature = await crypto.subtle.sign('HMAC', key, textToBytes(payload))
   return bytesToBase64Url(new Uint8Array(signature))
 }
 
-async function verifySignature(secret, payload, signature) {
-  const expected = await signPayload(secret, payload)
-  return expected === signature
+async function timingSafeEqualString(a: string, b: string): Promise<boolean> {
+  const enc = new TextEncoder()
+  const [aDigest, bDigest] = await Promise.all([
+    crypto.subtle.digest('SHA-256', enc.encode(a)),
+    crypto.subtle.digest('SHA-256', enc.encode(b))
+  ])
+  return crypto.subtle.timingSafeEqual(new Uint8Array(aDigest), new Uint8Array(bDigest))
 }
 
-function parseCookies(header) {
-  const cookies = {}
+function parseCookies(header: string | null): Record<string, string> {
+  const cookies: Record<string, string> = {}
   if (!header) return cookies
   for (const part of header.split(';')) {
     const index = part.indexOf('=')
@@ -58,7 +68,7 @@ function parseCookies(header) {
   return cookies
 }
 
-function sessionCookie(value, maxAge, secure) {
+function sessionCookie(value: string, maxAge: number, secure: boolean): string {
   const parts = [
     `${SESSION_COOKIE}=${value}`,
     'HttpOnly',
@@ -70,7 +80,7 @@ function sessionCookie(value, maxAge, secure) {
   return parts.join('; ')
 }
 
-export async function createSessionToken(secret) {
+export async function createSessionToken(secret: string): Promise<string> {
   const payload = bytesToBase64Url(
     textToBytes(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS }))
   )
@@ -78,7 +88,7 @@ export async function createSessionToken(secret) {
   return `${payload}.${signature}`
 }
 
-export async function isAuthenticated(request, env) {
+export async function isAuthenticated(request: Request, env: Env): Promise<boolean> {
   const secret = env.ADMIN_SESSION_SECRET
   if (!secret) return false
 
@@ -88,10 +98,14 @@ export async function isAuthenticated(request, env) {
 
   const [payload, signature] = token.split('.')
   if (!payload || !signature) return false
-  if (!(await verifySignature(secret, payload, signature))) return false
+
+  const expected = await signPayload(secret, payload)
+  if (!(await timingSafeEqualString(expected, signature))) return false
 
   try {
-    const data = JSON.parse(new TextDecoder().decode(base64UrlToBytes(payload)))
+    const data = JSON.parse(new TextDecoder().decode(base64UrlToBytes(payload))) as {
+      exp?: number
+    }
     if (!data.exp || data.exp < Math.floor(Date.now() / 1000)) return false
     return true
   } catch {
@@ -99,30 +113,30 @@ export async function isAuthenticated(request, env) {
   }
 }
 
-async function readRateLimit(env, ip) {
+async function readRateLimit(env: Env, ip: string): Promise<RateLimitState> {
   if (!env.WECHAT_QR_BUCKET) return { failures: 0 }
   const object = await env.WECHAT_QR_BUCKET.get(`${RATE_PREFIX}${ip}`)
   if (!object) return { failures: 0 }
   try {
-    return await object.json()
+    return await object.json<RateLimitState>()
   } catch {
     return { failures: 0 }
   }
 }
 
-async function writeRateLimit(env, ip, data) {
+async function writeRateLimit(env: Env, ip: string, data: RateLimitState): Promise<void> {
   if (!env.WECHAT_QR_BUCKET) return
   await env.WECHAT_QR_BUCKET.put(`${RATE_PREFIX}${ip}`, JSON.stringify(data), {
     httpMetadata: { contentType: 'application/json' }
   })
 }
 
-export async function handleLogin(request, env) {
+export async function handleLogin(request: Request, env: Env): Promise<Response> {
   if (!env.ADMIN_PASSWORD || !env.ADMIN_SESSION_SECRET) {
     return error(500, '管理端尚未配置密钥，请联系站点维护者。')
   }
 
-  let body
+  let body: { password?: unknown }
   try {
     body = await request.json()
   } catch {
@@ -145,7 +159,7 @@ export async function handleLogin(request, env) {
 
   if (!rate.windowStartedAt) rate.windowStartedAt = now
 
-  if (password !== env.ADMIN_PASSWORD) {
+  if (!(await timingSafeEqualString(password, env.ADMIN_PASSWORD))) {
     rate.failures = (rate.failures || 0) + 1
     if (rate.failures >= LOGIN_MAX_FAILURES) {
       rate.lockedUntil = now + LOGIN_WINDOW_MS
@@ -169,7 +183,7 @@ export async function handleLogin(request, env) {
   )
 }
 
-export async function handleLogout(request) {
+export async function handleLogout(request: Request): Promise<Response> {
   const secure = new URL(request.url).protocol === 'https:'
   return json(
     { ok: true },
@@ -181,7 +195,7 @@ export async function handleLogout(request) {
   )
 }
 
-export async function requireAdmin(request, env) {
+export async function requireAdmin(request: Request, env: Env): Promise<Response | null> {
   if (!(await isAuthenticated(request, env))) {
     return error(401, '未登录或会话已过期')
   }

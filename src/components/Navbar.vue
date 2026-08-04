@@ -102,7 +102,7 @@ const navbarElement = ref(null);
 const menuButton = ref(null);
 const epicLogoImg = SITE_LOGO;
 const githubUrl = GITHUB_URL;
-const desktopBreakpoint = 1180; // 与下方媒体查询及 style.css 的 1180px 断点保持一致
+const desktopBreakpoint = 1180; // 与下方媒体查询及 styles/main.css 的 1180px 断点保持一致
 let desktopMediaQuery;
 const toggleMenu = () => (menuOpen.value = !menuOpen.value);
 const closeMenu = () => (menuOpen.value = false);
