@@ -40,7 +40,7 @@ export const coreTeam = [
     avatarWidth: 900,
     avatarHeight: 674
   },
-  { name: '王宇轩', role: '', bio: '想进一步了解工作室的同学，欢迎通过官方 QQ 群与我们交流。', avatar: wangYuXuan, avatarWidth: 843, avatarHeight: 900 },
+  { name: '王宇轩', role: '', bio: '想进一步了解工作室的同学，欢迎通过官方邮箱与我们交流。', avatar: wangYuXuan, avatarWidth: 843, avatarHeight: 900 },
   { name: '白暄', role: '', bio: 'ཞུམ་མེད་མདུན་སྐྱོད་', avatar: baiXuan, avatarWidth: 800, avatarHeight: 1422 },
   { name: '张易川', role: '', bio: 'SGWCMAID260405150132B67545D2123F8104FB9C53F97AD6DDC1053FB53F9CD9660277C3E2D32901DC04', avatar: zhangYiChuan, avatarWidth: 506, avatarHeight: 900 },
   { name: '王雅洁', role: '', bio: '电气工程及其自动化专业（实验班），共青团员，负责工作室财务报销', avatar: wangYaJie, avatarWidth: 800, avatarHeight: 800 },

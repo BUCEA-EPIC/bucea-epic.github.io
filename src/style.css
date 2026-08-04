@@ -254,10 +254,10 @@ textarea {
 #app .about-text p,
 #app .section-description,
 #app .contact-info p,
+#app .contact-panel p,
 #app .card-content p,
 #app .news-card p,
-#app .news-content p,
-#app .qq-group p {
+#app .news-content p {
   color: var(--color-text-secondary);
   line-height: 1.7;
 }
@@ -321,8 +321,7 @@ textarea {
 #app .image-content img,
 #app .card-image img,
 #app .card-image-wrapper img,
-#app .news-image img,
-#app .qq-image {
+#app .news-image img {
   border: 1px solid var(--border-standard);
   box-shadow: var(--shadow-soft);
 }
@@ -608,7 +607,7 @@ textarea {
   transition: transform 0.45s var(--ease-out), filter 0.3s ease;
 }
 
-#app :is(.image-content img, .qq-image) {
+#app .image-content img {
   transition: transform 0.4s var(--ease-out), border-color 0.25s ease;
 }
 
@@ -680,8 +679,7 @@ textarea {
     filter: saturate(1.02);
   }
 
-  #app .image-content img:hover,
-  #app .qq-image:hover {
+  #app .image-content img:hover {
     transform: scale(1.015);
     border-color: var(--border-strong);
   }

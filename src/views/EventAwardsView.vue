@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { awardTracks } from '../data/awardsData.js'
 import { getEventEditionById } from '../data/eventEditionsData.js'
-import { QQ_GROUP } from '../data/siteInfo.js'
+import { CONTACT_EMAIL } from '../data/siteInfo.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 // 本页面路由固定为 /event/5/awards，届次信息按 id 取，避免「当前届次」变更后串届
@@ -42,7 +42,11 @@ useRevealOnScroll()
       <div class="summary-copy">
         <router-link to="/event/5" class="back-link">返回第五届</router-link>
         <h2>{{ edition?.title || '第五届萌新种子杯' }}公示名单</h2>
-        <p>第五届各项赛程已圆满结束，以下名单按赛道与奖项分组展示。荣誉证书发放安排请关注 QQ 群（{{ QQ_GROUP }}）通知。</p>
+        <p>
+          第五届各项赛程已圆满结束，以下名单按赛道与奖项分组展示。荣誉证书发放安排请关注邮件（
+          <a :href="`mailto:${CONTACT_EMAIL}`">{{ CONTACT_EMAIL }}</a>
+          ）通知。
+        </p>
       </div>
 
       <div class="summary-grid" role="group" aria-label="获奖统计">

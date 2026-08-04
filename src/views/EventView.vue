@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 import { useAutoplayVideoInView } from '../composables/useAutoplayVideoInView.js'
 import { currentEventEdition, eventEditions, getEventEditionById } from '../data/eventEditionsData.js'
-import { QQ_GROUP } from '../data/siteInfo.js'
+import { CONTACT_EMAIL } from '../data/siteInfo.js'
 
 import eventImg from '../assets/event/第四届萌新种子杯.jpg'
 import track1Video from '../assets/event/视觉循迹仿真.webm'
@@ -12,7 +12,6 @@ import track1VideoMp4 from '../assets/event/视觉循迹仿真.mp4'
 import track1Poster from '../assets/event/视觉循迹仿真-首帧.webp'
 import track2Img from '../assets/event/开关电源设计.webp'
 import track3Img from '../assets/event/三维建模设计.webp'
-import qqImg from '../assets/contact/qq群.jpg'
 
 const route = useRoute()
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
@@ -111,7 +110,7 @@ useAutoplayVideoInView(track1VideoEl)
                 <p>第五届“萌新种子杯”各项赛程已圆满结束，感谢各位同学的积极参与。</p>
                 <p class="highlight-notice">
                   <strong>证书通知</strong>
-                  荣誉证书敬请期待后续发放安排，见QQ群（{{ QQ_GROUP }}）通知。
+                  荣誉证书敬请期待后续发放安排，见邮件（{{ CONTACT_EMAIL }}）通知。
                 </p>
                 <p>第五届最终获奖名单已整理为独立公示页面，请点击下方按钮查看：</p>
               </div>
@@ -211,7 +210,10 @@ useAutoplayVideoInView(track1VideoEl)
             </div>
             <div>
               <dt>咨询方式</dt>
-              <dd>QQ群：{{ QQ_GROUP }}</dd>
+              <dd>
+                邮箱：
+                <a :href="`mailto:${CONTACT_EMAIL}`">{{ CONTACT_EMAIL }}</a>
+              </dd>
             </div>
           </dl>
         </section>
@@ -220,9 +222,11 @@ useAutoplayVideoInView(track1VideoEl)
       <div v-if="isFifthEdition" id="contact" class="content-section single-column animate-on-scroll">
         <div class="text-content animate-text">
           <h2>咨询我们</h2>
-          <p>QQ群：{{ QQ_GROUP }}</p>
+          <p>
+            邮箱：
+            <a :href="`mailto:${CONTACT_EMAIL}`">{{ CONTACT_EMAIL }}</a>
+          </p>
         </div>
-        <div class="image-content animate-image"><img :src="qqImg" class="qq-group-img" alt="萌新种子杯咨询群二维码" loading="lazy" decoding="async"></div>
       </div>
     </template>
 
@@ -277,8 +281,6 @@ useAutoplayVideoInView(track1VideoEl)
 .image-content img { width: 100%; max-width: 600px; aspect-ratio: 4 / 3; border-radius: var(--radius-panel); box-shadow: var(--shadow-soft); object-fit: cover; }
 .image-content img:hover { transform: none; }
 .image-content .track-video { display: block; width: 100%; max-width: 600px; aspect-ratio: 640 / 342; border-radius: var(--radius-panel); box-shadow: var(--shadow-soft); background: var(--color-bg-deep); }
-.image-content img.qq-group-img { width: 250px; aspect-ratio: 1; }
-
 .edition-overview {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -640,9 +642,6 @@ useAutoplayVideoInView(track1VideoEl)
     align-items: flex-start;
   }
 
-  .image-content img.qq-group-img {
-    width: min(250px, 75vw);
-  }
 }
 
 @media (max-width: 420px) {

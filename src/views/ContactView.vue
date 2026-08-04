@@ -1,6 +1,5 @@
 <script setup>
-import qqImage from '../assets/contact/qq群.jpg'
-import { QQ_GROUP } from '../data/siteInfo.js'
+import { CONTACT_EMAIL } from '../data/siteInfo.js'
 import { useRevealOnScroll } from '../composables/useRevealOnScroll.js'
 
 useRevealOnScroll()
@@ -24,23 +23,33 @@ useRevealOnScroll()
 
         <dl class="contact-list">
           <div>
-            <dt>实验室</dt>
-            <dd>北京建筑大学大兴校区<br>工程实践创新中心 317 室</dd>
+            <dt>工作室</dt>
+            <dd>北京建筑大学大兴校区<br>工程实践创新中心 322 室</dd>
           </div>
           <div>
-            <dt>QQ群</dt>
-            <dd>{{ QQ_GROUP }}</dd>
+            <dt>邮箱</dt>
+            <dd>
+              <a :href="`mailto:${CONTACT_EMAIL}`">{{ CONTACT_EMAIL }}</a>
+            </dd>
           </div>
         </dl>
       </div>
 
-      <div class="qq-group">
+      <div class="contact-panel">
         <div>
-          <span class="contact-label">JOIN</span>
-          <h3>加入交流群</h3>
-          <p>使用 QQ 扫码，获取活动通知并与成员交流。</p>
+          <span class="contact-label">WECHAT</span>
+          <h3>微信招新群</h3>
+          <p>使用微信扫码加入招新群，获取活动通知并与成员交流。二维码将在后续更新。</p>
         </div>
-        <img :src="qqImage" :alt="`QQ群${QQ_GROUP}二维码`" class="qq-image" loading="lazy" decoding="async">
+        <div
+          class="qr-placeholder"
+          role="img"
+          aria-label="微信招新群二维码待定"
+        >
+          <span class="qr-placeholder-mark" aria-hidden="true"></span>
+          <span class="qr-placeholder-title">二维码待定</span>
+          <span class="qr-placeholder-hint">微信招新群</span>
+        </div>
       </div>
     </div>
   </div>
@@ -78,7 +87,7 @@ useRevealOnScroll()
 }
 
 .contact-info h2,
-.qq-group h3 {
+.contact-panel h3 {
   margin: 0;
   color: var(--color-text);
   font-weight: 510;
@@ -121,7 +130,18 @@ useRevealOnScroll()
   line-height: 1.7;
 }
 
-.qq-group {
+.contact-list a {
+  color: var(--color-accent-hover);
+  font-weight: 510;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contact-list a:hover {
+  color: var(--color-text);
+}
+
+.contact-panel {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -131,24 +151,62 @@ useRevealOnScroll()
   background: var(--color-bg-deep);
 }
 
-.qq-group h3 {
+.contact-panel h3 {
   font-size: 1.4rem;
 }
 
-.qq-group p {
+.contact-panel p {
   margin: 12px 0 0;
   color: var(--color-text-secondary);
   font-size: 0.92rem;
   line-height: 1.7;
 }
 
-.qq-group .qq-image {
+.qr-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   width: min(100%, 260px);
   aspect-ratio: 1;
   align-self: center;
-  border: 1px solid var(--border-standard);
+  padding: 20px;
+  border: 1px dashed var(--border-strong);
   border-radius: var(--radius-control);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 55%),
+    var(--color-card);
   box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+
+.qr-placeholder-mark {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 4px;
+  border: 2px solid var(--color-text-muted);
+  border-radius: 6px;
+  opacity: 0.55;
+  background:
+    linear-gradient(to right, transparent 46%, var(--color-text-muted) 46%, var(--color-text-muted) 54%, transparent 54%),
+    linear-gradient(to bottom, transparent 46%, var(--color-text-muted) 46%, var(--color-text-muted) 54%, transparent 54%);
+  background-size: 100% 100%;
+  box-shadow:
+    inset 10px 10px 0 -8px var(--color-text-muted),
+    inset -10px -10px 0 -8px var(--color-text-muted);
+}
+
+.qr-placeholder-title {
+  color: var(--color-text);
+  font-size: 0.98rem;
+  font-weight: 590;
+}
+
+.qr-placeholder-hint {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
 }
 
 @media (max-width: 900px) {
@@ -157,11 +215,11 @@ useRevealOnScroll()
   }
 
   .contact-info,
-  .qq-group {
+  .contact-panel {
     padding: 28px;
   }
 
-  .qq-group {
+  .contact-panel {
     border-top: 1px solid var(--border-standard);
     border-left: 0;
   }
@@ -170,14 +228,14 @@ useRevealOnScroll()
     font-size: 1.8rem;
   }
 
-  .qq-group .qq-image {
+  .qr-placeholder {
     width: min(240px, 74vw);
   }
 }
 
 @media (max-width: 420px) {
   .contact-info,
-  .qq-group { padding: 22px; }
+  .contact-panel { padding: 22px; }
   .contact-list div { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 }
 </style>
