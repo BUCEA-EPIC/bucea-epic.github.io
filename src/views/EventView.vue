@@ -77,8 +77,8 @@ useAutoplayVideoInView(track1VideoEl)
             <p>
               <strong>第五届“萌新种子杯”</strong>由<strong>工程实践创新中心</strong>主办。<br/>
               本届赛事整体规划和赛题设计由<strong>工程实践创新中心光启 Ray-space 工作室</strong>负责，
-              <strong>学 D317 工作室</strong>协助承办开关电源设计赛道，
-              <strong>机器人社</strong>提供培训支持。
+              <strong>学 D317 工作室</strong>协办开关电源设计赛道，
+              <strong>机器人社团</strong>提供培训支持。
             </p>
             <p>
               第五届比赛共设三个赛道：

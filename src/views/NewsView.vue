@@ -24,11 +24,11 @@ const newsData = computed(() => content.news)
         class="news-item-wrapper"
         v-for="(item, index) in newsData"
         :key="item.title"
-        :class="{ featured: index === 0 }"
+        :class="{ featured: index === 0 && item.image }"
       >
         <article class="news-item-inner">
           <div v-if="item.image" class="news-image">
-            <img :src="item.image" alt="" loading="lazy" decoding="async" />
+            <img :src="item.image" :alt="item.title" loading="lazy" decoding="async" />
           </div>
           <div class="news-content">
             <h2>{{ item.title }}</h2>

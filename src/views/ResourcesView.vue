@@ -7,6 +7,7 @@ useRevealOnScroll()
 
 const { content } = useSiteContent()
 const resources = computed(() => content.resources)
+const hasLink = (item) => Boolean(item.url && item.url !== '#')
 </script>
 
 <template>
@@ -39,10 +40,11 @@ const resources = computed(() => content.resources)
         >
           <div class="card-content">
             <span class="resource-index">{{ String(index + 1).padStart(2, '0') }}</span>
-            <a :href="item.url" target="_blank" rel="noopener noreferrer">
+            <a v-if="hasLink(item)" :href="item.url" target="_blank" rel="noopener noreferrer">
               <span>{{ item.title }}</span>
               <span aria-hidden="true">↗</span>
             </a>
+            <span v-else class="resource-title">{{ item.title }}</span>
             <p v-if="item.subtitle" class="subtitle">{{ item.subtitle }}</p>
             <p>{{ item.description }}</p>
           </div>
@@ -106,7 +108,8 @@ const resources = computed(() => content.resources)
 
 .card-content { min-height: 290px; padding:24px; display:flex; flex-direction:column; width:100%; }
 .resource-index { margin-bottom: 22px; color: var(--color-text-muted); font-size: 0.74rem; font-weight: 590; }
-.card-content a { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; font-weight:510; font-size:1.15rem; line-height: 1.35; color:var(--color-text); text-decoration:none; margin-bottom:10px; overflow-wrap:anywhere; }
+.card-content a,
+.resource-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; font-weight:510; font-size:1.15rem; line-height: 1.35; color:var(--color-text); text-decoration:none; margin-bottom:10px; overflow-wrap:anywhere; }
 .card-content a > span:last-child { flex: 0 0 auto; color: var(--color-text-muted); font-size: 0.9rem; }
 .card-content a:hover { color: var(--color-text); text-decoration:none; }
 .card-content .subtitle { font-weight:510; font-size:1rem; color:var(--color-text-secondary); margin-bottom:10px; }

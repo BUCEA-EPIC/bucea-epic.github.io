@@ -118,7 +118,8 @@ function identifier(value: unknown, fallback: string): string {
 function safeUrl(value: unknown, field: string, required = false): string {
   const result = text(value, field, 1000, required)
   if (!result) return ''
-  if ((result.startsWith('/') && !result.startsWith('//')) || result.startsWith('#')) return result
+  if (result.startsWith('/') && !result.startsWith('//')) return result
+  if (result.startsWith('#')) throw new Error(`${field} 不允许使用占位链接`)
 
   let parsed: URL
   try {

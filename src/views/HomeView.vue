@@ -139,7 +139,7 @@ useRevealOnScroll()
             class="news-card"
           >
             <div class="card-image-wrapper">
-              <img v-if="item.image" :src="item.image" alt="" loading="lazy" decoding="async" />
+              <img v-if="item.image" :src="item.image" :alt="item.title" loading="lazy" decoding="async" />
               <div v-else class="image-placeholder"></div>
             </div>
 

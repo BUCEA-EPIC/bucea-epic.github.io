@@ -69,10 +69,18 @@ export function prepareStoredContent(content) {
 
 function mergeList(defaults, stored) {
   if (!Array.isArray(stored)) return cloneContent(defaults)
-  return stored.map((item, index) => ({
-    ...(defaults[index] || {}),
-    ...(item || {})
-  }))
+  return stored.map((item, index) => {
+    const fallback = defaults[index] || {}
+    const result = { ...fallback, ...(item || {}) }
+
+    // prepareStoredContent omits bundled images before publishing. The API
+    // validator normalizes an omitted image to an empty string, so restore the
+    // code-bundled fallback here instead of rendering an empty <img> source.
+    if (item?.avatar === '' && fallback.avatar) result.avatar = fallback.avatar
+    if (item?.image === '' && fallback.image) result.image = fallback.image
+
+    return result
+  })
 }
 
 function mergeTeam(defaults, stored) {

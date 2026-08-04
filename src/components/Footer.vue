@@ -16,7 +16,7 @@
 
       <div class="footer-secondary">
         <p class="copyright">
-          Copyright &copy; 2025-2026 北京建筑大学 · 光启 Ray-space 工作室
+          Copyright &copy; {{ copyrightYears }} 北京建筑大学 · 光启 Ray-space 工作室
         </p>
         <nav v-if="showBeianLinks" class="beian-links" aria-label="备案信息">
           <a
@@ -49,6 +49,11 @@
 </template>
 
 <script setup>
+const copyrightStartYear = 2025
+const currentYear = new Date().getFullYear()
+const copyrightYears = currentYear > copyrightStartYear
+  ? `${copyrightStartYear}-${currentYear}`
+  : `${copyrightStartYear}`
 const icpText = import.meta.env.VITE_ICP_TEXT || ''
 const icpUrl = import.meta.env.VITE_ICP_URL || 'https://beian.miit.gov.cn/'
 const policeText = import.meta.env.VITE_POLICE_TEXT || ''
