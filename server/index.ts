@@ -1,5 +1,4 @@
 import {
-  handleChangePassword,
   handleAuditLogs,
   handleLogin,
   handleLogout
@@ -46,8 +45,6 @@ export default {
         case '/api/admin/login':
           if (request.method === 'POST') return await handleLogin(request, env)
           return methodNotAllowed('POST')
-        case '/api/admin/password':
-          return await handleChangePassword(request, env)
         case '/api/admin/audit-logs':
           return await handleAuditLogs(request, env)
         case '/api/admin/logout':

@@ -68,6 +68,6 @@ Conventional Commits + 简体中文说明（`feat:` / `fix:` / `refactor:` / `do
 
 ## 安全
 
-- Secrets：`ADMIN_PASSWORD`、`ADMIN_SESSION_SECRET` 仅 Wrangler secrets 或 `.dev.vars`
+- Secrets：`ADMIN_PASSWORD`、`ADMIN_SESSION_SECRET` 仅 GitHub `production` Environment、Wrangler secrets 或 `.dev.vars`
 - 勿提交 `.dev.vars`、密钥、令牌
 - `VITE_SITE_BASE` 控制基路径；`VITE_API_BASE` 供静态镜像读主站 API
