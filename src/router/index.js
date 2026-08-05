@@ -16,6 +16,17 @@ const routes = [
   { path: '/news', name: 'News', component: () => import('../views/NewsView.vue'), meta: { title: '新闻与动态', description: '光启 Ray-space 工作室的赛事记录、项目进展与团队动态。' } },
   { path: '/contact', name: 'Contact', component: () => import('../views/ContactView.vue'), meta: { title: '联系我们', description: '联系光启 Ray-space 工作室，交流技术问题、加入意向或合作想法。' } },
   {
+    path: '/join',
+    name: 'Join',
+    component: () => import('../views/JoinView.vue'),
+    meta: {
+      title: '加入微信招新群',
+      description: '加入光启 Ray-space 工作室最新微信招新群，获取活动通知并与成员交流。',
+      hideChrome: true,
+      noindex: true
+    }
+  },
+  {
     path: '/admin',
     name: 'Admin',
     component: () => import('../views/AdminView.vue'),

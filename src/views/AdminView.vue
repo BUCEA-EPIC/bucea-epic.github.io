@@ -225,7 +225,7 @@ async function handleUpload() {
       throw new Error(body.error || '上传失败')
     }
 
-    uploadSuccess.value = '已发布，联系页将展示最新二维码'
+    uploadSuccess.value = '已发布，联系页和 /join 活码页将展示最新二维码'
     file.value = null
     expiresDate.value = defaultExpiresDateInput()
     await refreshMeta()
@@ -369,7 +369,7 @@ onMounted(refreshMeta)
                 </button>
                 <button type="button" class="quick-action" @click="setActiveSection('operations')">
                   <strong>更新运营资源</strong>
-                  <span>替换联系页展示的招新群二维码。</span>
+                  <span>替换联系页与 /join 活码页展示的招新群二维码。</span>
                 </button>
                 <button type="button" class="quick-action" @click="setActiveSection('audit')">
                   <strong>查看操作记录</strong>
@@ -492,7 +492,7 @@ onMounted(refreshMeta)
               <ul>
                 <li>支持 JPG、PNG、WebP 图片，文件大小不超过 2MB。</li>
                 <li>微信群二维码通常约 7 天失效，建议提前更新并设置日历提醒。</li>
-                <li>发布后打开 <router-link to="/contact">联系我们</router-link>，确认移动端展示和扫码结果。</li>
+                <li>发布后打开 <router-link to="/join">/join 活码页</router-link> 和 <router-link to="/contact">联系我们</router-link>，确认移动端展示、长按识别和扫码结果。</li>
                 <li>如遇问题，邮件联系 <a :href="`mailto:${siteContent.site.contactEmail}`">{{ siteContent.site.contactEmail }}</a>。</li>
               </ul>
             </section>
