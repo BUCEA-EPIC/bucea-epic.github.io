@@ -43,9 +43,9 @@ npm run dev
 ```
 
 - 本地：`http://127.0.0.1:5173`
-- 管理页（隐藏）：`/admin`
+- 管理页（隐藏）：`/admin`、`/admin/content`、`/admin/operations`、`/admin/audit`、`/admin/security`
 - 开发时 `server/` 在 workerd 中运行，R2 等绑定本地模拟
-- `/admin` 登录后可管理站点信息、团队成员、项目、教程资源、新闻和微信二维码
+- `/admin` 登录后可通过分级路由管理站点总览、站点信息、团队成员、项目、教程资源、新闻、微信二维码、操作记录与访问安全说明
 
 ## 脚本
 
@@ -120,22 +120,22 @@ Cloudflare 构建和两种静态构建；`main` 应配置为仅允许通过 CI �
 | `CLOUDFLARE_API_KEY` | Environment secret | Cloudflare Global API Key；与 `CLOUDFLARE_EMAIL` 配套使用 |
 | `CLOUDFLARE_EMAIL` | Environment secret | Global API Key 对应的 Cloudflare 登录邮箱 |
 | `CLOUDFLARE_API_TOKEN` | Environment secret，可选 | 更推荐的细粒度 API Token；配置后优先于 Global API Key |
-| `ADMIN_PASSWORD` | Environment secret | 首次初始化及部署侧应急恢复的基准口令；D1 初始化后不作为日常登录口令 |
+| `ADMIN_PASSWORD` | Environment secret | 管理员共享口令的唯一配置来源；首次初始化及部署侧恢复时同步到 D1 |
 | `ADMIN_SESSION_SECRET` | Environment secret | 管理员会话签名密钥 |
 
 你当前计划提供 Global API Key，因此最少需要填写：
 `CLOUDFLARE_ACCOUNT_ID`、`CLOUDFLARE_API_KEY`、`CLOUDFLARE_EMAIL`、
 `ADMIN_PASSWORD`、`ADMIN_SESSION_SECRET`。不要把这些值提交到 Git、发到聊天或写入 `.env` 文件。
 
-`ADMIN_PASSWORD` 首次用于初始化 D1 中的口令哈希；初始化后，日常口令应在 `/admin` 的
-“管理员安全”中修改。若忘记日常口令，请先在 `production` Environment 中替换
+`ADMIN_PASSWORD` 是管理员共享口令的唯一配置来源；`/admin` 不提供口令修改接口。若需要
+设置或更换口令，请在 `production` Environment 的 `Configure production` 页面替换
 `ADMIN_PASSWORD`，再从 GitHub Actions 运行 **Recover Cloudflare admin password**，输入
 `RESET` 确认。工作流会更新 D1 哈希、递增口令版本使所有旧会话失效，并记录 GitHub 操作者、
 运行编号和提交号；不会记录明文口令。
 
 管理员口令恢复步骤：
 
-1. 打开 `Settings → Environments → production → Environment secrets`，用新的 12–128 位口令替换 `ADMIN_PASSWORD`。
+1. 打开 `Settings → Environments → production → Configure production → Environment secrets`，用新的 12–128 位口令替换 `ADMIN_PASSWORD`。
 2. 打开 `Actions → Recover Cloudflare admin password → Run workflow`，输入 `RESET` 并运行。
 3. 如 `production` Environment 配置了审批规则，等待授权维护者审批；完成后使用新口令登录 `/admin`。
 
@@ -188,7 +188,7 @@ npm run cf-typegen
 - 内容中的 `#` 占位链接会被服务端拒绝；未准备好公开地址的项目或资源应留空，并在前台显示相应的待整理状态。
 - 前台启动时读取 `/api/content`，D1 未配置、接口异常或某栏目未发布时自动回退到 `src/data/*` 的内置默认内容。
 - 微信二维码等二进制媒体继续使用 R2，不写回 Git；团队、项目和新闻图片可使用站内构建资源或公开 HTTPS 地址。
-- `admin_audit_logs` 记录登录、退出、口令修改、部署侧恢复、内容更新和二维码上传；记录时间、IP、User-Agent、操作和结果，不记录口令或请求正文。
+- `admin_audit_logs` 记录登录、退出、部署侧恢复、内容更新和二维码上传；记录时间、IP、User-Agent、操作和结果，不记录口令或请求正文。
 
 ## 多人协作与发布治理
 
@@ -202,5 +202,5 @@ npm run cf-typegen
 - `GET /api/content`：公开读取已发布内容，支持静态镜像跨域读取。
 - `GET /api/admin/content`：管理员读取内容与版本元数据。
 - `PUT /api/admin/content/:type`：管理员保存单个栏目，body 为 `{ content, expectedVersion }`。
-- `POST /api/admin/password`：管理员验证当前口令后修改共享口令。
+- 管理员口令不提供公网修改接口；请通过受保护的 `production` Environment 与恢复工作流管理。
 - `GET /api/admin/audit-logs`：读取最近的管理员操作记录。

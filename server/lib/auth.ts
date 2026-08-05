@@ -6,8 +6,6 @@ const SESSION_TTL_SECONDS = 12 * 60 * 60
 const LOGIN_WINDOW_MS = 15 * 60 * 1000
 const LOGIN_MAX_FAILURES = 10
 const LOGIN_RATE_PREFIX = 'rate/login/'
-const PASSWORD_MIN_LENGTH = 12
-const PASSWORD_MAX_LENGTH = 128
 const PASSWORD_SALT_BYTES = 16
 const PASSWORD_HASH_BYTES = 32
 // Cloudflare Workers currently rejects PBKDF2 iteration counts above 100,000.
@@ -35,12 +33,6 @@ type AdminCredential = {
   passwordIterations: number
   passwordVersion: number
   passwordUpdatedAt: string
-}
-
-type PasswordBody = {
-  currentPassword?: unknown
-  newPassword?: unknown
-  confirmPassword?: unknown
 }
 
 function bytesToBase64Url(bytes: Uint8Array): string {
@@ -137,13 +129,6 @@ async function verifyPassword(password: string, credential: AdminCredential): Pr
   } catch {
     return false
   }
-}
-
-function passwordValidationError(password: string): string | null {
-  if (!password.trim()) return '新口令不能为空'
-  if (password.length < PASSWORD_MIN_LENGTH) return `新口令至少需要 ${PASSWORD_MIN_LENGTH} 位`
-  if (password.length > PASSWORD_MAX_LENGTH) return `新口令不能超过 ${PASSWORD_MAX_LENGTH} 位`
-  return null
 }
 
 function parseCookies(header: string | null): Record<string, string> {
@@ -248,27 +233,6 @@ async function bootstrapCredential(
     )
     .bind(hashed.hash, hashed.salt, hashed.iterations, updatedAt)
     .run()
-  return readCredential(db)
-}
-
-async function updateCredential(
-  db: D1Database,
-  current: AdminCredential,
-  password: string
-): Promise<AdminCredential | null> {
-  const hashed = await hashPassword(password)
-  const updatedAt = new Date().toISOString()
-  const result = await db
-    .prepare(
-      `UPDATE admin_credentials
-       SET password_hash = ?, password_salt = ?, password_algorithm = 'pbkdf2-sha256',
-           password_iterations = ?, password_version = password_version + 1,
-           password_updated_at = ?
-       WHERE credential_id = 1 AND password_version = ?`
-    )
-    .bind(hashed.hash, hashed.salt, hashed.iterations, updatedAt, current.passwordVersion)
-    .run()
-  if (!result.meta.changes) return null
   return readCredential(db)
 }
 
@@ -452,61 +416,6 @@ export async function handleLogin(request: Request, env: Env): Promise<Response>
   })
 
   const token = await createSessionToken(env.ADMIN_SESSION_SECRET, passwordVersion)
-  const secure = new URL(request.url).protocol === 'https:'
-  return authJson(
-    { ok: true },
-    {
-      headers: {
-        'Set-Cookie': sessionCookie(token, SESSION_TTL_SECONDS, secure)
-      }
-    }
-  )
-}
-
-export async function handleChangePassword(request: Request, env: Env): Promise<Response> {
-  if (request.method !== 'POST') return methodNotAllowed('POST')
-  const denied = await requireAdmin(request, env)
-  if (denied) return denied
-  if (!env.CONTENT_DB) return authError(503, '认证数据库尚未配置，请先配置 CONTENT_DB。')
-
-  let body: PasswordBody
-  try {
-    body = (await readJsonBody(request)) as PasswordBody
-  } catch (cause) {
-    return authError(400, cause instanceof Error ? cause.message : '请求格式无效')
-  }
-
-  const currentPassword = typeof body.currentPassword === 'string' ? body.currentPassword : ''
-  const newPassword = typeof body.newPassword === 'string' ? body.newPassword : ''
-  const confirmPassword = typeof body.confirmPassword === 'string' ? body.confirmPassword : ''
-  const validationError = passwordValidationError(newPassword)
-  if (validationError) return authError(400, validationError)
-  if (newPassword !== confirmPassword) return authError(400, '两次输入的新口令不一致')
-
-  const credential = await readCredential(env.CONTENT_DB)
-  if (!credential || !(await verifyPassword(currentPassword, credential))) {
-    await recordAdminAudit(env.CONTENT_DB, request, {
-      action: 'auth.password.change',
-      resourceType: 'admin_credential',
-      status: 'failure'
-    })
-    return authError(403, '当前口令错误')
-  }
-  if (await timingSafeEqualString(currentPassword, newPassword)) {
-    return authError(400, '新口令不能与当前口令相同')
-  }
-
-  const updated = await updateCredential(env.CONTENT_DB, credential, newPassword)
-  if (!updated) return authError(409, '口令已被其他操作更新，请刷新后重试')
-
-  await recordAdminAudit(env.CONTENT_DB, request, {
-    action: 'auth.password.change',
-    resourceType: 'admin_credential',
-    status: 'success',
-    details: { passwordVersion: updated.passwordVersion }
-  })
-
-  const token = await createSessionToken(env.ADMIN_SESSION_SECRET, updated.passwordVersion)
   const secure = new URL(request.url).protocol === 'https:'
   return authJson(
     { ok: true },

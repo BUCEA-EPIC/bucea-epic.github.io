@@ -13,8 +13,8 @@ const actionLabels = {
   'auth.login.rate_limited': '登录限流',
   'auth.login.bootstrap.failure': '管理员口令初始化失败',
   'auth.logout': '管理员退出',
-  'auth.password.change': '修改共享口令',
-  'auth.password.recovery.deployment': '部署侧恢复共享口令',
+  'auth.password.change': '历史后台口令修改（已停用）',
+  'auth.password.recovery.deployment': '生产环境恢复共享口令',
   // Retain explicit labels for historical records created before the recovery
   // flow was moved out of the public admin page.
   'auth.password.recovery': '历史恢复操作（已停用）',
@@ -71,7 +71,7 @@ onMounted(load)
     <div class="panel-head">
       <div>
         <h2>管理员操作记录</h2>
-        <p class="hint">记录登录、口令变更、内容发布和二维码更新，不记录口令或密钥内容；部署侧恢复会记录 GitHub 操作者与运行编号。</p>
+        <p class="hint">记录登录、退出、内容发布和二维码更新，不记录口令或密钥内容；生产环境恢复会记录 GitHub 操作者与运行编号。</p>
       </div>
       <button type="button" class="ghost-btn" :disabled="loading" @click="load">
         {{ loading ? '刷新中…' : '刷新' }}

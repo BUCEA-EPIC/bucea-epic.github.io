@@ -43,7 +43,7 @@ const hasLink = (project) => Boolean(project.url && project.url !== '#')
             <span v-for="tag in project.tags" :key="tag" class="tag">{{ tag }}</span>
           </div>
           <span class="project-action">
-            {{ hasLink(project) ? '查看开源项目' : '资料整理中' }}
+            {{ hasLink(project) ? '查看开源项目' : '项目资料暂未发布' }}
             <span v-if="hasLink(project)" aria-hidden="true">↗</span>
           </span>
         </div>

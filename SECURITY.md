@@ -7,7 +7,7 @@
 ## 凭据处理
 
 - Cloudflare API 凭据仅保存在 GitHub `production` Environment secrets 或本地 Wrangler 登录状态中。
-- `ADMIN_PASSWORD` 仅作为首次初始化和部署侧恢复的基准口令；日常口令通过 `/admin` 修改。
+- `ADMIN_PASSWORD` 是管理员共享口令的唯一配置来源；通过 GitHub `production` Environment 配置，并由受保护的恢复工作流同步到 D1。
 - `ADMIN_SESSION_SECRET` 用于签发管理员会话，泄露后必须立即轮换。
 - 管理员口令遗忘时，使用受保护的 GitHub Actions 恢复工作流，不要增加公网恢复接口。
 
