@@ -18,7 +18,7 @@ export const eventEditions = [
     status: '筹备中',
     route: '/event/6',
     awardsRoute: '',
-    schedule: '赛程待公布',
+    schedule: '赛程安排待公布',
     description: '第六届“萌新种子杯”正在筹备中，报名、赛道与比赛安排将后续公布。'
   }
 ]

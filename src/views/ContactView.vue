@@ -82,10 +82,10 @@ const statusNotice = computed(() => {
           v-else
           class="qr-placeholder"
           role="img"
-          aria-label="微信招新群二维码待定"
+          aria-label="微信招新群二维码暂未发布"
         >
           <span class="qr-placeholder-mark" aria-hidden="true"></span>
-          <span class="qr-placeholder-title">{{ loading ? '加载中…' : '二维码待定' }}</span>
+          <span class="qr-placeholder-title">{{ loading ? '加载中…' : '二维码暂未发布' }}</span>
           <span class="qr-placeholder-hint">微信招新群</span>
         </div>
       </div>
