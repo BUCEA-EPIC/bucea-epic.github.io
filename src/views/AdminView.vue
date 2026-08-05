@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import AdminAuditLog from '../components/AdminAuditLog.vue'
 import AdminContentEditor from '../components/AdminContentEditor.vue'
 import AdminSidebar from '../components/AdminSidebar.vue'
@@ -18,35 +19,41 @@ const authenticated = ref(false)
 const checkingSession = ref(true)
 const recoveryWorkflowUrl = 'https://github.com/BUCEA-EPIC/bucea-epic.github.io/actions/workflows/reset-admin-password.yml'
 const productionEnvironmentUrl = 'https://github.com/BUCEA-EPIC/bucea-epic.github.io/settings/environments/production'
-const activeSection = ref('overview')
+const route = useRoute()
+const router = useRouter()
 
 const adminSectionDefinitions = [
   {
     key: 'overview',
+    path: '/admin',
     eyebrow: 'OVERVIEW',
     title: '工作台总览',
     description: '查看当前发布状态，并从这里进入各项管理功能。'
   },
   {
     key: 'content',
+    path: '/admin/content',
     eyebrow: 'CONTENT',
     title: '内容管理',
     description: '维护站点信息、团队、项目、资源和新闻等公开内容。'
   },
   {
     key: 'operations',
+    path: '/admin/operations',
     eyebrow: 'OPERATIONS',
     title: '运营资源',
     description: '管理联系页展示的微信招新群二维码等运营资源。'
   },
   {
     key: 'audit',
+    path: '/admin/audit',
     eyebrow: 'AUDIT',
     title: '操作记录',
     description: '查看管理员登录、内容发布和运营资源更新记录。'
   },
   {
     key: 'security',
+    path: '/admin/security',
     eyebrow: 'SECURITY',
     title: '访问与安全',
     description: '查看管理员口令的生产环境配置、恢复和权限说明。'
@@ -66,6 +73,7 @@ const uploading = ref(false)
 const { content: siteContent } = useSiteContent()
 
 const status = computed(() => meta.value?.status || 'missing')
+const activeSection = computed(() => route.meta.adminSection || 'overview')
 const activeSectionDefinition = computed(() =>
   adminSectionDefinitions.find((item) => item.key === activeSection.value) || adminSectionDefinitions[0]
 )
@@ -156,9 +164,8 @@ function handleContentSessionExpired() {
 }
 
 function setActiveSection(section) {
-  if (adminSectionDefinitions.some((item) => item.key === section)) {
-    activeSection.value = section
-  }
+  const definition = adminSectionDefinitions.find((item) => item.key === section)
+  if (definition && route.path !== definition.path) router.push(definition.path)
 }
 
 function onFileChange(event) {
@@ -277,7 +284,6 @@ onMounted(refreshMeta)
       <div class="admin-console">
         <AdminSidebar
           :active-section="activeSection"
-          @update:active-section="setActiveSection"
         />
 
         <main class="admin-main">

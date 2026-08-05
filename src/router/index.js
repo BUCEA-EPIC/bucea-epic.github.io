@@ -20,8 +20,57 @@ const routes = [
     name: 'Admin',
     component: () => import('../views/AdminView.vue'),
     meta: {
+      title: '管理员后台',
+      description: '光启 Ray-space 工作室内部管理员后台总览。',
+      adminSection: 'overview',
+      hideChrome: true,
+      noindex: true
+    }
+  },
+  {
+    path: '/admin/content',
+    name: 'AdminContent',
+    component: () => import('../views/AdminView.vue'),
+    meta: {
       title: '内容管理',
-      description: '光启 Ray-space 工作室内部内容管理入口。',
+      description: '光启 Ray-space 工作室站点公开内容管理。',
+      adminSection: 'content',
+      hideChrome: true,
+      noindex: true
+    }
+  },
+  {
+    path: '/admin/operations',
+    name: 'AdminOperations',
+    component: () => import('../views/AdminView.vue'),
+    meta: {
+      title: '运营资源',
+      description: '光启 Ray-space 工作室运营资源管理。',
+      adminSection: 'operations',
+      hideChrome: true,
+      noindex: true
+    }
+  },
+  {
+    path: '/admin/audit',
+    name: 'AdminAudit',
+    component: () => import('../views/AdminView.vue'),
+    meta: {
+      title: '操作记录',
+      description: '光启 Ray-space 工作室管理员操作记录。',
+      adminSection: 'audit',
+      hideChrome: true,
+      noindex: true
+    }
+  },
+  {
+    path: '/admin/security',
+    name: 'AdminSecurity',
+    component: () => import('../views/AdminView.vue'),
+    meta: {
+      title: '访问与安全',
+      description: '光启 Ray-space 工作室管理员访问与安全配置说明。',
+      adminSection: 'security',
       hideChrome: true,
       noindex: true
     }

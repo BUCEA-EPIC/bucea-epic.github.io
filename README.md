@@ -43,9 +43,9 @@ npm run dev
 ```
 
 - 本地：`http://127.0.0.1:5173`
-- 管理页（隐藏）：`/admin`
+- 管理页（隐藏）：`/admin`、`/admin/content`、`/admin/operations`、`/admin/audit`、`/admin/security`
 - 开发时 `server/` 在 workerd 中运行，R2 等绑定本地模拟
-- `/admin` 登录后可管理站点信息、团队成员、项目、教程资源、新闻和微信二维码
+- `/admin` 登录后可通过分级路由管理站点总览、站点信息、团队成员、项目、教程资源、新闻、微信二维码、操作记录与访问安全说明
 
 ## 脚本
 

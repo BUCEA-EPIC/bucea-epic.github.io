@@ -6,19 +6,13 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['update:activeSection'])
-
 const navigation = [
-  { key: 'overview', index: '01', label: '总览', hint: '发布状态与快捷操作' },
-  { key: 'content', index: '02', label: '内容管理', hint: '站点文字与结构化内容' },
-  { key: 'operations', index: '03', label: '运营资源', hint: '二维码与运营素材' },
-  { key: 'audit', index: '04', label: '操作记录', hint: '管理员审计信息' },
-  { key: 'security', index: '05', label: '访问与安全', hint: '环境配置与恢复流程' }
+  { key: 'overview', path: '/admin', index: '01', label: '总览', hint: '发布状态与快捷操作' },
+  { key: 'content', path: '/admin/content', index: '02', label: '内容管理', hint: '站点文字与结构化内容' },
+  { key: 'operations', path: '/admin/operations', index: '03', label: '运营资源', hint: '二维码与运营素材' },
+  { key: 'audit', path: '/admin/audit', index: '04', label: '操作记录', hint: '管理员审计信息' },
+  { key: 'security', path: '/admin/security', index: '05', label: '访问与安全', hint: '环境配置与恢复流程' }
 ]
-
-function selectSection(key) {
-  emit('update:activeSection', key)
-}
 </script>
 
 <template>
@@ -34,21 +28,21 @@ function selectSection(key) {
     <div class="admin-sidebar-group">
       <p class="admin-sidebar-label">工作区</p>
       <nav class="admin-nav">
-        <button
+        <RouterLink
           v-for="item in navigation"
           :key="item.key"
-          type="button"
+          :to="item.path"
           class="admin-nav-item"
           :class="{ active: activeSection === item.key }"
           :aria-current="activeSection === item.key ? 'page' : undefined"
-          @click="selectSection(item.key)"
+          :title="item.hint"
         >
           <span class="admin-nav-index">{{ item.index }}</span>
           <span class="admin-nav-copy">
             <strong>{{ item.label }}</strong>
             <small>{{ item.hint }}</small>
           </span>
-        </button>
+        </RouterLink>
       </nav>
     </div>
 

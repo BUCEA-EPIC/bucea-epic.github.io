@@ -14,7 +14,7 @@ Vue 3 + Vite + **Cloudflare Workers Assets** 官网，展示北京建筑大学�
 | 配置 | `wrangler.jsonc`、`vite.config.js` |
 | 绑定类型 | `worker-configuration.d.ts`（`npm run cf-typegen`） |
 
-主要路由：`/`、`/event`、`/about`、`/team`、`/projects`、`/resources`、`/news`、`/contact`；隐藏管理入口 `/admin`。
+主要路由：`/`、`/event`、`/about`、`/team`、`/projects`、`/resources`、`/news`、`/contact`；隐藏管理入口为 `/admin` 及其分级路由 `/admin/content`、`/admin/operations`、`/admin/audit`、`/admin/security`。
 
 ## 目录约定
 
